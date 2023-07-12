@@ -3,85 +3,130 @@
 namespace SAE._5300S1;
 
 public class Parser {
-    public List<int> VertexIndices, UvIndices, NormalIndices;
-    public Vector2 TempUvs;
-    public Vector3 TempVertices;
-    public Vector3 TempNormals;
-    private string? _path;
-    private int[] _vertexIndex = new int[3];
-    private int[] _uvIndex = new int[3];
-    private int[] _normalIndex = new int[3];
+    public float[] Vertices => _vertices;
+    public uint[] Indices => _indices;
 
 
-    public bool LoadObj(string path,
-        out List<Vector3> outVertices,
-        out List<Vector2> outUvs,
-        out List<Vector3> outNormals) {
-        outVertices = null;
-        outUvs = null;
-        outNormals = null;
-        return true;
+    private static readonly string FileLoaderPath = AppContext.BaseDirectory + "models/";
+    private string _path;
+    private string _mtlFileName;
+    private string _useMtlFileName;
+    private float[] _vertices = Array.Empty<float>();
+    private uint[] _indices = Array.Empty<uint>();
+    private List<float> _tempVertices = new();
+    private List<uint> _tempIndices = new();
+    private List<Vector2> _originUvs = new();
+    private List<Vector3> _originNormals = new();
+    private List<Vector3> _originVertices = new();
+    private List<int> _tempVerticesIndices = new();
+    private List<int> _tempNormalIndices = new();
+    private List<int> _tempUvIndices = new();
+
+    public Parser(string fileName) {
+#if DEBUG
+        var startTime = DateTime.Now;
+#endif
+
+        ReadFile(FileLoaderPath + fileName);
+
+#if DEBUG
+        var endTime = DateTime.Now;
+        var time = endTime - startTime;
+        Console.WriteLine($"Execution Read OBJ file: {time}");
+#endif
     }
 
-    public void ReadFile() {
-        if (_path == null) return;
-        var sr = new StreamReader(_path);
+    private void ReadFile(string filePath) {
+        var sr = new StreamReader(filePath);
         try {
-            sr.ReadLine();
-            while (true) {
-                var lineHeader = new char[128];
-
-                int res = fscanf(sr, "%s", lineHeader);
-                if (res == EOF)
-                    break;
-
-                if (lineHeader.Equals("v")) {
-                    Vector3 vertex;
-                    float x, y, z;
-                    fscanf(sr, "%f %f %f\n", x, y, z);
-                    vertex = new Vector3(x, y, z);
-                    TempVertices.Add(vertex);
-                }
-
-                else if (lineHeader.Equals("vt")) {
-                    Vector2 uv;
-                    fscanf(sr, "%f %f\n", &uv.x, &uv.y);
-                    TempUvs.Add(uv);
-                }
-
-                else if (lineHeader.Equals("vn")) {
-                    Vector2 normal;
-                    fscanf(sr, "%f %f %f\n", &normal.x, &normal.y, &normal.z;
-                    TempUvs.Add(uv);
-                }
-
-                else if (lineHeader.Equals("f")) {
-                    string vertex1, vertex2, vertex3;
-                    int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0],
-                        &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2],
-                        &normalIndex[2]);
-                    if (matches != 9) {
-                        printf("File can't be read by our simple parser : ( Try exporting with other options\n");
-                        return false;
+            var line = sr.ReadLine();
+            while (line != null) {
+                if (!line.StartsWith("#")) {
+                    if (line.StartsWith("mtllib")) {
+                        var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        _mtlFileName = parts[1];
                     }
+                    else if (line.StartsWith("usemtl")) {
+                        var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        _useMtlFileName = parts[1];
+                    }
+                    else if (line.StartsWith("vt")) {
+                        var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        _originUvs.Add(new Vector2(float.Parse(parts[1]), float.Parse(parts[2])));
+                    }
+                    else if (line.StartsWith("vn")) {
+                        var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        _originNormals.Add(new Vector3(float.Parse(parts[1]), float.Parse(parts[2]),
+                            float.Parse(parts[3])));
+                    }
+                    else if (line.StartsWith("v")) {
+                        var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        _originVertices.Add(new Vector3(float.Parse(parts[1]), float.Parse(parts[2]),
+                            float.Parse(parts[3])));
+                    }
+                    else if (line.StartsWith("f")) {
+                        var fParts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    VertexIndices.Add(_vertexIndex[0]);
-                    VertexIndices.Add(_vertexIndex[1]);
-                    VertexIndices.Add(_vertexIndex[2]);
-                    UvIndices.Add(_uvIndex[0]);
-                    UvIndices.Add(_uvIndex[1]);
-                    UvIndices.Add(_uvIndex[2]);
-                    NormalIndices.Add(_normalIndex[0]);
-                    NormalIndices.Add(_normalIndex[1]);
-                    NormalIndices.Add(_normalIndex[2]);
+                        var faceVertexFirst = fParts[1].Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                        _tempVerticesIndices.Add(int.Parse(faceVertexFirst[0]));
+                        _tempUvIndices.Add(int.Parse(faceVertexFirst[1]));
+                        _tempNormalIndices.Add(int.Parse(faceVertexFirst[2]));
+
+                        var faceVertexSecond = fParts[2].Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                        _tempVerticesIndices.Add(int.Parse(faceVertexSecond[0]));
+                        _tempUvIndices.Add(int.Parse(faceVertexSecond[1]));
+                        _tempNormalIndices.Add(int.Parse(faceVertexSecond[2]));
+
+                        var faceVertexThird = fParts[3].Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                        _tempVerticesIndices.Add(int.Parse(faceVertexThird[0]));
+                        _tempUvIndices.Add(int.Parse(faceVertexThird[1]));
+                        _tempNormalIndices.Add(int.Parse(faceVertexThird[2]));
+                    }
                 }
+
+                line = sr.ReadLine();
             }
-        }
-        catch (Exception e) {
-            Console.WriteLine("Impossible to open the file !");
-        }
-        finally {
+
             sr.Close();
+
+            for (int i = 0; i < _tempVerticesIndices.Count; i++) {
+                int indexVerts = _tempVerticesIndices[i];
+                Vector3 vertex = _originVertices[indexVerts - 1];
+                _tempVertices.Add(vertex.X);
+                _tempVertices.Add(vertex.Y);
+                _tempVertices.Add(vertex.Z);
+
+                int indexNormal = _tempVerticesIndices[i];
+                Vector3 normal = _originNormals[indexNormal - 1];
+                _tempVertices.Add(normal.X);
+                _tempVertices.Add(normal.Y);
+                _tempVertices.Add(normal.Z);
+
+                int indexUv = _tempUvIndices[i];
+                Vector2 uv = _originUvs[indexUv - 1];
+                _tempVertices.Add(uv.X);
+                _tempVertices.Add(uv.Y);
+
+                _tempIndices.Add((uint)i);
+            }
+
+            _vertices = _tempVertices.ToArray();
+            _indices = _tempIndices.ToArray();
+
+            _tempVertices.Clear();
+            _tempIndices.Clear();
+
+            _originNormals.Clear();
+            _originUvs.Clear();
+            _originVertices.Clear();
+
+            _tempNormalIndices.Clear();
+            _tempUvIndices.Clear();
+            _tempVerticesIndices.Clear();
+        }
+        catch (Exception ex) {
+            sr.Close();
+            Console.WriteLine($"Impossible to open the file !: {ex.Message}");
         }
     }
 }
