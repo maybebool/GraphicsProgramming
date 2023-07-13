@@ -19,4 +19,12 @@
       <Folder Include="Textures\" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ModelsSourceFiles Include="Resources/Models/**/*.*" />
+    </ItemGroup>
+
+    <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+        <Copy SourceFiles="@(ModelsSourceFiles)" DestinationFolder="$(OutDir)\models" SkipUnchangedFiles="true" />
+    </Target>
+
 </Project>

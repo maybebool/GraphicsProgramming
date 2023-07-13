@@ -86,7 +86,7 @@ public class Parser {
 
                 line = sr.ReadLine();
             }
-
+            
             sr.Close();
 
             for (int i = 0; i < _tempVerticesIndices.Count; i++) {
@@ -123,6 +123,8 @@ public class Parser {
             _tempNormalIndices.Clear();
             _tempUvIndices.Clear();
             _tempVerticesIndices.Clear();
+
+            
         }
         catch (Exception ex) {
             sr.Close();

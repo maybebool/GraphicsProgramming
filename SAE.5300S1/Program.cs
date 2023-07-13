@@ -34,6 +34,8 @@ public class Program
 
     public static void Main(string[] args) {
         
+        TestExample();
+        
         var options = WindowOptions.Default with
         {
             Size = new Vector2D<int>(800, 600),
@@ -161,4 +163,13 @@ void main()
         if (key == Key.Escape)
             _window.Close();
     }
+
+
+    private static void TestExample() {
+        var obj = new Parser("MoebiusBand.obj");
+        Console.WriteLine("adsfjsdvfsdf");
+    }
+    
+    
+    
 }
