@@ -8,12 +8,13 @@ namespace SAE._5300S1
         private uint _handle;
         private GL _gl;
 
-        public Shader(GL gl, string vertexPath, string fragmentPath)
+        public Shader(GL gl, string vertexFileName, string fragmentFileName)
         {
             _gl = gl;
+            
 
-            uint vertex = LoadShader(ShaderType.VertexShader, vertexPath);
-            uint fragment = LoadShader(ShaderType.FragmentShader, fragmentPath);
+            uint vertex = LoadShader(ShaderType.VertexShader, AppContext.BaseDirectory + $"shaders/{vertexFileName}");
+            uint fragment = LoadShader(ShaderType.FragmentShader, AppContext.BaseDirectory + $"shaders/{fragmentFileName}");
             _handle = _gl.CreateProgram();
             _gl.AttachShader(_handle, vertex);
             _gl.AttachShader(_handle, fragment);
@@ -42,6 +43,15 @@ namespace SAE._5300S1
                 throw new Exception($"{name} uniform not found on shader.");
             }
             _gl.Uniform1(location, value);
+        }
+        public void SetUniform(string name, Vector3 value)
+        {
+            int location = _gl.GetUniformLocation(_handle, name);
+            if (location == -1)
+            {
+                throw new Exception($"{name} uniform not found on shader.");
+            }
+            _gl.Uniform3(location, value.X, value.Y, value.Z);
         }
 
         public unsafe void SetUniform(string name, Matrix4x4 value)

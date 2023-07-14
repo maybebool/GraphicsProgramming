@@ -23,7 +23,7 @@ namespace SAE._5300S1
         //private static Shader SkyboxShader;
 
         //Setup the camera's location, directions, and movement speed
-        private static Vector3 CameraPosition = new Vector3(0.0f, 0.0f, 3.0f);
+        private static Vector3 CameraPosition = new Vector3(0.0f, 0.0f, 20.0f);
         private static Vector3 CameraFront = new Vector3(0.0f, 0.0f, -1.0f);
         private static Vector3 CameraUp = Vector3.UnitY;
         private static Vector3 CameraDirection = Vector3.Zero;
@@ -34,109 +34,109 @@ namespace SAE._5300S1
 
         //Used to track change in mouse movement to allow for moving of the Camera
         private static Vector2 LastMousePosition;
-        
-        
-        
+        private static Mesh _cubeMesh;
+        private static Vector3 _color;
+
         // Skybox
         
-
-        private static readonly float[] Vertices =
-        {
-            //X    Y      Z     U   V
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-             0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-             0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-             0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f, 0.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-            -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-             0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
-             0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-             0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-
-            -0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-            -0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-            -0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-
-             0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-             0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-             0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-             0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-             0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-             0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-             0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-             0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
-             0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-            -0.5f,  0.5f, -0.5f,  0.0f, 0.0f,
-             0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-             0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-             0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f, 0.0f
-        };
-        
-        
-        private static readonly float[] skyboxVertices = {
-            // positions          
-            -1.0f,  1.0f, -1.0f,
-            -1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
-
-            -1.0f, -1.0f,  1.0f,
-            -1.0f, -1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f,  1.0f,
-            -1.0f, -1.0f,  1.0f,
-
-            1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-
-            -1.0f, -1.0f,  1.0f,
-            -1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f, -1.0f,  1.0f,
-            -1.0f, -1.0f,  1.0f,
-
-            -1.0f,  1.0f, -1.0f,
-            1.0f,  1.0f, -1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            -1.0f,  1.0f,  1.0f,
-            -1.0f,  1.0f, -1.0f,
-
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f,  1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f,  1.0f,
-            1.0f, -1.0f,  1.0f
-        };
-
-        private static readonly uint[] Indices =
-        {
-            0, 1, 3,
-            1, 2, 3
-        };
+        //
+        // private static readonly float[] Vertices =
+        // {
+        //     //X    Y      Z     U   V
+        //     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        //      0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+        //      0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
+        //      0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
+        //     -0.5f,  0.5f, -0.5f,  0.0f, 0.0f,
+        //     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        //
+        //     -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
+        //      0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
+        //      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        //      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        //     -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        //     -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
+        //
+        //     -0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        //     -0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
+        //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        //     -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
+        //     -0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        //
+        //      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        //      0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
+        //      0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        //      0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        //      0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
+        //      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        //
+        //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        //      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+        //      0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
+        //      0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
+        //     -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
+        //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+        //
+        //     -0.5f,  0.5f, -0.5f,  0.0f, 0.0f,
+        //      0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
+        //      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        //      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        //     -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        //     -0.5f,  0.5f, -0.5f,  0.0f, 0.0f
+        // };
+        //
+        //
+        // private static readonly float[] skyboxVertices = {
+        //     // positions          
+        //     -1.0f,  1.0f, -1.0f,
+        //     -1.0f, -1.0f, -1.0f,
+        //     1.0f, -1.0f, -1.0f,
+        //     1.0f, -1.0f, -1.0f,
+        //     1.0f,  1.0f, -1.0f,
+        //     -1.0f,  1.0f, -1.0f,
+        //
+        //     -1.0f, -1.0f,  1.0f,
+        //     -1.0f, -1.0f, -1.0f,
+        //     -1.0f,  1.0f, -1.0f,
+        //     -1.0f,  1.0f, -1.0f,
+        //     -1.0f,  1.0f,  1.0f,
+        //     -1.0f, -1.0f,  1.0f,
+        //
+        //     1.0f, -1.0f, -1.0f,
+        //     1.0f, -1.0f,  1.0f,
+        //     1.0f,  1.0f,  1.0f,
+        //     1.0f,  1.0f,  1.0f,
+        //     1.0f,  1.0f, -1.0f,
+        //     1.0f, -1.0f, -1.0f,
+        //
+        //     -1.0f, -1.0f,  1.0f,
+        //     -1.0f,  1.0f,  1.0f,
+        //     1.0f,  1.0f,  1.0f,
+        //     1.0f,  1.0f,  1.0f,
+        //     1.0f, -1.0f,  1.0f,
+        //     -1.0f, -1.0f,  1.0f,
+        //
+        //     -1.0f,  1.0f, -1.0f,
+        //     1.0f,  1.0f, -1.0f,
+        //     1.0f,  1.0f,  1.0f,
+        //     1.0f,  1.0f,  1.0f,
+        //     -1.0f,  1.0f,  1.0f,
+        //     -1.0f,  1.0f, -1.0f,
+        //
+        //     -1.0f, -1.0f, -1.0f,
+        //     -1.0f, -1.0f,  1.0f,
+        //     1.0f, -1.0f, -1.0f,
+        //     1.0f, -1.0f, -1.0f,
+        //     -1.0f, -1.0f,  1.0f,
+        //     1.0f, -1.0f,  1.0f
+        // };
+        //
+        // private static readonly uint[] Indices =
+        // {
+        //     0, 1, 3,
+        //     1, 2, 3
+        // };
 
         private static void Main(string[] args)
         {
@@ -171,19 +171,24 @@ namespace SAE._5300S1
             }
 
             Gl = GL.GetApi(window);
+            var objConverter = new Parser("MoebiusBand.obj");
+            
 
-            Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);
-            Vbo = new BufferObject<float>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
-            Vao = new VertexArrayObject<float, uint>(Gl, Vbo, Ebo);
-
-            Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 5, 0);
-            // TODO ???
-            Vao.VertexAttributePointer(1, 2, VertexAttribPointerType.Float, 5, 3);
+            // Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);
+            // Vbo = new BufferObject<float>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
+            // Vao = new VertexArrayObject<float, uint>(Gl, Vbo, Ebo);
+            //
+            // Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 5, 0);
+            // // TODO ???
+            // Vao.VertexAttributePointer(1, 2, VertexAttribPointerType.Float, 5, 3);
 
             Shader = new (Gl, "shader.vert", "shader.frag");
             //SkyboxShader = new (Gl, "skybox.vert", "skybox.frag");
 
-            Texture = new (Gl, "goldenTexture.jpg");
+            List<Texture> textures = new List<Texture>();
+            
+            textures.Add(new (Gl, "goldenTexture.jpg"));
+            _cubeMesh = new Mesh(Gl, objConverter.Vertices, objConverter.Indices, textures);
         }
 
         private static unsafe void OnUpdate(double deltaTime)
@@ -217,14 +222,19 @@ namespace SAE._5300S1
             Gl.Enable(EnableCap.DepthTest);
             Gl.Clear((uint) (ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
 
-            Vao.Bind();
-            Texture.Bind();
+            // Vao.Bind();
+            _cubeMesh.Bind();
+            
+            // Texture.Bind();
+            
+            
             Shader.Use();
-            Shader.SetUniform("uTexture0", 0);
+            // Shader.SetUniform("uTexture0", 0);
 
             //Use elapsed time to convert to radians to allow our cube to rotate over time
             var difference = (float) (window.Time * 100);
 
+            // var model = Matrix4x4.Identity; //Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(difference)) * Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(difference));
             var model = Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(difference)) * Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(difference));
             var view = Matrix4x4.CreateLookAt(CameraPosition, CameraPosition + CameraFront, CameraUp);
             var projection = Matrix4x4.CreatePerspectiveFieldOfView(Calculate.DegreesToRadians(CameraZoom), Width / Height, 0.1f, 100.0f);
@@ -232,10 +242,19 @@ namespace SAE._5300S1
             Shader.SetUniform("uModel", model);
             Shader.SetUniform("uView", view);
             Shader.SetUniform("uProjection", projection);
+            _color = new Vector3(1f, 0, 1f);
+            Shader.SetUniform("color", _color);
 
             //We're drawing with just vertices and no indices, and it takes 36 vertices to have a six-sided textured cube
-            Gl.DrawArrays(PrimitiveType.Triangles, 0, 36);
+            Gl.DrawArrays(PrimitiveType.Triangles, 0, _cubeMesh.IndicesLength);
         }
+
+        // static Matrix4x4 GetViewMatrix2() {
+        //     return Matrix4x4.Identity
+        //            * Matrix4x4.CreateFromQuaternion(Rotation)
+        //            * Matrix4x4.CreateScale(Scale)
+        //            * Matrix4x4.CreateTranslation(Position);
+        // }
 
         private static unsafe void OnMouseMove(IMouse mouse, Vector2 position)
         {
@@ -268,11 +287,12 @@ namespace SAE._5300S1
 
         private static void OnClose()
         {
-            Vbo.Dispose();
-            Ebo.Dispose();
-            Vao.Dispose();
-            Shader.Dispose();
-            Texture.Dispose();
+            // Vbo.Dispose();
+            // Ebo.Dispose();
+            // Vao.Dispose();
+            // Shader.Dispose();
+            // Texture.Dispose();
+            Gl.Dispose();
         }
 
         private static void KeyDown(IKeyboard keyboard, Key key, int arg3)
@@ -288,18 +308,18 @@ namespace SAE._5300S1
         #region Transformation Matrix
 
         
-        public Matrix4x4 CreateTRS() {
-            var modelTranslation = Matrix4x4.CreateTranslation(Position);
-            var modelRotationX = Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(Rotation.X),new Vector3(1.0f, 0.0f, 0.0f) );
-            var modelRotationY = Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(Rotation.Y), new Vector3(0.0f, 1.0f, 0.0f));
-            var modelRotationZ = Matrix4x4.CreateRotationZ(Calculate.DegreesToRadians(Rotation.Z), new Vector3(0.0f, 0.0f, 1.0f));
-            var modelRotation = modelRotationX * modelRotationY * modelRotationZ;
-            var modelScale = Matrix4x4.CreateScale(Scale);
-            var model = modelTranslation * modelRotation * modelScale;// Compose TRS matr
-            //var model = modelRotation * modelTranslation * modelScale;// Compose TRS matr
-            return model;
-           
-        }
+        // public Matrix4x4 CreateTRS() {
+        //     // var modelTranslation = Matrix4x4.CreateTranslation(Position);
+        //     // var modelRotationX = Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(Rotation.X),new Vector3(1.0f, 0.0f, 0.0f) );
+        //     // var modelRotationY = Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(Rotation.Y), new Vector3(0.0f, 1.0f, 0.0f));
+        //     // var modelRotationZ = Matrix4x4.CreateRotationZ(Calculate.DegreesToRadians(Rotation.Z), new Vector3(0.0f, 0.0f, 1.0f));
+        //     // var modelRotation = modelRotationX * modelRotationY * modelRotationZ;
+        //     // var modelScale = Matrix4x4.CreateScale(Scale);
+        //     // var model = modelTranslation * modelRotation * modelScale;// Compose TRS matr
+        //     // //var model = modelRotation * modelTranslation * modelScale;// Compose TRS matr
+        //     // return model;
+        //     return 
+        // }
         
         
         private static Matrix4x4 GetViewMatrix()
@@ -309,7 +329,7 @@ namespace SAE._5300S1
             var viewScale = Matrix4x4.Identity;
 
             viewTranslation = Matrix4x4.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f));
-            viewRotation = Matrix4x4.ro(new Vector3(0.0f, 0.0f, 1.0f), 0.0f);
+            //viewRotation = Matrix4x4.ro(new Vector3(0.0f, 0.0f, 1.0f), 0.0f);
             viewScale = Matrix4x4.CreateScale(new Vector3(1.0f, 1.0f, 1.0f));
 
             //Matrix4 view = viewTranslation * viewRotation * viewScale;// TRS matrix -> scale, rotate then translate -> All applied in WORLD Coordinates

@@ -7,14 +7,15 @@ namespace SAE._5300S1
         private uint _handle;
         private GL _gl;
 
-        public unsafe Texture(GL gl, string path)
+        public unsafe Texture(GL gl, string fileName)
         {
             _gl = gl;
+            
 
             _handle = _gl.GenTexture();
             Bind();
 
-            using (var img = Image.Load<Rgba32>(path))
+            using (var img = Image.Load<Rgba32>(AppContext.BaseDirectory + $"textures/{fileName}"))
             {
                 gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba8, (uint) img.Width, (uint) img.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, null);
 

@@ -16,28 +16,17 @@
       <PackageReference Include="Silk.NET.Windowing" Version="2.17.1" />
       <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
     </ItemGroup>
-
     
 
     <ItemGroup>
         <ModelsSourceFiles Include="Resources/Models/**/*.*" />
+        <ShadersSourceFiles Include="Shaders/**/*.*" />
+        <TextureSourceFiles Include="Textures/**/*.*" />
     </ItemGroup>
-
-    <ItemGroup>
-        <None Update="Shader.frag">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Shader.vert">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="goldenTexture.jpg">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
-    
 
     <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+        <Copy SourceFiles="@(ShadersSourceFiles)" DestinationFolder="$(OutDir)\shaders" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(TextureSourceFiles)" DestinationFolder="$(OutDir)\textures" SkipUnchangedFiles="true" />
         <Copy SourceFiles="@(ModelsSourceFiles)" DestinationFolder="$(OutDir)\models" SkipUnchangedFiles="true" />
         
     </Target>
