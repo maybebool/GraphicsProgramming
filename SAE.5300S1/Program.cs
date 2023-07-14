@@ -3,18 +3,33 @@ using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
 using System.Drawing;
+using System.Numerics;
 
 
 namespace SAE._5300S1;
 
 public class Program
 {
-    
+    // Window + OpenGL
     private static GL _gl;
     private static IWindow _window;
+    private static IKeyboard primaryKeyboard;
+    
+    // Buffers + Program
     private static uint _vao;
     private static uint _vbo, _ebo;
     private static uint _program;
+    
+    
+    // Inputs
+    private static Vector2 LastMousePosition;
+    private static Vector3 CameraPosition = new(0.0f, 0.0f, 3.0f);
+    private static Vector3 CameraFront = new(0.0f, 0.0f, -1.0f);
+    private static Vector3 CameraUp = Vector3.UnitY;
+    private static Vector3 CameraDirection = Vector3.Zero;
+    private static float CameraYaw = -90f;
+    private static float CameraPitch = 0f;
+    private static float CameraZoom = 45f;
     
     static float[] vertices =
     {
@@ -43,6 +58,7 @@ public class Program
         };
         
         _window = Window.Create(options);
+        
         _window.Load += OnLoad;
         _window.Update += OnUpdate;
         _window.Render += OnRender;
@@ -55,9 +71,21 @@ public class Program
 
     private static unsafe void OnLoad() {
         IInputContext input = _window.CreateInput();
-        for (int i = 0; i < input.Keyboards.Count; i++)
-            input.Keyboards[i].KeyDown += KeyDown;
+        primaryKeyboard = input.Keyboards.FirstOrDefault();
+        if (primaryKeyboard != null)
+        {
+            primaryKeyboard.KeyDown += KeyDown;
+        }
+        for (int i = 0; i < input.Mice.Count; i++)
+        {
+            input.Mice[i].Cursor.CursorMode = CursorMode.Raw;
+            input.Mice[i].MouseMove += OnMouseMove;
+            input.Mice[i].Scroll += OnMouseWheel;
+        }
         
+        _gl = GL.GetApi(_window);
+        
+
         _gl = _window.CreateOpenGL();
         _gl.ClearColor(Color.CornflowerBlue);
         
@@ -146,10 +174,34 @@ void main()
         _gl.BindBuffer(BufferTargetARB.ElementArrayBuffer, 0);
  
     }
-    
-   
 
-    private static void OnUpdate(double dt) { }
+
+
+    private static void OnUpdate(double dt) {
+        
+        var moveSpeed = 2.5f * (float) dt;
+
+        if (primaryKeyboard.IsKeyPressed(Key.W))
+        {
+            //Move forwards
+            CameraPosition += moveSpeed * CameraFront;
+        }
+        if (primaryKeyboard.IsKeyPressed(Key.S))
+        {
+            //Move backwards
+            CameraPosition -= moveSpeed * CameraFront;
+        }
+        if (primaryKeyboard.IsKeyPressed(Key.A))
+        {
+            //Move left
+            CameraPosition -= Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp)) * moveSpeed;
+        }
+        if (primaryKeyboard.IsKeyPressed(Key.D))
+        {
+            //Move right
+            CameraPosition += Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp)) * moveSpeed;
+        }
+    }
 
     private static unsafe void OnRender(double dt) {
         _gl.Clear(ClearBufferMask.ColorBufferBit);
@@ -157,12 +209,57 @@ void main()
         _gl.BindVertexArray(_vao);
         _gl.UseProgram(_program);
         _gl.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, (void*) 0);
+        var projection = Matrix4x4.CreatePerspectiveFieldOfView(Calculate.DegreesToRadians(CameraZoom), (float) _window.Size.X / (float)_window.Size.Y, 0.1f, 100.0f);
+        
     }
+
+
+
+    #region Input Control Methods
 
     private static void KeyDown(IKeyboard keyboard, Key key, int keyCode) {
         if (key == Key.Escape)
             _window.Close();
     }
+    
+    private static unsafe void OnMouseWheel(IMouse mouse, ScrollWheel scrollWheel)
+    {
+        
+        CameraZoom = Math.Clamp(CameraZoom - scrollWheel.Y, 1.0f, 45f);
+    }
+    
+    private static unsafe void OnMouseMove(IMouse mouse, Vector2 position)
+    {
+        var lookSensitivity = 0.1f;
+        if (LastMousePosition == default)
+        {
+            LastMousePosition = position;
+        }
+        else
+        {
+            var xOffset = (position.X - LastMousePosition.X) * lookSensitivity;
+            var yOffset = (position.Y - LastMousePosition.Y) * lookSensitivity;
+            LastMousePosition = position;
+
+            CameraYaw += xOffset;
+            CameraPitch -= yOffset;
+
+            // lock rotation for natural camera behaviour
+            CameraPitch = Math.Clamp(CameraPitch, -89.0f, 89.0f);
+
+            CameraDirection.X = MathF.Cos(Calculate.DegreesToRadians(CameraYaw)) * MathF.Cos(Calculate.DegreesToRadians(CameraPitch));
+            CameraDirection.Y = MathF.Sin(Calculate.DegreesToRadians(CameraPitch));
+            CameraDirection.Z = MathF.Sin(Calculate.DegreesToRadians(CameraYaw)) * MathF.Cos(Calculate.DegreesToRadians(CameraPitch));
+            CameraFront = Vector3.Normalize(CameraDirection);
+        }
+    }
+
+    #endregion
+
+    
+    
+    
+    
 
 
     private static void TestExample() {
