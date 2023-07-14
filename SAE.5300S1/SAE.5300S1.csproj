@@ -17,16 +17,28 @@
       <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Textures\" />
-    </ItemGroup>
+    
 
     <ItemGroup>
         <ModelsSourceFiles Include="Resources/Models/**/*.*" />
+        <TextureSourceFiles Include="Textures/**/*.*" />
+        <ShadersSourceFiles Include="shader.frag" />
+        <ShadersSourceFiles Include="shader.vert" />
+        <ShadersSourceFiles Include="Shaders/**/*.*" />
+    </ItemGroup>
+
+    
+
+    <ItemGroup>
+      <Folder Include="Shaders\" />
+      <Folder Include="Textures\" />
     </ItemGroup>
 
     <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+        <Copy SourceFiles="@(ShadersSourceFiles)" DestinationFolder="$(OutDir)\shaders" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(TextureSourceFiles)" DestinationFolder="$(OutDir)\textures" SkipUnchangedFiles="true" />
         <Copy SourceFiles="@(ModelsSourceFiles)" DestinationFolder="$(OutDir)\models" SkipUnchangedFiles="true" />
+        
     </Target>
 
 </Project>

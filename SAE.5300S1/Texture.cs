@@ -1,5 +1,4 @@
-﻿using Silk.NET.Assimp;
-using Silk.NET.OpenGL;
+﻿using Silk.NET.OpenGL;
 
 namespace SAE._5300S1
 {
@@ -8,14 +7,10 @@ namespace SAE._5300S1
         private uint _handle;
         private GL _gl;
 
-        public string Path { get; set; }
-        public TextureType Type { get; }
-
-        public unsafe Texture(GL gl, string path, TextureType type = TextureType.None)
+        public unsafe Texture(GL gl, string path)
         {
             _gl = gl;
-            Path = path;
-            Type = type;
+
             _handle = _gl.GenTexture();
             Bind();
 
