@@ -21,22 +21,23 @@
 
     <ItemGroup>
         <ModelsSourceFiles Include="Resources/Models/**/*.*" />
-        <TextureSourceFiles Include="Textures/**/*.*" />
-        <ShadersSourceFiles Include="shader.frag" />
-        <ShadersSourceFiles Include="shader.vert" />
-        <ShadersSourceFiles Include="Shaders/**/*.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="Shader.frag">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Shader.vert">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="goldenTexture.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     
 
-    <ItemGroup>
-      <Folder Include="Shaders\" />
-      <Folder Include="Textures\" />
-    </ItemGroup>
-
     <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
-        <Copy SourceFiles="@(ShadersSourceFiles)" DestinationFolder="$(OutDir)\shaders" SkipUnchangedFiles="true" />
-        <Copy SourceFiles="@(TextureSourceFiles)" DestinationFolder="$(OutDir)\textures" SkipUnchangedFiles="true" />
         <Copy SourceFiles="@(ModelsSourceFiles)" DestinationFolder="$(OutDir)\models" SkipUnchangedFiles="true" />
         
     </Target>
