@@ -12,14 +12,15 @@ namespace SAE._5300S1
         private static GL Gl;
         private static IKeyboard primaryKeyboard;
 
-        private const int Width = 800;
-        private const int Height = 700;
+        private const int Width = 1920;
+        private const int Height = 1080;
 
         private static BufferObject<float> Vbo;
         private static BufferObject<uint> Ebo;
         private static VertexArrayObject<float, uint> Vao;
         private static Texture Texture;
         private static Shader Shader;
+        //private static Shader SkyboxShader;
 
         //Setup the camera's location, directions, and movement speed
         private static Vector3 CameraPosition = new Vector3(0.0f, 0.0f, 3.0f);
@@ -32,6 +33,11 @@ namespace SAE._5300S1
 
         //Used to track change in mouse movement to allow for moving of the Camera
         private static Vector2 LastMousePosition;
+        
+        
+        
+        // Skybox
+        
 
         private static readonly float[] Vertices =
         {
@@ -78,6 +84,52 @@ namespace SAE._5300S1
             -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
             -0.5f,  0.5f, -0.5f,  0.0f, 0.0f
         };
+        
+        
+        private static readonly float[] skyboxVertices = {
+            // positions          
+            -1.0f,  1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+            1.0f,  1.0f, -1.0f,
+            -1.0f,  1.0f, -1.0f,
+
+            -1.0f, -1.0f,  1.0f,
+            -1.0f, -1.0f, -1.0f,
+            -1.0f,  1.0f, -1.0f,
+            -1.0f,  1.0f, -1.0f,
+            -1.0f,  1.0f,  1.0f,
+            -1.0f, -1.0f,  1.0f,
+
+            1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+
+            -1.0f, -1.0f,  1.0f,
+            -1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f,
+            1.0f, -1.0f,  1.0f,
+            -1.0f, -1.0f,  1.0f,
+
+            -1.0f,  1.0f, -1.0f,
+            1.0f,  1.0f, -1.0f,
+            1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f,
+            -1.0f,  1.0f,  1.0f,
+            -1.0f,  1.0f, -1.0f,
+
+            -1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f,  1.0f,
+            1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f,  1.0f,
+            1.0f, -1.0f,  1.0f
+        };
 
         private static readonly uint[] Indices =
         {
@@ -88,7 +140,7 @@ namespace SAE._5300S1
         private static void Main(string[] args)
         {
             var options = WindowOptions.Default;
-            options.Size = new Vector2D<int>(800, 600);
+            options.Size = new Vector2D<int>(Width, Height);
             options.Title = "LearnOpenGL with Silk.NET";
             window = Window.Create(options);
 
@@ -127,6 +179,7 @@ namespace SAE._5300S1
             Vao.VertexAttributePointer(1, 2, VertexAttribPointerType.Float, 5, 3);
 
             Shader = new (Gl, "shader.vert", "shader.frag");
+            //SkyboxShader = new (Gl, "skybox.vert", "skybox.frag");
 
             Texture = new (Gl, "goldenTexture.jpg");
         }
