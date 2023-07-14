@@ -30,6 +30,7 @@ namespace SAE._5300S1
         private static float CameraYaw = -90f;
         private static float CameraPitch = 0f;
         private static float CameraZoom = 45f;
+        
 
         //Used to track change in mouse movement to allow for moving of the Camera
         private static Vector2 LastMousePosition;
@@ -176,6 +177,7 @@ namespace SAE._5300S1
             Vao = new VertexArrayObject<float, uint>(Gl, Vbo, Ebo);
 
             Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 5, 0);
+            // TODO ???
             Vao.VertexAttributePointer(1, 2, VertexAttribPointerType.Float, 5, 3);
 
             Shader = new (Gl, "shader.vert", "shader.frag");
@@ -280,5 +282,59 @@ namespace SAE._5300S1
                 window.Close();
             }
         }
+
+
+
+        #region Transformation Matrix
+
+        
+        public Matrix4x4 CreateTRS() {
+            var modelTranslation = Matrix4x4.CreateTranslation(Position);
+            var modelRotationX = Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(Rotation.X),new Vector3(1.0f, 0.0f, 0.0f) );
+            var modelRotationY = Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(Rotation.Y), new Vector3(0.0f, 1.0f, 0.0f));
+            var modelRotationZ = Matrix4x4.CreateRotationZ(Calculate.DegreesToRadians(Rotation.Z), new Vector3(0.0f, 0.0f, 1.0f));
+            var modelRotation = modelRotationX * modelRotationY * modelRotationZ;
+            var modelScale = Matrix4x4.CreateScale(Scale);
+            var model = modelTranslation * modelRotation * modelScale;// Compose TRS matr
+            //var model = modelRotation * modelTranslation * modelScale;// Compose TRS matr
+            return model;
+           
+        }
+        
+        
+        private static Matrix4x4 GetViewMatrix()
+        {
+            var viewTranslation = Matrix4x4.Identity;
+            var viewRotation = Matrix4x4.Identity;
+            var viewScale = Matrix4x4.Identity;
+
+            viewTranslation = Matrix4x4.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f));
+            viewRotation = Matrix4x4.ro(new Vector3(0.0f, 0.0f, 1.0f), 0.0f);
+            viewScale = Matrix4x4.CreateScale(new Vector3(1.0f, 1.0f, 1.0f));
+
+            //Matrix4 view = viewTranslation * viewRotation * viewScale;// TRS matrix -> scale, rotate then translate -> All applied in WORLD Coordinates
+            var view = viewRotation * viewTranslation * viewScale;// RTS matrix -> scale, rotate then translate -> All applied in LOCAL Coordinates
+
+            return view;
+        }
+
+       
+        
+        
+        private static Matrix4x4 GetProjectionMatrix()
+        {
+            float fov = 45;
+
+            float aspectRatio = (float)Width / (float)Height;
+            //Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(Mathf.ToRad(fov), (float)width / height, 0.1f, 1000f);
+            var projection = Matrix4x4.CreateOrthographic(1, 1, 0.1f, 1000f);
+            
+            //projection = Matrix4.CreateOrthographic0.0f, (float)screenWidth, 0.0f, (float)screenHeight, 0.1f, 100.0f);
+
+            return projection;
+        }
+        
+        #endregion
+        
     }
 }
