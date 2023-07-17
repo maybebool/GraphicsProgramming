@@ -6,5 +6,10 @@
         {
             return MathF.PI / 180f * degrees;
         }
+        
+        public static float DegreesToRadiansOnVariable(this float degrees)
+        {
+            return MathF.PI / 180f * degrees;
+        }
     }
 }

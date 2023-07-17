@@ -38,105 +38,8 @@ namespace SAE._5300S1
         private static Vector3 _color;
 
         // Skybox
-        
-        //
-        // private static readonly float[] Vertices =
-        // {
-        //     //X    Y      Z     U   V
-        //     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        //      0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-        //      0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-        //      0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-        //     -0.5f,  0.5f, -0.5f,  0.0f, 0.0f,
-        //     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        //
-        //     -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-        //      0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
-        //      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        //      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        //     -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        //     -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-        //
-        //     -0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        //     -0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-        //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        //     -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-        //     -0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        //
-        //      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        //      0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-        //      0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        //      0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        //      0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-        //      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        //
-        //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        //      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-        //      0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
-        //      0.5f, -0.5f,  0.5f,  1.0f, 1.0f,
-        //     -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,
-        //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        //
-        //     -0.5f,  0.5f, -0.5f,  0.0f, 0.0f,
-        //      0.5f,  0.5f, -0.5f,  1.0f, 0.0f,
-        //      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        //      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        //     -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        //     -0.5f,  0.5f, -0.5f,  0.0f, 0.0f
-        // };
-        //
-        //
-        // private static readonly float[] skyboxVertices = {
-        //     // positions          
-        //     -1.0f,  1.0f, -1.0f,
-        //     -1.0f, -1.0f, -1.0f,
-        //     1.0f, -1.0f, -1.0f,
-        //     1.0f, -1.0f, -1.0f,
-        //     1.0f,  1.0f, -1.0f,
-        //     -1.0f,  1.0f, -1.0f,
-        //
-        //     -1.0f, -1.0f,  1.0f,
-        //     -1.0f, -1.0f, -1.0f,
-        //     -1.0f,  1.0f, -1.0f,
-        //     -1.0f,  1.0f, -1.0f,
-        //     -1.0f,  1.0f,  1.0f,
-        //     -1.0f, -1.0f,  1.0f,
-        //
-        //     1.0f, -1.0f, -1.0f,
-        //     1.0f, -1.0f,  1.0f,
-        //     1.0f,  1.0f,  1.0f,
-        //     1.0f,  1.0f,  1.0f,
-        //     1.0f,  1.0f, -1.0f,
-        //     1.0f, -1.0f, -1.0f,
-        //
-        //     -1.0f, -1.0f,  1.0f,
-        //     -1.0f,  1.0f,  1.0f,
-        //     1.0f,  1.0f,  1.0f,
-        //     1.0f,  1.0f,  1.0f,
-        //     1.0f, -1.0f,  1.0f,
-        //     -1.0f, -1.0f,  1.0f,
-        //
-        //     -1.0f,  1.0f, -1.0f,
-        //     1.0f,  1.0f, -1.0f,
-        //     1.0f,  1.0f,  1.0f,
-        //     1.0f,  1.0f,  1.0f,
-        //     -1.0f,  1.0f,  1.0f,
-        //     -1.0f,  1.0f, -1.0f,
-        //
-        //     -1.0f, -1.0f, -1.0f,
-        //     -1.0f, -1.0f,  1.0f,
-        //     1.0f, -1.0f, -1.0f,
-        //     1.0f, -1.0f, -1.0f,
-        //     -1.0f, -1.0f,  1.0f,
-        //     1.0f, -1.0f,  1.0f
-        // };
-        //
-        // private static readonly uint[] Indices =
-        // {
-        //     0, 1, 3,
-        //     1, 2, 3
-        // };
+
+        private Skybox _skybox;
 
         private static void Main(string[] args)
         {
@@ -174,13 +77,7 @@ namespace SAE._5300S1
             var objConverter = new Parser("MoebiusBand.obj");
             
 
-            // Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);
-            // Vbo = new BufferObject<float>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
-            // Vao = new VertexArrayObject<float, uint>(Gl, Vbo, Ebo);
-            //
-            // Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 5, 0);
-            // // TODO ???
-            // Vao.VertexAttributePointer(1, 2, VertexAttribPointerType.Float, 5, 3);
+            
 
             Shader = new (Gl, "shader.vert", "shader.frag");
             //SkyboxShader = new (Gl, "skybox.vert", "skybox.frag");
@@ -221,6 +118,8 @@ namespace SAE._5300S1
         {
             Gl.Enable(EnableCap.DepthTest);
             Gl.Clear((uint) (ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
+            
+            _
 
             // Vao.Bind();
             _cubeMesh.Bind();
@@ -242,7 +141,7 @@ namespace SAE._5300S1
             Shader.SetUniform("uModel", model);
             Shader.SetUniform("uView", view);
             Shader.SetUniform("uProjection", projection);
-            _color = new Vector3(1f, 0, 1f);
+            _color = new Vector3(0.5f, 0.7f, 1f);
             Shader.SetUniform("color", _color);
 
             //We're drawing with just vertices and no indices, and it takes 36 vertices to have a six-sided textured cube
