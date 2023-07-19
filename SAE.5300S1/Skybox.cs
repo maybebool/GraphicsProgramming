@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using Silk.NET.Assimp;
 using Silk.NET.OpenGL;
+
 using PrimitiveType = Silk.NET.OpenGL.PrimitiveType;
 
 
@@ -9,33 +10,35 @@ namespace SAE._5300S1;
 public class Skybox {
     //public Material Material { get; set; }
     public Mesh Mesh { get; set; }
+    private Shader SkyboxShader { get; set; }
+    public Material Material { get; set; }
 
     private Texture _texture;
     private GL _gl;
     private string _textureName;
     private Matrix4x4 _matrix;
+    private IModel _model;
 
-    private Shader _skyboxShader;
     //private IModel _model;
 
     public Skybox(GL gl,
-        string textureName, Shader skyboxShader
-        //Material material
-        /*IModel model*/) {
-        //_model = model;
+        string textureName,
+        Material material,
+        IModel model) {
+        _model = model;
         _textureName = textureName;
-        _skyboxShader = skyboxShader;
-        //Material = material;
+        Material = material;
         _gl = gl;
         Init();
     }
 
     private void Init() {
-        List<Texture> textures = new List<Texture>();
-        var skyMeshConverter = new Parser("spheres.obj");
-        Mesh = new Mesh(_gl, skyMeshConverter.Vertices , skyMeshConverter.Indices, textures);
+        var textures = new List<Texture>();
+        Mesh = new Mesh(_gl, _model.Vertices , _model.Indices, textures);
         textures.Add(new (_gl, $"{_textureName}.jpg"));
+        //var skyMeshConverter = new Parser("spheres.obj");
         //_texture = new Texture(_gl, $"{_textureName}.jpg");
+        
     }
     
 
@@ -44,7 +47,7 @@ public class Skybox {
         // _gl.DepthMask(false);
         _gl.Disable(EnableCap.DepthTest);
         Mesh.Bind();
-        _skyboxShader.Use();
+        SkyboxShader.Use();
         //Material.Use();
 
         var degree = 180f;
@@ -53,10 +56,10 @@ public class Skybox {
         _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degree));
         _matrix *= Matrix4x4.CreateScale(500f);
 
-        _skyboxShader.SetUniform("uModel", _matrix);
-        _skyboxShader.SetUniform("uView", Camera.Instance.GetViewMatrix());
-        _skyboxShader.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
-        //Material.SetUniform("fColor", new Vector3(0.5f, 0.5f, 0.5f));
+        SkyboxShader.SetUniform("uModel", _matrix);
+        SkyboxShader.SetUniform("uView", Camera.Instance.GetViewMatrix());
+        SkyboxShader.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
+        SkyboxShader.SetUniform("fColor", new Vector3(0.5f, 0.5f, 0.5f));
 
         _texture.Bind();
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);

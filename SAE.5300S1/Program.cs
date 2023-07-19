@@ -20,7 +20,7 @@ namespace SAE._5300S1
         private static VertexArrayObject<float, uint> Vao;
         private static Texture Texture;
         private static Shader Shader;
-        //private static Shader SkyboxShader;
+        private static Shader SkyboxShader;
 
         //Setup the camera's location, directions, and movement speed
         private static Vector3 CameraPosition = new Vector3(0.0f, 0.0f, 20.0f);
@@ -39,7 +39,7 @@ namespace SAE._5300S1
 
         // Skybox
 
-        private Skybox _skybox;
+        private static Skybox _skybox;
 
         private static void Main(string[] args)
         {
@@ -75,7 +75,9 @@ namespace SAE._5300S1
 
             Gl = GL.GetApi(window);
             var objConverter = new Parser("MoebiusBand.obj");
-            
+
+
+            _skybox = new Skybox(Gl, "anime_sky",StandardMaterial.Instance.Material, SkyBoxSphere.Instance);
 
             
 
@@ -119,7 +121,8 @@ namespace SAE._5300S1
             Gl.Enable(EnableCap.DepthTest);
             Gl.Clear((uint) (ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
             
-            _
+            _skybox.Render();
+            
 
             // Vao.Bind();
             _cubeMesh.Bind();
