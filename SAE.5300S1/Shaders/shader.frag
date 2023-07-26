@@ -1,14 +1,13 @@
 #version 330 core
-in vec2 fUv;
+uniform vec3 fColor;
+uniform sampler2D baseColorMap;
 
-//uniform sampler2D uTexture0;
-uniform vec3 color;
+smooth in vec2 fTexCoords;
 
 out vec4 FragColor;
 
 void main()
 {
-    //FragColor = texture(uTexture0, fUv);
-    FragColor = vec4(color, 1.0f);
-    
+    vec3 baseColor = texture(baseColorMap, fTexCoords).rgb;
+    FragColor = vec4(fColor * baseColor, 0.5f);
 }

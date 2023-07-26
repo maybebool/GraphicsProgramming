@@ -7,19 +7,18 @@ namespace SAE._5300S1
 {
     public class Mesh : IDisposable
     {
-        public Mesh(GL gl, float[] vertices, uint[] indices, List<Texture> textures)
+        public Mesh(GL gl, float[] vertices, uint[] indices)
         {
             GL = gl;
             Vertices = vertices;
             Indices = indices;
-            Textures = textures;
             SetupMesh();
         }
 
         public uint IndicesLength => (uint)Vertices.Length;
         public float[] Vertices { get; private set; }
         public uint[] Indices { get; private set; }
-        public IReadOnlyList<Texture> Textures { get; private set; }
+        public List<Texture> Textures { get; private set; } = new();
         public VertexArrayObject<float, uint> VAO { get; set; }
         public BufferObject<float> VBO { get; set; }
         public BufferObject<uint> EBO { get; set; }
@@ -37,8 +36,8 @@ namespace SAE._5300S1
 
         public void Bind() {
             VAO.Bind();
-            foreach (var texture in Textures) {
-                texture.Bind();
+            for (int i = 0; i < Textures.Count; i++) {
+                Textures[i].Bind(TextureUnit.Texture0 + i);
             }
         }
 

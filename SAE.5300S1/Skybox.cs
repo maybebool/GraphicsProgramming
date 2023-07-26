@@ -10,7 +10,7 @@ namespace SAE._5300S1;
 public class Skybox {
     //public Material Material { get; set; }
     public Mesh Mesh { get; set; }
-    private Shader SkyboxShader { get; set; }
+    // private Shader SkyboxShader { get; set; }
     public Material Material { get; set; }
 
     private Texture _texture;
@@ -33,22 +33,21 @@ public class Skybox {
     }
 
     private void Init() {
-        var textures = new List<Texture>();
-        Mesh = new Mesh(_gl, _model.Vertices , _model.Indices, textures);
-        textures.Add(new (_gl, $"{_textureName}.jpg"));
+        Mesh = new Mesh(_gl, _model.Vertices , _model.Indices);
+        //Material  = new (Program.Gl, "skybox.vert", "skybox.frag");
         //var skyMeshConverter = new Parser("spheres.obj");
-        //_texture = new Texture(_gl, $"{_textureName}.jpg");
+        _texture = new Texture(_gl, $"{_textureName}.jpg");
         
     }
     
 
     public unsafe void Render() {
         // draw skybox as last
-        // _gl.DepthMask(false);
-        _gl.Disable(EnableCap.DepthTest);
+        _gl.DepthMask(false);
+        // _gl.Disable(EnableCap.DepthTest);
         Mesh.Bind();
-        SkyboxShader.Use();
-        //Material.Use();
+        // SkyboxShader.Use();
+        Material.Use();
 
         var degree = 180f;
         
@@ -56,15 +55,15 @@ public class Skybox {
         _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degree));
         _matrix *= Matrix4x4.CreateScale(500f);
 
-        SkyboxShader.SetUniform("uModel", _matrix);
-        SkyboxShader.SetUniform("uView", Camera.Instance.GetViewMatrix());
-        SkyboxShader.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
-        SkyboxShader.SetUniform("fColor", new Vector3(0.5f, 0.5f, 0.5f));
-
+        Material.SetUniform("uModel", _matrix);
+        Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
+        Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
+        Material.SetUniform("fColor", new Vector3(0.5f, 0.5f, 0.5f));
         _texture.Bind();
+
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
 
-        _gl.Enable(EnableCap.DepthTest);
-        // _gl.DepthMask(true); // set depth function back to default
+        // _gl.Enable(EnableCap.DepthTest);
+        _gl.DepthMask(true); // set depth function back to default
     }
 }

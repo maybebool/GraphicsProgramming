@@ -6,10 +6,10 @@ using Silk.NET.Windowing;
 
 namespace SAE._5300S1
 {
-    class Program
+   static class Program
     {
         private static IWindow window;
-        private static GL Gl;
+        public static GL Gl;
         private static IKeyboard primaryKeyboard;
 
         private const int Width = 1920;
@@ -22,14 +22,14 @@ namespace SAE._5300S1
         private static Shader Shader;
         private static Shader SkyboxShader;
 
-        //Setup the camera's location, directions, and movement speed
-        private static Vector3 CameraPosition = new Vector3(0.0f, 0.0f, 20.0f);
-        private static Vector3 CameraFront = new Vector3(0.0f, 0.0f, -1.0f);
-        private static Vector3 CameraUp = Vector3.UnitY;
-        private static Vector3 CameraDirection = Vector3.Zero;
-        private static float CameraYaw = -90f;
-        private static float CameraPitch = 0f;
-        private static float CameraZoom = 45f;
+        // //Setup the camera's location, directions, and movement speed
+        // private static Vector3 CameraPosition = new Vector3(0.0f, 0.0f, 20.0f);
+        // private static Vector3 CameraFront = new Vector3(0.0f, 0.0f, -1.0f);
+        // private static Vector3 CameraUp = Vector3.UnitY;
+        // private static Vector3 CameraDirection = Vector3.Zero;
+        // private static float CameraYaw = -90f;
+        // private static float CameraPitch = 0f;
+        // private static float CameraZoom = 45f;
         
 
         //Used to track change in mouse movement to allow for moving of the Camera
@@ -74,20 +74,18 @@ namespace SAE._5300S1
             }
 
             Gl = GL.GetApi(window);
-            var objConverter = new Parser("MoebiusBand.obj");
-
-
+            // var objConverter = new Parser("MoebiusBand.obj");
             _skybox = new Skybox(Gl, "anime_sky",StandardMaterial.Instance.Material, SkyBoxSphere.Instance);
 
             
 
-            Shader = new (Gl, "shader.vert", "shader.frag");
+            // Shader = new (Gl, "shader.vert", "shader.frag");
             //SkyboxShader = new (Gl, "skybox.vert", "skybox.frag");
 
-            List<Texture> textures = new List<Texture>();
+            // List<Texture> textures = new List<Texture>();
             
-            textures.Add(new (Gl, "goldenTexture.jpg"));
-            _cubeMesh = new Mesh(Gl, objConverter.Vertices, objConverter.Indices, textures);
+            // textures.Add(new (Gl, "goldenTexture.jpg"));
+            // _cubeMesh = new Mesh(Gl, objConverter.Vertices, objConverter.Indices, textures);
         }
 
         private static unsafe void OnUpdate(double deltaTime)
@@ -97,22 +95,22 @@ namespace SAE._5300S1
             if (primaryKeyboard.IsKeyPressed(Key.W))
             {
                 //Move forwards
-                CameraPosition += moveSpeed * CameraFront;
+                Camera.Instance.Position += moveSpeed * Camera.Instance.Front;
             }
             if (primaryKeyboard.IsKeyPressed(Key.S))
             {
                 //Move backwards
-                CameraPosition -= moveSpeed * CameraFront;
+                Camera.Instance.Position -= moveSpeed * Camera.Instance.Front;
             }
             if (primaryKeyboard.IsKeyPressed(Key.A))
             {
                 //Move left
-                CameraPosition -= Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp)) * moveSpeed;
+                Camera.Instance.Position -= Vector3.Normalize(Vector3.Cross(Camera.Instance.Front, Camera.Instance.Up)) * moveSpeed;
             }
             if (primaryKeyboard.IsKeyPressed(Key.D))
             {
                 //Move right
-                CameraPosition += Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp)) * moveSpeed;
+                Camera.Instance.Position += Vector3.Normalize(Vector3.Cross(Camera.Instance.Front, Camera.Instance.Up)) * moveSpeed;
             }
         }
 
@@ -125,30 +123,30 @@ namespace SAE._5300S1
             
 
             // Vao.Bind();
-            _cubeMesh.Bind();
-            
-            // Texture.Bind();
-            
-            
-            Shader.Use();
-            // Shader.SetUniform("uTexture0", 0);
-
-            //Use elapsed time to convert to radians to allow our cube to rotate over time
-            var difference = (float) (window.Time * 100);
-
-            // var model = Matrix4x4.Identity; //Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(difference)) * Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(difference));
-            var model = Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(difference)) * Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(difference));
-            var view = Matrix4x4.CreateLookAt(CameraPosition, CameraPosition + CameraFront, CameraUp);
-            var projection = Matrix4x4.CreatePerspectiveFieldOfView(Calculate.DegreesToRadians(CameraZoom), Width / Height, 0.1f, 100.0f);
-
-            Shader.SetUniform("uModel", model);
-            Shader.SetUniform("uView", view);
-            Shader.SetUniform("uProjection", projection);
-            _color = new Vector3(0.5f, 0.7f, 1f);
-            Shader.SetUniform("color", _color);
-
-            //We're drawing with just vertices and no indices, and it takes 36 vertices to have a six-sided textured cube
-            Gl.DrawArrays(PrimitiveType.Triangles, 0, _cubeMesh.IndicesLength);
+            // _cubeMesh.Bind();
+            //
+            // // Texture.Bind();
+            //
+            //
+            // Shader.Use();
+            // // Shader.SetUniform("uTexture0", 0);
+            //
+            // //Use elapsed time to convert to radians to allow our cube to rotate over time
+            // var difference = (float) (window.Time * 100);
+            //
+            // // var model = Matrix4x4.Identity; //Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(difference)) * Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(difference));
+            // var model = Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(difference)) * Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(difference));
+            // var view = Matrix4x4.CreateLookAt(CameraPosition, CameraPosition + CameraFront, CameraUp);
+            // var projection = Matrix4x4.CreatePerspectiveFieldOfView(Calculate.DegreesToRadians(CameraZoom), Width / Height, 0.1f, 100.0f);
+            //
+            // Shader.SetUniform("uModel", model);
+            // Shader.SetUniform("uView", view);
+            // Shader.SetUniform("uProjection", projection);
+            // _color = new Vector3(0.5f, 0.7f, 1f);
+            // Shader.SetUniform("color", _color);
+            //
+            // //We're drawing with just vertices and no indices, and it takes 36 vertices to have a six-sided textured cube
+            // Gl.DrawArrays(PrimitiveType.Triangles, 0, _cubeMesh.IndicesLength);
         }
 
         // static Matrix4x4 GetViewMatrix2() {
@@ -167,24 +165,13 @@ namespace SAE._5300S1
                 var xOffset = (position.X - LastMousePosition.X) * lookSensitivity;
                 var yOffset = (position.Y - LastMousePosition.Y) * lookSensitivity;
                 LastMousePosition = position;
-
-                CameraYaw += xOffset;
-                CameraPitch -= yOffset;
-
-                //We don't want to be able to look behind us by going over our head or under our feet so make sure it stays within these bounds
-                CameraPitch = Math.Clamp(CameraPitch, -89.0f, 89.0f);
-
-                CameraDirection.X = MathF.Cos(Calculate.DegreesToRadians(CameraYaw)) * MathF.Cos(Calculate.DegreesToRadians(CameraPitch));
-                CameraDirection.Y = MathF.Sin(Calculate.DegreesToRadians(CameraPitch));
-                CameraDirection.Z = MathF.Sin(Calculate.DegreesToRadians(CameraYaw)) * MathF.Cos(Calculate.DegreesToRadians(CameraPitch));
-                CameraFront = Vector3.Normalize(CameraDirection);
+                Camera.Instance.ModifyDirection(xOffset, yOffset);
             }
         }
 
         private static unsafe void OnMouseWheel(IMouse mouse, ScrollWheel scrollWheel)
         {
-            //We don't want to be able to zoom in too close or too far away so clamp to these values
-            CameraZoom = Math.Clamp(CameraZoom - scrollWheel.Y, 1.0f, 45f);
+            Camera.Instance.ModifyZoom(scrollWheel.Y);
         }
 
         private static void OnClose()

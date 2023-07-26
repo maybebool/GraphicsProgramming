@@ -4,7 +4,7 @@ namespace SAE._5300S1;
 
 public class Material : Shader {
     public Material(GL gl, string vertexPath, string fragmentPath)
-        : base(gl, "shaders/" + vertexPath, "shaders/" + fragmentPath) { }
+        : base(gl, vertexPath, fragmentPath) { }
     
     private Dictionary<string, ProgramParam> shaderParams = new();
     
