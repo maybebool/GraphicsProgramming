@@ -53,12 +53,12 @@ public class Skybox {
         
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degree));
-        _matrix *= Matrix4x4.CreateScale(500f);
+        _matrix *= Matrix4x4.CreateScale(600f);
 
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
-        Material.SetUniform("fColor", new Vector3(0.5f, 0.5f, 0.5f));
+        Material.SetUniform("fColor", new Vector3(1.0f, 1.0f, 1.0f));
         _texture.Bind();
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);

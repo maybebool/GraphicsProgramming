@@ -75,7 +75,7 @@ namespace SAE._5300S1
 
             Gl = GL.GetApi(window);
             // var objConverter = new Parser("MoebiusBand.obj");
-            _skybox = new Skybox(Gl, "anime_sky",StandardMaterial.Instance.Material, SkyBoxSphere.Instance);
+            _skybox = new Skybox(Gl, "redDesert",StandardMaterial.Instance.Material, SkyBoxSphere.Instance);
 
             
 
