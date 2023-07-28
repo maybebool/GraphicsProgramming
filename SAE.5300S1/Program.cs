@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using SAE._5300S1.Scene.Objects;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
@@ -40,6 +41,7 @@ namespace SAE._5300S1
         // Skybox
 
         private static Skybox _skybox;
+        private static MoebiusStrip _moebiusStrip;
 
         private static void Main(string[] args)
         {
@@ -76,6 +78,7 @@ namespace SAE._5300S1
             Gl = GL.GetApi(window);
             // var objConverter = new Parser("MoebiusBand.obj");
             _skybox = new Skybox(Gl, "redDesert",StandardMaterial.Instance.Material, SkyBoxSphere.Instance);
+            _moebiusStrip = new MoebiusStrip(Gl, "goldenTexture",StandardMaterial.Instance.Material, SkyBoxSphere.Instance);
 
             
 
@@ -120,6 +123,7 @@ namespace SAE._5300S1
             Gl.Clear((uint) (ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
             
             _skybox.Render();
+            _moebiusStrip.Render();
             
 
             // Vao.Bind();
