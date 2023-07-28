@@ -14,8 +14,7 @@ public class Skybox {
     private string _textureName;
     private Matrix4x4 _matrix;
     private IModel _model;
-
-    //private IModel _model;
+    
 
     public Skybox(GL gl,
         string textureName,
@@ -30,21 +29,16 @@ public class Skybox {
 
     private void Init() {
         Mesh = new Mesh(_gl, _model.Vertices , _model.Indices);
-        //Material  = new (Program.Gl, "skybox.vert", "skybox.frag");
-        //var skyMeshConverter = new Parser("spheres.obj");
         _texture = new Texture(_gl, $"{_textureName}.jpg");
         
     }
     
 
     public unsafe void Render() {
-        // draw skybox as last
+        
         _gl.DepthMask(false);
-        // _gl.Disable(EnableCap.DepthTest);
         Mesh.Bind();
-        // SkyboxShader.Use();
         Material.Use();
-
         var degree = 180f;
         
         _matrix = Matrix4x4.Identity;
@@ -59,7 +53,7 @@ public class Skybox {
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
 
-        // _gl.Enable(EnableCap.DepthTest);
+        
         _gl.DepthMask(true); // set depth function back to default
     }
 }

@@ -23,15 +23,6 @@ namespace SAE._5300S1
         private static Shader Shader;
         private static Shader SkyboxShader;
 
-        // //Setup the camera's location, directions, and movement speed
-        // private static Vector3 CameraPosition = new Vector3(0.0f, 0.0f, 20.0f);
-        // private static Vector3 CameraFront = new Vector3(0.0f, 0.0f, -1.0f);
-        // private static Vector3 CameraUp = Vector3.UnitY;
-        // private static Vector3 CameraDirection = Vector3.Zero;
-        // private static float CameraYaw = -90f;
-        // private static float CameraPitch = 0f;
-        // private static float CameraZoom = 45f;
-        
 
         //Used to track change in mouse movement to allow for moving of the Camera
         private static Vector2 LastMousePosition;
@@ -41,7 +32,8 @@ namespace SAE._5300S1
         // Skybox
 
         private static Skybox _skybox;
-        private static MoebiusStrip _moebiusStrip;
+        private static Icosahedron _icosahedron;
+        
 
         private static void Main(string[] args)
         {
@@ -78,22 +70,24 @@ namespace SAE._5300S1
             Gl = GL.GetApi(window);
             // var objConverter = new Parser("MoebiusBand.obj");
             _skybox = new Skybox(Gl, "redDesert",StandardMaterial.Instance.Material, SkyBoxSphere.Instance);
-            _moebiusStrip = new MoebiusStrip(Gl, "goldenTexture",StandardMaterial.Instance.Material, SkyBoxSphere.Instance);
+            _icosahedron = new Icosahedron(Gl, "metallic", StandardMaterial.Instance.Material,
+                IcosahedronForm.Instance);
 
-            
+
+
 
             // Shader = new (Gl, "shader.vert", "shader.frag");
             //SkyboxShader = new (Gl, "skybox.vert", "skybox.frag");
 
             // List<Texture> textures = new List<Texture>();
-            
+
             // textures.Add(new (Gl, "goldenTexture.jpg"));
             // _cubeMesh = new Mesh(Gl, objConverter.Vertices, objConverter.Indices, textures);
         }
 
         private static unsafe void OnUpdate(double deltaTime)
         {
-            var moveSpeed = 2.5f * (float) deltaTime;
+            var moveSpeed = 10.5f * (float) deltaTime;
 
             if (primaryKeyboard.IsKeyPressed(Key.W))
             {
@@ -123,7 +117,8 @@ namespace SAE._5300S1
             Gl.Clear((uint) (ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
             
             _skybox.Render();
-            _moebiusStrip.Render();
+            _icosahedron.Render();
+            
             
 
             // Vao.Bind();

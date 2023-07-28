@@ -90,6 +90,9 @@ public class Parser {
             sr.Close();
 
             for (int i = 0; i < _tempVerticesIndices.Count; i++) {
+                if (i == 50) {
+                    Console.WriteLine("");
+                }
                 int indexVerts = _tempVerticesIndices[i];
                 Vector3 vertex = _originVertices[indexVerts - 1];
                 _tempVertices.Add(vertex.X);
