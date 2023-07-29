@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using SAE._5300S1.Scene.Objects;
+using SAE._5300S1.Scene.Objects.Models;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;

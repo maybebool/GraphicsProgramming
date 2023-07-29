@@ -37,7 +37,7 @@ public class Icosahedron {
         
         Mesh.Bind();
         _matrix = Matrix4x4.Identity;
-        //_matrix *= Matrix4x4.CreateScale(1f);
+        _matrix *= Matrix4x4.CreateScale(1f);
 
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());

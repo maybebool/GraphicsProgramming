@@ -1,4 +1,4 @@
-﻿namespace SAE._5300S1; 
+﻿namespace SAE._5300S1.Scene.Objects.Models; 
 
 public class SkyBoxSphere : IModel {
     public static SkyBoxSphere Instance => Lazy.Value;
