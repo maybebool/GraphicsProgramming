@@ -9,7 +9,7 @@ public class IcosahedronParser : IModel {
     public uint[] Indices { get; }
 
     private IcosahedronParser() {
-        var objWizard = new Parser("cube1.obj");
+        var objWizard = new Parser("MoebiusBand.obj");
         Vertices = objWizard.Vertices;
         Indices = objWizard.Indices;
     }
