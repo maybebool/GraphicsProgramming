@@ -1,10 +1,15 @@
 ﻿using System.Numerics;
-using SAE._5300S1.Scene.Objects;
-using SAE._5300S1.Scene.Objects.Models;
+using SAE._5300S1.Scene.SceneObjects;
+using SAE._5300S1.Scene.SceneObjects.Models;
+using SAE._5300S1.Scene.SceneObjects.ModelSetters;
+using SAE._5300S1.Utils.ModelHelpers;
+using SAE._5300S1.Utils.SceneHelpers;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
+using Shader = SAE._5300S1.Utils.ModelHelpers.Shader;
+using Texture = SAE._5300S1.Utils.ModelHelpers.Texture;
 
 namespace SAE._5300S1
 {
@@ -70,9 +75,9 @@ namespace SAE._5300S1
 
             Gl = GL.GetApi(window);
             // var objConverter = new Parser("MoebiusBand.obj");
-            _skybox = new Skybox(Gl, "redDesert",StandardMaterial.Instance.Material, SkyBoxSphere.Instance);
+            _skybox = new Skybox(Gl, "redDesert",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
             _icosahedron = new Icosahedron(Gl, "metallic", StandardMaterial.Instance.Material,
-                IcosahedronForm.Instance);
+                IcosahedronParser.Instance);
 
 
 
@@ -176,11 +181,6 @@ namespace SAE._5300S1
 
         private static void OnClose()
         {
-            // Vbo.Dispose();
-            // Ebo.Dispose();
-            // Vao.Dispose();
-            // Shader.Dispose();
-            // Texture.Dispose();
             Gl.Dispose();
         }
 

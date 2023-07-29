@@ -1,6 +1,6 @@
 ﻿using Silk.NET.OpenGL;
 
-namespace SAE._5300S1 {
+namespace SAE._5300S1.Utils.ModelHelpers {
     public class Texture : IDisposable {
         private uint _handle;
         private GL _gl;

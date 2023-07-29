@@ -1,7 +1,6 @@
 ﻿using Silk.NET.OpenGL;
-using System;
 
-namespace SAE._5300S1 {
+namespace SAE._5300S1.Utils.ModelHelpers {
     public class BufferObject<TDataType> : IDisposable
         where TDataType : unmanaged {
         private uint _handle;

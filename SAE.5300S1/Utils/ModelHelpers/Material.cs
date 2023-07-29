@@ -1,6 +1,7 @@
-﻿using Silk.NET.OpenGL;
+﻿using SAE._5300S1.Utils.SceneHelpers;
+using Silk.NET.OpenGL;
 
-namespace SAE._5300S1; 
+namespace SAE._5300S1.Utils.ModelHelpers; 
 
 public class Material : Shader {
     public Material(GL gl, string vertexPath, string fragmentPath)

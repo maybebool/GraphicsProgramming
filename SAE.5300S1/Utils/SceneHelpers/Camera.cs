@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace SAE._5300S1; 
+namespace SAE._5300S1.Utils.SceneHelpers; 
 
 public class Camera {
     public static Camera Instance => Lazy.Value;

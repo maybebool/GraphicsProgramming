@@ -1,11 +1,14 @@
 ﻿using System.Numerics;
+using SAE._5300S1.Utils.ModelHelpers;
+using SAE._5300S1.Utils.SceneHelpers;
 using Silk.NET.OpenGL;
 using PrimitiveType = Silk.NET.OpenGL.PrimitiveType;
+using Texture = SAE._5300S1.Utils.ModelHelpers.Texture;
 
 
-namespace SAE._5300S1.Scene.Objects; 
+namespace SAE._5300S1.Scene.SceneObjects.Models; 
 
-public class Skybox {
+public class Icosahedron {
     public Mesh Mesh { get; set; }
     public Material Material { get; set; }
 
@@ -14,9 +17,8 @@ public class Skybox {
     private string _textureName;
     private Matrix4x4 _matrix;
     private IModel _model;
-    
 
-    public Skybox(GL gl,
+    public Icosahedron(GL gl,
         string textureName,
         Material material,
         IModel model) {
@@ -36,14 +38,9 @@ public class Skybox {
 
     public unsafe void Render() {
         
-        _gl.DepthMask(false);
         Mesh.Bind();
-        Material.Use();
-        var degree = 180f;
-        
         _matrix = Matrix4x4.Identity;
-        _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degree));
-        _matrix *= Matrix4x4.CreateScale(600f);
+        _matrix *= Matrix4x4.CreateScale(1f);
 
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
@@ -52,8 +49,6 @@ public class Skybox {
         _texture.Bind();
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
-
         
-        _gl.DepthMask(true); // set depth function back to default
     }
 }

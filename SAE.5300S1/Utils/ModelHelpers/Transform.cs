@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
-namespace SAE._5300S1; 
+
+namespace SAE._5300S1.Utils.ModelHelpers; 
 
 public class Transform {
     public Vector3 Position { get; set; } = new(0, 0, 0);
