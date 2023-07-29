@@ -56,13 +56,11 @@ public class Parser {
                     }
                     else if (line.StartsWith("vn")) {
                         var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        _originNormals.Add(new Vector3(float.Parse(parts[1]), float.Parse(parts[2]),
-                            float.Parse(parts[3])));
+                        _originNormals.Add(new Vector3(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3])));
                     }
                     else if (line.StartsWith("v")) {
                         var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        _originVertices.Add(new Vector3(float.Parse(parts[1]), float.Parse(parts[2]),
-                            float.Parse(parts[3])));
+                        _originVertices.Add(new Vector3(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3])));
                     }
                     else if (line.StartsWith("f")) {
                         var fParts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -99,7 +97,7 @@ public class Parser {
                 _tempVertices.Add(vertex.Y);
                 _tempVertices.Add(vertex.Z);
 
-                int indexNormal = _tempVerticesIndices[i];
+                int indexNormal = _tempNormalIndices[i];
                 Vector3 normal = _originNormals[indexNormal - 1];
                 _tempVertices.Add(normal.X);
                 _tempVertices.Add(normal.Y);
