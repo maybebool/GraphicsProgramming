@@ -39,13 +39,22 @@ public class Icosahedron {
     public unsafe void Render() {
         
         Mesh.Bind();
+        Material.Use();
         _matrix = Matrix4x4.Identity;
+        //_matrix *= Matrix4x4.CreateTranslation(2, 0, 0);
         _matrix *= Matrix4x4.CreateScale(1f);
-
+        
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
-        Material.SetUniform("fColor", new Vector3(1.0f, 1.0f, 1.0f));
+        Material.SetUniform("viewPos", Camera.Instance.Position);
+        Material.SetUniform("material.diffuse", 0.5f);
+        Material.SetUniform("material.specular", 1);
+        Material.SetUniform("material.shininess", 1);
+        Material.SetUniform("light.position", new Vector3(0,0,0));
+        Material.SetUniform("light.ambient", new Vector3(1.7f)* new Vector3(1f));
+        Material.SetUniform("light.diffuse", new Vector3(1.7f));
+        Material.SetUniform("light.specular", new Vector3(1.0f,1.0f,1.0f));
         _texture.Bind();
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);

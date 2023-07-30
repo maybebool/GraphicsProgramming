@@ -46,7 +46,7 @@ public class Skybox {
         
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degree));
-        _matrix *= Matrix4x4.CreateScale(600f);
+        _matrix *= Matrix4x4.CreateScale(4000f);
 
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());

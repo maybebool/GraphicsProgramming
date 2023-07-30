@@ -25,9 +25,11 @@ namespace SAE._5300S1
         private static BufferObject<float> Vbo;
         private static BufferObject<uint> Ebo;
         private static VertexArrayObject<float, uint> Vao;
-        private static Texture Texture;
-        private static Shader Shader;
-        private static Shader SkyboxShader;
+        // private static Texture Texture;
+        // private static Shader LightingShader;
+        // private static Shader Shader;
+        // private static Shader SkyboxShader;
+        private static Shader LampShader;
 
 
         //Used to track change in mouse movement to allow for moving of the Camera
@@ -40,6 +42,7 @@ namespace SAE._5300S1
         private static Skybox _skybox;
         private static Icosahedron _icosahedron;
         
+
 
         private static void Main(string[] args)
         {
@@ -74,21 +77,13 @@ namespace SAE._5300S1
             }
 
             Gl = GL.GetApi(window);
-            // var objConverter = new Parser("MoebiusBand.obj");
-            _skybox = new Skybox(Gl, "redDesert",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
-            _icosahedron = new Icosahedron(Gl, "metallic", StandardMaterial.Instance.Material,
-                IcosahedronParser.Instance);
+            
+            //LightingShader = new Shader(Gl, "shader.vert", "lightingShader.frag");
+            
+            _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
+            _icosahedron = new Icosahedron(Gl, "metallic", LightingMaterial.Instance.Material, IcosahedronParser.Instance);
+            //_lightSource = new LightSource(Gl, "metallic", LightingMaterial.Instance.Material, LightSourceParser.Instance);
 
-
-
-
-            // Shader = new (Gl, "shader.vert", "shader.frag");
-            //SkyboxShader = new (Gl, "skybox.vert", "skybox.frag");
-
-            // List<Texture> textures = new List<Texture>();
-
-            // textures.Add(new (Gl, "goldenTexture.jpg"));
-            // _cubeMesh = new Mesh(Gl, objConverter.Vertices, objConverter.Indices, textures);
         }
 
         private static unsafe void OnUpdate(double deltaTime)
@@ -122,44 +117,10 @@ namespace SAE._5300S1
             Gl.Enable(EnableCap.DepthTest);
             Gl.Clear((uint) (ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
             
-            _skybox.Render();
+            //_icosidodecahedron.Render();
             _icosahedron.Render();
-            
-            
-
-            // Vao.Bind();
-            // _cubeMesh.Bind();
-            //
-            // // Texture.Bind();
-            //
-            //
-            // Shader.Use();
-            // // Shader.SetUniform("uTexture0", 0);
-            //
-            // //Use elapsed time to convert to radians to allow our cube to rotate over time
-            // var difference = (float) (window.Time * 100);
-            //
-            // // var model = Matrix4x4.Identity; //Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(difference)) * Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(difference));
-            // var model = Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(difference)) * Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(difference));
-            // var view = Matrix4x4.CreateLookAt(CameraPosition, CameraPosition + CameraFront, CameraUp);
-            // var projection = Matrix4x4.CreatePerspectiveFieldOfView(Calculate.DegreesToRadians(CameraZoom), Width / Height, 0.1f, 100.0f);
-            //
-            // Shader.SetUniform("uModel", model);
-            // Shader.SetUniform("uView", view);
-            // Shader.SetUniform("uProjection", projection);
-            // _color = new Vector3(0.5f, 0.7f, 1f);
-            // Shader.SetUniform("color", _color);
-            //
-            // //We're drawing with just vertices and no indices, and it takes 36 vertices to have a six-sided textured cube
-            // Gl.DrawArrays(PrimitiveType.Triangles, 0, _cubeMesh.IndicesLength);
+            _skybox.Render();
         }
-
-        // static Matrix4x4 GetViewMatrix2() {
-        //     return Matrix4x4.Identity
-        //            * Matrix4x4.CreateFromQuaternion(Rotation)
-        //            * Matrix4x4.CreateScale(Scale)
-        //            * Matrix4x4.CreateTranslation(Position);
-        // }
 
         private static unsafe void OnMouseMove(IMouse mouse, Vector2 position)
         {
@@ -191,26 +152,8 @@ namespace SAE._5300S1
                 window.Close();
             }
         }
-
-
-
+        
         #region Transformation Matrix
-
-        
-        // public Matrix4x4 CreateTRS() {
-        //     // var modelTranslation = Matrix4x4.CreateTranslation(Position);
-        //     // var modelRotationX = Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(Rotation.X),new Vector3(1.0f, 0.0f, 0.0f) );
-        //     // var modelRotationY = Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(Rotation.Y), new Vector3(0.0f, 1.0f, 0.0f));
-        //     // var modelRotationZ = Matrix4x4.CreateRotationZ(Calculate.DegreesToRadians(Rotation.Z), new Vector3(0.0f, 0.0f, 1.0f));
-        //     // var modelRotation = modelRotationX * modelRotationY * modelRotationZ;
-        //     // var modelScale = Matrix4x4.CreateScale(Scale);
-        //     // var model = modelTranslation * modelRotation * modelScale;// Compose TRS matr
-        //     // //var model = modelRotation * modelTranslation * modelScale;// Compose TRS matr
-        //     // return model;
-        //     return 
-        // }
-        
-        
         private static Matrix4x4 GetViewMatrix()
         {
             var viewTranslation = Matrix4x4.Identity;
@@ -226,8 +169,6 @@ namespace SAE._5300S1
 
             return view;
         }
-
-       
         
         
         private static Matrix4x4 GetProjectionMatrix()
@@ -241,6 +182,11 @@ namespace SAE._5300S1
             //projection = Matrix4.CreateOrthographic0.0f, (float)screenWidth, 0.0f, (float)screenHeight, 0.1f, 100.0f);
 
             return projection;
+        }
+
+
+        private static void SetLight() {
+            
         }
         
         #endregion
