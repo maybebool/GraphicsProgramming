@@ -89,7 +89,6 @@ namespace SAE._5300S1
         private static unsafe void OnUpdate(double deltaTime)
         {
             var moveSpeed = 10.5f * (float) deltaTime;
-            _icosahedron.OnUpdate();
             Calculate.UpdateDeltaTime(deltaTime);
             Time.Update();
 

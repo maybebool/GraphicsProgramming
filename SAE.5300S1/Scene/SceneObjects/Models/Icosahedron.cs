@@ -38,29 +38,18 @@ public class Icosahedron {
     private void Init() {
         Mesh = new Mesh(_gl, _model.Vertices , _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
-        //Transform.Scale = 1f;
 
     }
-
-    public unsafe void OnUpdate() {
-        
-        // _rotationDegrees = _rotationDegrees.Rotation360(_solarSystemMultiplier * Speed);
-        // Transform.Rotation = Transform.RotateY(_rotationDegrees.DegreesToRadiansOnVariable());
-        // //Transform.Position = new Vector3(2, 0, 0);
-        //
-        // _matrix = Transform.ViewMatrix;
-        // //_matrix *= _parent.Transform.ViewMatrix;
-        // //_matrix *= Matrix4x4.CreateRotationY(_rotationDegrees.DegreesToRadiansOnVariable());
-    }
-    
 
     public unsafe void Render() {
 
         float t = MathF.Sin(Time.TimeSinceStart * 1);
+        float angle = Time.TimeSinceStart * 1;
         Mesh.Bind();
         Material.Use();
         _matrix = Matrix4x4.Identity;
-        _matrix *= Matrix4x4.CreateRotationY(t);
+        _matrix *= Matrix4x4.CreateRotationY(angle);
+        _matrix *= Matrix4x4.CreateRotationX(angle);
         _matrix *= Matrix4x4.CreateTranslation(2, 0, 0);
         _matrix *= Matrix4x4.CreateScale(1f);
         
