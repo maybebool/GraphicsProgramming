@@ -2,6 +2,7 @@
 using SAE._5300S1.Scene.SceneObjects;
 using SAE._5300S1.Scene.SceneObjects.Models;
 using SAE._5300S1.Scene.SceneObjects.ModelSetters;
+using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers;
 using SAE._5300S1.Utils.SceneHelpers;
 using Silk.NET.Input;
@@ -58,8 +59,9 @@ namespace SAE._5300S1
             window.Dispose();
         }
 
-        private static void OnLoad()
-        {
+        private static void OnLoad() {
+            Calculate.DeltaTime = 0f;
+            Time.Initialize();
             IInputContext input = window.CreateInput();
             primaryKeyboard = input.Keyboards.FirstOrDefault();
             if (primaryKeyboard != null)
@@ -87,6 +89,9 @@ namespace SAE._5300S1
         private static unsafe void OnUpdate(double deltaTime)
         {
             var moveSpeed = 10.5f * (float) deltaTime;
+            _icosahedron.OnUpdate();
+            Calculate.UpdateDeltaTime(deltaTime);
+            Time.Update();
 
             if (primaryKeyboard.IsKeyPressed(Key.W))
             {
