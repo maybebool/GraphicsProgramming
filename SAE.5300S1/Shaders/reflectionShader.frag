@@ -1,4 +1,5 @@
-#version 330 core
+#version 400 core
+
 in vec3 fNormal;
 in vec3 fPos;
 in vec2 fTexCoords;

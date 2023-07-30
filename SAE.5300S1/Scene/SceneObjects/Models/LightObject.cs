@@ -4,11 +4,9 @@ using SAE._5300S1.Utils.SceneHelpers;
 using Silk.NET.OpenGL;
 using PrimitiveType = Silk.NET.OpenGL.PrimitiveType;
 using Texture = SAE._5300S1.Utils.ModelHelpers.Texture;
-
-
 namespace SAE._5300S1.Scene.SceneObjects.Models; 
 
-public class Icosahedron {
+public class LightObject {
     public Mesh Mesh { get; set; }
     public Material Material { get; set; }
 
@@ -17,8 +15,9 @@ public class Icosahedron {
     private string _textureName;
     private Matrix4x4 _matrix;
     private IModel _model;
+    
 
-    public Icosahedron(GL gl,
+    public LightObject(GL gl,
         string textureName,
         Material material,
         IModel model) {
@@ -39,27 +38,20 @@ public class Icosahedron {
     public unsafe void Render() {
         
         
-        float r = Mathf.Sin()
         Mesh.Bind();
         Material.Use();
-        _matrix = Matrix4x4.Identity;
-        _matrix *= Matrix4x4.CreateTranslation(2, 0, 0);
-        _matrix *= Matrix4x4.CreateScale(1f);
+        var degree = 180f;
         
+        _matrix = Matrix4x4.Identity;
+        _matrix *= Matrix4x4.CreateScale(0.5f);
+        _matrix *= Matrix4x4.CreateTranslation(Light.LightPosition);
+
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
-        Material.SetUniform("viewPos", Camera.Instance.Position);
-        Material.SetUniform("material.diffuse", 0.5f);
-        Material.SetUniform("material.specular", 1);
-        Material.SetUniform("material.shininess", 1);
-        Material.SetUniform("light.position", Light.LightPosition);
-        Material.SetUniform("light.ambient", new Vector3(1.7f)* new Vector3(1f));
-        Material.SetUniform("light.diffuse", new Vector3(1.7f));
-        Material.SetUniform("light.specular", new Vector3(1.0f,1.0f,1.0f));
+        Material.SetUniform("fColor", new Vector3(1.0f, 1.0f, 1.0f));
         _texture.Bind();
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
-        
     }
 }

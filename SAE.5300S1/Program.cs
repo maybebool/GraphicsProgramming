@@ -25,11 +25,7 @@ namespace SAE._5300S1
         private static BufferObject<float> Vbo;
         private static BufferObject<uint> Ebo;
         private static VertexArrayObject<float, uint> Vao;
-        // private static Texture Texture;
-        // private static Shader LightingShader;
-        // private static Shader Shader;
-        // private static Shader SkyboxShader;
-        private static Shader LampShader;
+
 
 
         //Used to track change in mouse movement to allow for moving of the Camera
@@ -41,6 +37,7 @@ namespace SAE._5300S1
 
         private static Skybox _skybox;
         private static Icosahedron _icosahedron;
+        private static LightObject _lightObject;
         
 
 
@@ -48,7 +45,7 @@ namespace SAE._5300S1
         {
             var options = WindowOptions.Default;
             options.Size = new Vector2D<int>(Width, Height);
-            options.Title = "LearnOpenGL with Silk.NET";
+            options.Title = "SAE.5300.S1";
             window = Window.Create(options);
 
             window.Load += OnLoad;
@@ -81,7 +78,8 @@ namespace SAE._5300S1
             //LightingShader = new Shader(Gl, "shader.vert", "lightingShader.frag");
             
             _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
-            _icosahedron = new Icosahedron(Gl, "metallic", LightingMaterial.Instance.Material, IcosahedronParser.Instance);
+            _icosahedron = new Icosahedron(Gl, "metallic", ReflectionMaterial.Instance.Material, IcosahedronParser.Instance);
+            _lightObject = new LightObject(Gl, "redSand", StandardMaterial.Instance.Material, LightObjectSetter.Instance);
             //_lightSource = new LightSource(Gl, "metallic", LightingMaterial.Instance.Material, LightSourceParser.Instance);
 
         }
@@ -120,6 +118,7 @@ namespace SAE._5300S1
             //_icosidodecahedron.Render();
             _icosahedron.Render();
             _skybox.Render();
+            _lightObject.Render();
         }
 
         private static unsafe void OnMouseMove(IMouse mouse, Vector2 position)
