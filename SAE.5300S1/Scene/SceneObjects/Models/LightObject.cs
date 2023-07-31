@@ -43,7 +43,7 @@ public class LightObject {
         var degree = 180f;
         
         _matrix = Matrix4x4.Identity;
-        _matrix *= Matrix4x4.CreateScale(0.5f);
+        _matrix *= Matrix4x4.CreateScale(0.1f);
         _matrix *= Matrix4x4.CreateTranslation(Light.LightPosition);
 
         Material.SetUniform("uModel", _matrix);

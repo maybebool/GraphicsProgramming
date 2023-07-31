@@ -9,7 +9,7 @@ public class PerfectMirrorParser : IModel {
     public uint[] Indices { get; }
 
     private PerfectMirrorParser() {
-        var objWizard = new Parser("cube.obj");
+        var objWizard = new Parser("MoebiusBand.obj");
         Vertices = objWizard.Vertices;
         Indices = objWizard.Indices;
     }

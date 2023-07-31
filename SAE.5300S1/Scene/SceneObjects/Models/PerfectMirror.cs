@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers;
 using SAE._5300S1.Utils.SceneHelpers;
 using Silk.NET.OpenGL;
@@ -47,7 +48,12 @@ public class PerfectMirror {
         Material.Use();
         
         var degree = 180f;
+        float angle = Time.TimeSinceStart * 0.2f;
         _matrix = Matrix4x4.Identity; 
+        _matrix *= Matrix4x4.CreateRotationY(angle);
+        _matrix *= Matrix4x4.CreateRotationX(angle);
+        _matrix *= Matrix4x4.CreateScale(0.5f);
+        _matrix *= Matrix4x4.CreateTranslation(15, 0, 0);
         _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degree));
         
 
