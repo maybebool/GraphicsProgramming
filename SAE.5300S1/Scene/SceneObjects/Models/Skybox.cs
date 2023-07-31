@@ -42,10 +42,12 @@ public class Skybox {
         _gl.DepthMask(false);
         Mesh.Bind();
         Material.Use();
-        var degree = 180f;
+        var degreeX = 180f;
+        var degreeY = 90f;
         
         _matrix = Matrix4x4.Identity; 
-        _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degree));
+        _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degreeX));
+        //_matrix *= Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(degreeY));
         _matrix *= Matrix4x4.CreateScale(4000f);
 
         Material.SetUniform("uModel", _matrix);
