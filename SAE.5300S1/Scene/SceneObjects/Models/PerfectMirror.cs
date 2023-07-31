@@ -45,11 +45,11 @@ public class PerfectMirror {
     public unsafe void Render() {
         Mesh.BindVAO();
         Material.Use();
-        //var degree = 180f;
-
-        _matrix = Matrix4x4.Identity;
-        //_matrix *= Matrix4x4.CreateScale(0.5f);
-        //_matrix *= Matrix4x4.CreateTranslation(4,0,0);
+        
+        var degree = 180f;
+        _matrix = Matrix4x4.Identity; 
+        _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degree));
+        
 
         Material.SetUniform("model", _matrix);
         Material.SetUniform("view", Camera.Instance.GetViewMatrix());
