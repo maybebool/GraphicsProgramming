@@ -9,6 +9,6 @@ public class ReflectionMaterial {
     private static readonly Lazy<ReflectionMaterial> Lazy = new(() => new());
 
     private ReflectionMaterial() {
-        Material = new Material(Program.Gl, "lightingShader.vert", "lightingShader.frag");
+        Material = new Material(Program.Gl, "reflectionShader.vert", "reflectionShader.frag");
     }
 }

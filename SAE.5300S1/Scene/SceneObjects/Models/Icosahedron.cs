@@ -47,6 +47,7 @@ public class Icosahedron {
         float angle = Time.TimeSinceStart * 1;
         Mesh.Bind();
         Material.Use();
+        _texture.Bind();
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateRotationY(angle);
         _matrix *= Matrix4x4.CreateRotationX(angle);
@@ -58,13 +59,12 @@ public class Icosahedron {
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
         Material.SetUniform("viewPos", Camera.Instance.Position);
         Material.SetUniform("material.diffuse", 0.5f);
-        Material.SetUniform("material.specular", 1);
-        Material.SetUniform("material.shininess", 1);
+        Material.SetUniform("material.specular", 1f);
+        Material.SetUniform("material.shininess", 1f);
         Material.SetUniform("light.position", Light.LightPosition);
-        Material.SetUniform("light.ambient", new Vector3(1.7f)* new Vector3(1f));
-        Material.SetUniform("light.diffuse", new Vector3(0.5f));
-        Material.SetUniform("light.specular", new Vector3(0.9f));
-        _texture.Bind();
+        Material.SetUniform("light.ambient", new Vector3(0.7f) * new Vector3(1f));
+        Material.SetUniform("light.diffuse", new Vector3(1.7f));
+        Material.SetUniform("light.specular", new Vector3(1.0f));
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
         

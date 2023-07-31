@@ -28,6 +28,39 @@ namespace SAE._5300S1.Utils.ModelHelpers {
 
             SetParameters();
         }
+        
+        public unsafe Texture(GL gl,
+            List<string> textureNames) {
+            _gl = gl;
+
+            _handle = _gl.GenTexture();
+            _gl.BindTexture(TextureTarget.TextureCubeMap, _handle);
+
+            for (int i = 0; i < textureNames.Count; i++) {
+                using (var img = Image.Load<Rgba32>("textures/" + textureNames[i])) {
+                    var target = TextureTarget.TextureCubeMapPositiveX + i;
+                    gl.TexImage2D(target, 0, InternalFormat.Rgba, (uint)img.Width,
+                        (uint)img.Height, 0,
+                        PixelFormat.Rgba, PixelType.UnsignedByte, null);
+
+                    img.ProcessPixelRows(accessor => {
+                        for (int y = 0; y < accessor.Height; y++) {
+                            fixed (void* data = accessor.GetRowSpan(y)) {
+                                gl.TexSubImage2D(target, 0, 0, y, (uint)accessor.Width, 1,
+                                    PixelFormat.Rgba,
+                                    PixelType.UnsignedByte, data);
+                            }
+                        }
+                    });
+                }
+            }
+
+            _gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int)GLEnum.Linear);
+            _gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int)GLEnum.Linear);
+            _gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int)GLEnum.ClampToEdge);
+            _gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int)GLEnum.ClampToEdge);
+            _gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int)GLEnum.ClampToEdge);
+        }
 
         public unsafe Texture(GL gl, Span<byte> data, uint width, uint height) {
             _gl = gl;

@@ -39,6 +39,7 @@ namespace SAE._5300S1
         private static Skybox _skybox;
         private static Icosahedron _icosahedron;
         private static LightObject _lightObject;
+        private static PerfectMirror _perfectMirror;
         
 
 
@@ -80,8 +81,9 @@ namespace SAE._5300S1
             //LightingShader = new Shader(Gl, "shader.vert", "lightingShader.frag");
             
             _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
-            _icosahedron = new Icosahedron(Gl, "metallic", ReflectionMaterial.Instance.Material, IcosahedronParser.Instance);
-            _lightObject = new LightObject(Gl, "redSand", StandardMaterial.Instance.Material, LightObjectSetter.Instance);
+            // _icosahedron = new Icosahedron(Gl, "goldenTexture", ReflectionMaterial.Instance.Material, IcosahedronParser.Instance);
+            // _lightObject = new LightObject(Gl, "redSand", StandardMaterial.Instance.Material, LightObjectSetter.Instance);
+            _perfectMirror = new PerfectMirror(Gl, MirrorMaterial.Instance.Material, PerfectMirrorParser.Instance);
             //_lightSource = new LightSource(Gl, "metallic", LightingMaterial.Instance.Material, LightSourceParser.Instance);
 
         }
@@ -120,9 +122,10 @@ namespace SAE._5300S1
             Gl.Clear((uint) (ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
             
             //_icosidodecahedron.Render();
-            _icosahedron.Render();
             _skybox.Render();
-            _lightObject.Render();
+            // _icosahedron.Render();
+            // _lightObject.Render();
+            _perfectMirror.Render();
         }
 
         private static unsafe void OnMouseMove(IMouse mouse, Vector2 position)

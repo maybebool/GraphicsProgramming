@@ -3,12 +3,9 @@
 
 using Silk.NET.OpenGL;
 
-namespace SAE._5300S1.Utils.ModelHelpers
-{
-    public class Mesh : IDisposable
-    {
-        public Mesh(GL gl, float[] vertices, uint[] indices)
-        {
+namespace SAE._5300S1.Utils.ModelHelpers {
+    public class Mesh : IDisposable {
+        public Mesh(GL gl, float[] vertices, uint[] indices) {
             GL = gl;
             Vertices = vertices;
             Indices = indices;
@@ -24,8 +21,7 @@ namespace SAE._5300S1.Utils.ModelHelpers
         public BufferObject<uint> EBO { get; set; }
         public GL GL { get; }
 
-        public unsafe void SetupMesh()
-        {
+        public unsafe void SetupMesh() {
             EBO = new BufferObject<uint>(GL, Indices, BufferTargetARB.ElementArrayBuffer);
             VBO = new BufferObject<float>(GL, Vertices, BufferTargetARB.ArrayBuffer);
             VAO = new VertexArrayObject<float, uint>(GL, VBO, EBO);
@@ -41,8 +37,11 @@ namespace SAE._5300S1.Utils.ModelHelpers
             }
         }
 
-        public void Dispose()
-        {
+        public void BindVAO() {
+            VAO.Bind();
+        }
+
+        public void Dispose() {
             Textures = null;
             VAO.Dispose();
             VBO.Dispose();
