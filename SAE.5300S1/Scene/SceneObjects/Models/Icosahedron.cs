@@ -62,9 +62,9 @@ public class Icosahedron {
         Material.SetUniform("material.specular", 1f);
         Material.SetUniform("material.shininess", 1.0f);
         Material.SetUniform("light.position", Light.LightPosition);
-        Material.SetUniform("light.ambient", new Vector3(0.7f) * new Vector3(1f));
-        Material.SetUniform("light.diffuse", new Vector3(1.0f));
-        Material.SetUniform("light.specular", new Vector3(2.0f));
+        Material.SetUniform("light.ambient", new Vector3(1.0f) * new Vector3(1f));
+        Material.SetUniform("light.diffuse", new Vector3(0.2f));
+        Material.SetUniform("light.specular", new Vector3(1.0f));
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
         
