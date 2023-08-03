@@ -15,29 +15,47 @@ struct Light {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+    vec3 viewPosition;
 };
 
 uniform Material material;
 uniform Light light;
-uniform vec3 viewPos;
+uniform bool useBlinnAlgorithm;
 
 out vec4 FragColor;
 
+vec3 ambientCalculation(vec3 ambient, sampler2D diffuse, vec2 fTexCoords);
+vec3 diffuseCalculation(vec3 lightDiffuse,sampler2D materialDiffuse,float diff, vec2 fTexCoords);
+vec3 specularCalculation(sampler2D materialSpecular, vec3 LightSpecular, float shininess, vec3 viewDirection, vec3 reflectionDirection, vec2 fTexCoords);
+
 void main()
 {
-    vec3 ambient = light.ambient * texture(material.diffuse, fTexCoords).rgb;
-
     vec3 norm = normalize(fNormal);
     vec3 lightDirection = normalize(light.position - fPos);
     float diff = max(dot(norm, lightDirection), 0.0);
-    vec3 diffuse = light.diffuse * (diff * texture(material.diffuse, fTexCoords).rgb);
 
-    vec3 viewDirection = normalize(viewPos - fPos);
+    vec3 viewDirection = normalize(light.viewPosition - fPos);
     vec3 reflectDirection = reflect(-lightDirection, norm);
-    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), material.shininess);
-    vec3 specular = light.specular * (spec * texture(material.specular, fTexCoords).rgb);
+    
+    vec3 ambient = ambientCalculation(light.ambient, material.diffuse, fTexCoords);
+    vec3 diffuse = diffuseCalculation(light.diffuse, material.diffuse, diff, fTexCoords).rgb;
+    vec3 specular = specularCalculation( material.specular, light.specular,  material.shininess,  viewDirection,  reflectDirection, fTexCoords);
 
     //The resulting colour should be the amount of ambient colour + the amount of additional colour provided by the diffuse of the lamp + the specular amount
     vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
+}
+
+vec3 ambientCalculation(vec3 ambient, sampler2D diffuse, vec2 fTexCoords){
+    return ambient * texture(diffuse, fTexCoords).rgb;
+}
+
+vec3 diffuseCalculation(vec3 lightDiffuse, sampler2D materialDiffuse,float diff,  vec2 fTexCoords){
+    return lightDiffuse * (diff * texture(materialDiffuse, fTexCoords).rgb);
+}
+
+vec3 specularCalculation(sampler2D materialSpecular, vec3 LightSpecular, float shininess, vec3 viewDirection, vec3 reflectDirection, vec2 fTexCoords)
+{
+    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), shininess);
+    return LightSpecular * (spec * texture(materialSpecular, fTexCoords).rgb);
 }

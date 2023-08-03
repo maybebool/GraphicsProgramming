@@ -57,13 +57,13 @@ public class Icosahedron {
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
-        Material.SetUniform("viewPos", Camera.Instance.Position);
-        Material.SetUniform("material.diffuse", 1.0f);
+        Material.SetUniform("material.diffuse", 0.2f);
         Material.SetUniform("material.specular", 1f);
-        Material.SetUniform("material.shininess", 1.0f);
+        Material.SetUniform("material.shininess", 180.0f);
+        Material.SetUniform("light.viewPosition", Camera.Instance.Position);
         Material.SetUniform("light.position", Light.LightPosition);
-        Material.SetUniform("light.ambient", new Vector3(1.0f) * new Vector3(1f));
-        Material.SetUniform("light.diffuse", new Vector3(0.2f));
+        Material.SetUniform("light.ambient", new Vector3(0.6f) * 1.0f);
+        Material.SetUniform("light.diffuse", new Vector3(1.0f));
         Material.SetUniform("light.specular", new Vector3(1.0f));
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
