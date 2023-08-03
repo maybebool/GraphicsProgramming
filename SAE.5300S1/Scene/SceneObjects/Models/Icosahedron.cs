@@ -41,6 +41,7 @@ public class Icosahedron {
 
     }
 
+    private bool _myBool = true;
     public unsafe void Render() {
 
        
@@ -65,6 +66,9 @@ public class Icosahedron {
         Material.SetUniform("light.ambient", new Vector3(0.6f) * 1.0f);
         Material.SetUniform("light.diffuse", new Vector3(1.0f));
         Material.SetUniform("light.specular", new Vector3(1.0f));
+        Material.SetUniform("useBlinnAlgorithm", _myBool ? 1 : 0);
+
+
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
         
