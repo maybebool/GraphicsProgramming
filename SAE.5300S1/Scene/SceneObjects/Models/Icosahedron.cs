@@ -41,7 +41,7 @@ public class Icosahedron {
 
     }
 
-    private bool _myBool = true;
+    private bool _myBool = false;
     public unsafe void Render() {
 
        
