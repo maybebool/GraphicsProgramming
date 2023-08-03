@@ -52,7 +52,6 @@ public class Icosahedron {
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateRotationY(angle);
         _matrix *= Matrix4x4.CreateRotationX(angle);
-        _matrix *= Matrix4x4.CreateTranslation(0, 0, 0);
         _matrix *= Matrix4x4.CreateScale(1f);
         
         Material.SetUniform("uModel", _matrix);
@@ -67,8 +66,6 @@ public class Icosahedron {
         Material.SetUniform("light.diffuse", new Vector3(1.0f));
         Material.SetUniform("light.specular", new Vector3(1.0f));
         Material.SetUniform("useBlinnAlgorithm", _myBool ? 1 : 0);
-
-
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
         

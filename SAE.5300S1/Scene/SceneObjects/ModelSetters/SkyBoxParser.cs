@@ -9,7 +9,7 @@ public class SkyBoxParser : IModel {
     public uint[] Indices { get; }
 
     private SkyBoxParser() {
-        var objWizard = new Parser("spheres.obj");
+        var objWizard = new Parser("sphere.obj");
         Vertices = objWizard.Vertices;
         Indices = objWizard.Indices;
     }
