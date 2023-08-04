@@ -14,8 +14,6 @@ public class Diamond {
     public Material Material { get; set; }
     private float _solarSystemMultiplier = 2;
     private float _rotationDegrees;
-    private const float Speed = 10;
-    //public Transform Transform { get; set; }
 
     private Texture _texture;
     private GL _gl;
@@ -58,7 +56,7 @@ public class Diamond {
         Material.SetUniform("material.specular", 0.2f);
         Material.SetUniform("material.shininess", 500.0f);
         Material.SetUniform("light.viewPosition", Camera.Instance.Position);
-        Material.SetUniform("light.position", Light.LightPosition);
+        Material.SetUniform("light.position", Light.LightPosition2);
         Material.SetUniform("light.ambient", new Vector3(0.9f) * 1.0f);
         Material.SetUniform("light.diffuse", new Vector3(0.1f));
         Material.SetUniform("light.specular", new Vector3(1.0f));

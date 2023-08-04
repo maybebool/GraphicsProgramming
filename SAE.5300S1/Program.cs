@@ -39,7 +39,7 @@ namespace SAE._5300S1
         // Objects
         private static Skybox _skybox;
         private static Icosahedron _icosahedron;
-        private static LightObject _lightObject;
+        private static LightSourceOne _lightSourceOne;
         private static PerfectMirror _perfectMirror;
         private static IcosaStar _icosaStar;
         private static Diamond _diamond;
@@ -85,11 +85,10 @@ namespace SAE._5300S1
             
             _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
             _icosahedron = new Icosahedron(Gl, "redSand", ReflectionMaterial.Instance.Material, IcosahedronParser.Instance);
-            _lightObject = new LightObject(Gl, "goldenTexture", StandardMaterial.Instance.Material, LightObjectSetter.Instance);
+            _lightSourceOne = new LightSourceOne(Gl, "goldenTexture", StandardMaterial.Instance.Material, LightObject1Parser.Instance);
             _perfectMirror = new PerfectMirror(Gl, MirrorMaterial.Instance.Material, PerfectMirrorParser.Instance);
-            _icosaStar = new IcosaStar(Gl, "concrete", ReflectionMaterial.Instance.Material, IcosaStarParser.Instance);
+            _icosaStar = new IcosaStar(Gl, "blackGold", ReflectionMaterial.Instance.Material, IcosaStarParser.Instance);
             _diamond = new Diamond(Gl, "white", ReflectionMaterial.Instance.Material, DiamondParser.Instance);
-            //_lightSource = new LightSource(Gl, "metallic", LightingMaterial.Instance.Material, LightSourceParser.Instance);
 
         }
 
@@ -128,7 +127,7 @@ namespace SAE._5300S1
             
             _skybox.Render();
             _icosahedron.Render();
-            _lightObject.Render();
+            _lightSourceOne.Render();
             _perfectMirror.Render();
             _icosaStar.Render();
             _diamond.Render();

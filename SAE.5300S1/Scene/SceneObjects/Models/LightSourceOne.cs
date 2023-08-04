@@ -6,7 +6,7 @@ using PrimitiveType = Silk.NET.OpenGL.PrimitiveType;
 using Texture = SAE._5300S1.Utils.ModelHelpers.Texture;
 namespace SAE._5300S1.Scene.SceneObjects.Models; 
 
-public class LightObject {
+public class LightSourceOne {
     public Mesh Mesh { get; set; }
     public Material Material { get; set; }
 
@@ -17,7 +17,7 @@ public class LightObject {
     private IModel _model;
     
 
-    public LightObject(GL gl,
+    public LightSourceOne(GL gl,
         string textureName,
         Material material,
         IModel model) {
@@ -44,7 +44,7 @@ public class LightObject {
         
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateScale(0.1f);
-        _matrix *= Matrix4x4.CreateTranslation(Light.LightPosition);
+        _matrix *= Matrix4x4.CreateTranslation(Light.LightPosition1);
 
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());

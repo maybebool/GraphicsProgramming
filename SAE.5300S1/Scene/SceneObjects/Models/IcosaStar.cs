@@ -51,20 +51,20 @@ public class IcosaStar {
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateRotationY(angle);
         _matrix *= Matrix4x4.CreateRotationX(angle);
-        _matrix *= Matrix4x4.CreateTranslation(0, 0, 5);
-        _matrix *= Matrix4x4.CreateScale(1f);
+        _matrix *= Matrix4x4.CreateTranslation(-15, 0, 0);
+        _matrix *= Matrix4x4.CreateScale(2f);
         
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
         Material.SetUniform("material.diffuse", 0.2f);
         Material.SetUniform("material.specular", 1f);
-        Material.SetUniform("material.shininess", 20.0f);
+        Material.SetUniform("material.shininess", 200.0f);
         Material.SetUniform("light.viewPosition", Camera.Instance.Position);
-        Material.SetUniform("light.position", Light.LightPosition);
+        Material.SetUniform("light.position", Light.LightPosition2);
         Material.SetUniform("light.ambient", new Vector3(0.6f) * 1.0f);
-        Material.SetUniform("light.diffuse", new Vector3(0.3f));
-        Material.SetUniform("light.specular", new Vector3(0.2f));
+        Material.SetUniform("light.diffuse", new Vector3(0.8f));
+        Material.SetUniform("light.specular", new Vector3(1.0f));
         Material.SetUniform("useBlinnAlgorithm", _myBool ? 1 : 0);
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);

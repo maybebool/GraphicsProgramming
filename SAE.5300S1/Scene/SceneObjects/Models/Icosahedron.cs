@@ -61,7 +61,7 @@ public class Icosahedron {
         Material.SetUniform("material.specular", 1f);
         Material.SetUniform("material.shininess", 180.0f);
         Material.SetUniform("light.viewPosition", Camera.Instance.Position);
-        Material.SetUniform("light.position", Light.LightPosition);
+        Material.SetUniform("light.position", Light.LightPosition1);
         Material.SetUniform("light.ambient", new Vector3(0.6f) * 1.0f);
         Material.SetUniform("light.diffuse", new Vector3(1.0f));
         Material.SetUniform("light.specular", new Vector3(1.0f));
