@@ -96,7 +96,6 @@ namespace SAE._5300S1
 
         private static unsafe void OnUpdate(double deltaTime)
         {
-            ImGuiNET.ImGui.ShowDemoWindow();
             Calculate.UpdateDeltaTime(deltaTime);
             Time.Update();
 

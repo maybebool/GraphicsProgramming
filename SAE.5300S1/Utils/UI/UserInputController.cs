@@ -69,7 +69,7 @@ public class UserInputController {
       if (arg2 == Key.Escape) {
         Program.window.Close();
       }
-      else if (arg2 == Key.I) {
+      else if (arg2 == Key.Space) {
         _insertMode = !_insertMode;
         _inputContext.Mice[0].Cursor.CursorMode =
           _inputContext.Mice[0].Cursor.CursorMode == CursorMode.Normal ? CursorMode.Raw : CursorMode.Normal;
