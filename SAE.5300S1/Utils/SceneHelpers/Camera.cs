@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using SAE._5300S1.Utils.MathHelpers;
 
 namespace SAE._5300S1.Utils.SceneHelpers; 
 

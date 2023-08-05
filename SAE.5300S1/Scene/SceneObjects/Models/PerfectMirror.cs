@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers;
+using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.SceneHelpers;
 using Silk.NET.OpenGL;
 using PrimitiveType = Silk.NET.OpenGL.PrimitiveType;

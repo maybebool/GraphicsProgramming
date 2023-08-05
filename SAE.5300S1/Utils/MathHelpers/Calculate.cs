@@ -1,4 +1,4 @@
-﻿namespace SAE._5300S1
+﻿namespace SAE._5300S1.Utils.MathHelpers
 {
     public static class Calculate
     {

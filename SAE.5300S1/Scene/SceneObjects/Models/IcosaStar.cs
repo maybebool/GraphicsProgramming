@@ -2,8 +2,11 @@
 using System.Numerics;
 using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers;
+using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.SceneHelpers;
 using Silk.NET.OpenGL;
+using Silk.NET.OpenGL.Extensions.ImGui;
+using Silk.NET.Windowing;
 using PrimitiveType = Silk.NET.OpenGL.PrimitiveType;
 using Texture = SAE._5300S1.Utils.ModelHelpers.Texture;
 
@@ -14,8 +17,7 @@ public class IcosaStar {
     public Material Material { get; set; }
     private float _solarSystemMultiplier = 2;
     private float _rotationDegrees;
-    private const float Speed = 10;
-    //public Transform Transform { get; set; }
+    
 
     private Texture _texture;
     private GL _gl;
@@ -43,7 +45,6 @@ public class IcosaStar {
     private bool _myBool = false;
     public unsafe void Render() {
 
-       
         float angle = Time.TimeSinceStart * 0.5f;
         Mesh.Bind();
         Material.Use();

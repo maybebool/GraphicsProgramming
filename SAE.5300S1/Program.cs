@@ -1,24 +1,24 @@
 ﻿using System.Numerics;
-using SAE._5300S1.Scene.SceneObjects;
 using SAE._5300S1.Scene.SceneObjects.Models;
 using SAE._5300S1.Scene.SceneObjects.ModelSetters;
 using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers;
+using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.SceneHelpers;
+using SAE._5300S1.Utils.UI;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
-using Shader = SAE._5300S1.Utils.ModelHelpers.Shader;
-using Texture = SAE._5300S1.Utils.ModelHelpers.Texture;
 
 namespace SAE._5300S1
 {
    static class Program
     {
-        private static IWindow window;
+        public static IWindow window;
         public static GL Gl;
-        private static IKeyboard primaryKeyboard;
+        
 
         private const int Width = 1920;
         private const int Height = 1080;
@@ -26,14 +26,12 @@ namespace SAE._5300S1
         private static BufferObject<float> Vbo;
         private static BufferObject<uint> Ebo;
         private static VertexArrayObject<float, uint> Vao;
-
-
+        
 
         //Used to track change in mouse movement to allow for moving of the Camera
         private static Vector2 LastMousePosition;
         private static Mesh _cubeMesh;
         private static Vector3 _color;
-
         
 
         // Objects
@@ -66,20 +64,24 @@ namespace SAE._5300S1
         private static void OnLoad() {
             Calculate.DeltaTime = 0f;
             Time.Initialize();
-            IInputContext input = window.CreateInput();
-            primaryKeyboard = input.Keyboards.FirstOrDefault();
-            if (primaryKeyboard != null)
-            {
-                primaryKeyboard.KeyDown += KeyDown;
-            }
-            for (int i = 0; i < input.Mice.Count; i++)
-            {
-                input.Mice[i].Cursor.CursorMode = CursorMode.Raw;
-                input.Mice[i].MouseMove += OnMouseMove;
-                input.Mice[i].Scroll += OnMouseWheel;
-            }
+            UserInputController.Instance.OnLoadKeyBindings();
+            
+            // IInputContext input = window.CreateInput();
+            // primaryKeyboard = input.Keyboards.FirstOrDefault();
+            // if (primaryKeyboard != null)
+            // {
+            //     primaryKeyboard.KeyDown += KeyDown;
+            // }
+            // for (int i = 0; i < input.Mice.Count; i++)
+            // {
+            //     input.Mice[i].Cursor.CursorMode = CursorMode.Raw;
+            //     input.Mice[i].MouseMove += OnMouseMove;
+            //     input.Mice[i].Scroll += OnMouseWheel;
+            // }
+            
 
             Gl = GL.GetApi(window);
+            
             
             //LightingShader = new Shader(Gl, "shader.vert", "lightingShader.frag");
             
@@ -94,30 +96,33 @@ namespace SAE._5300S1
 
         private static unsafe void OnUpdate(double deltaTime)
         {
-            var moveSpeed = 10.5f * (float) deltaTime;
+            ImGuiNET.ImGui.ShowDemoWindow();
             Calculate.UpdateDeltaTime(deltaTime);
             Time.Update();
 
-            if (primaryKeyboard.IsKeyPressed(Key.W))
-            {
-                //Move forwards
-                Camera.Instance.Position += moveSpeed * Camera.Instance.Front;
-            }
-            if (primaryKeyboard.IsKeyPressed(Key.S))
-            {
-                //Move backwards
-                Camera.Instance.Position -= moveSpeed * Camera.Instance.Front;
-            }
-            if (primaryKeyboard.IsKeyPressed(Key.A))
-            {
-                //Move left
-                Camera.Instance.Position -= Vector3.Normalize(Vector3.Cross(Camera.Instance.Front, Camera.Instance.Up)) * moveSpeed;
-            }
-            if (primaryKeyboard.IsKeyPressed(Key.D))
-            {
-                //Move right
-                Camera.Instance.Position += Vector3.Normalize(Vector3.Cross(Camera.Instance.Front, Camera.Instance.Up)) * moveSpeed;
-            }
+            UserInputController.Instance.OnUpdateCameraMovement();
+            // var moveSpeed = 10.5f * (float) deltaTime;
+            // if (primaryKeyboard.IsKeyPressed(Key.W))
+            // {
+            //     //Move forwards
+            //     Camera.Instance.Position += moveSpeed * Camera.Instance.Front;
+            // }
+            // if (primaryKeyboard.IsKeyPressed(Key.S))
+            // {
+            //     //Move backwards
+            //     Camera.Instance.Position -= moveSpeed * Camera.Instance.Front;
+            // }
+            // if (primaryKeyboard.IsKeyPressed(Key.A))
+            // {
+            //     //Move left
+            //     Camera.Instance.Position -= Vector3.Normalize(Vector3.Cross(Camera.Instance.Front, Camera.Instance.Up)) * moveSpeed;
+            // }
+            // if (primaryKeyboard.IsKeyPressed(Key.D))
+            // {
+            //     //Move right
+            //     Camera.Instance.Position += Vector3.Normalize(Vector3.Cross(Camera.Instance.Front, Camera.Instance.Up)) * moveSpeed;
+            // }
+            
         }
 
         private static unsafe void OnRender(double deltaTime)
