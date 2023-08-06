@@ -18,6 +18,7 @@ namespace SAE._5300S1
     {
         public static IWindow window;
         public static GL Gl;
+        private static UITest uiTest;
         
 
         private const int Width = 1920;
@@ -65,32 +66,16 @@ namespace SAE._5300S1
             Calculate.DeltaTime = 0f;
             Time.Initialize();
             UserInputController.Instance.OnLoadKeyBindings();
-            
-            // IInputContext input = window.CreateInput();
-            // primaryKeyboard = input.Keyboards.FirstOrDefault();
-            // if (primaryKeyboard != null)
-            // {
-            //     primaryKeyboard.KeyDown += KeyDown;
-            // }
-            // for (int i = 0; i < input.Mice.Count; i++)
-            // {
-            //     input.Mice[i].Cursor.CursorMode = CursorMode.Raw;
-            //     input.Mice[i].MouseMove += OnMouseMove;
-            //     input.Mice[i].Scroll += OnMouseWheel;
-            // }
-            
 
             Gl = GL.GetApi(window);
-            
-            
-            //LightingShader = new Shader(Gl, "shader.vert", "lightingShader.frag");
-            
+            uiTest = new UITest();
+
             _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
             _icosahedron = new Icosahedron(Gl, "redSand", ReflectionMaterial.Instance.Material, IcosahedronParser.Instance);
             _lightSourceOne = new LightSourceOne(Gl, "goldenTexture", StandardMaterial.Instance.Material, LightObject1Parser.Instance);
             _perfectMirror = new PerfectMirror(Gl, MirrorMaterial.Instance.Material, PerfectMirrorParser.Instance);
             _icosaStar = new IcosaStar(Gl, "blackGold", ReflectionMaterial.Instance.Material, IcosaStarParser.Instance);
-            _diamond = new Diamond(Gl, "white", ReflectionMaterial.Instance.Material, DiamondParser.Instance);
+            _diamond = new Diamond(Gl, "redSand", ReflectionMaterial.Instance.Material, DiamondParser.Instance);
 
         }
 
@@ -100,28 +85,8 @@ namespace SAE._5300S1
             Time.Update();
 
             UserInputController.Instance.OnUpdateCameraMovement();
-            // var moveSpeed = 10.5f * (float) deltaTime;
-            // if (primaryKeyboard.IsKeyPressed(Key.W))
-            // {
-            //     //Move forwards
-            //     Camera.Instance.Position += moveSpeed * Camera.Instance.Front;
-            // }
-            // if (primaryKeyboard.IsKeyPressed(Key.S))
-            // {
-            //     //Move backwards
-            //     Camera.Instance.Position -= moveSpeed * Camera.Instance.Front;
-            // }
-            // if (primaryKeyboard.IsKeyPressed(Key.A))
-            // {
-            //     //Move left
-            //     Camera.Instance.Position -= Vector3.Normalize(Vector3.Cross(Camera.Instance.Front, Camera.Instance.Up)) * moveSpeed;
-            // }
-            // if (primaryKeyboard.IsKeyPressed(Key.D))
-            // {
-            //     //Move right
-            //     Camera.Instance.Position += Vector3.Normalize(Vector3.Cross(Camera.Instance.Front, Camera.Instance.Up)) * moveSpeed;
-            // }
             
+            uiTest.UpdateUi();
         }
 
         private static unsafe void OnRender(double deltaTime)
@@ -135,6 +100,7 @@ namespace SAE._5300S1
             _perfectMirror.Render();
             _icosaStar.Render();
             _diamond.Render();
+            uiTest.RenderUi();
         }
 
         private static unsafe void OnMouseMove(IMouse mouse, Vector2 position)

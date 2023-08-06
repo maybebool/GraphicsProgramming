@@ -5,8 +5,7 @@ namespace SAE._5300S1.Utils.ModelHelpers;
 public class Parser {
     public float[] Vertices => _vertices;
     public uint[] Indices => _indices;
-
-
+    
     private static readonly string FileLoaderPath = AppContext.BaseDirectory + "models/";
     private string _path;
     private string _mtlFileName;
