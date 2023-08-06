@@ -47,8 +47,8 @@ public class Diamond {
         _texture.Bind();
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateRotationY(angle);
-        _matrix *= Matrix4x4.CreateTranslation(-1.0f, 0, 0.0f);
-        _matrix *= Matrix4x4.CreateScale(9f);
+        _matrix *= Matrix4x4.CreateScale(12f);
+        _matrix *= Matrix4x4.CreateTranslation(-9.0f, 0, 0.0f);
 
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());

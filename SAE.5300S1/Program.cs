@@ -42,6 +42,7 @@ namespace SAE._5300S1
         private static PerfectMirror _perfectMirror;
         private static IcosaStar _icosaStar;
         private static Diamond _diamond;
+        private static Spiral _spiral;
         
 
 
@@ -68,14 +69,15 @@ namespace SAE._5300S1
             UserInputController.Instance.OnLoadKeyBindings();
 
             Gl = GL.GetApi(window);
-            uiTest = new UITest();
+            //uiTest = new UITest();
 
             _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
             _icosahedron = new Icosahedron(Gl, "redSand", ReflectionMaterial.Instance.Material, IcosahedronParser.Instance);
             _lightSourceOne = new LightSourceOne(Gl, "goldenTexture", StandardMaterial.Instance.Material, LightObject1Parser.Instance);
             _perfectMirror = new PerfectMirror(Gl, MirrorMaterial.Instance.Material, PerfectMirrorParser.Instance);
-            _icosaStar = new IcosaStar(Gl, "blackGold", ReflectionMaterial.Instance.Material, IcosaStarParser.Instance);
+            _icosaStar = new IcosaStar(Gl, "redSand", ReflectionMaterial.Instance.Material, IcosaStarParser.Instance);
             _diamond = new Diamond(Gl, "redSand", ReflectionMaterial.Instance.Material, DiamondParser.Instance);
+            _spiral = new Spiral(Gl, "redSand", ReflectionMaterial.Instance.Material, SpiralParser.Instance);
 
         }
 
@@ -86,7 +88,7 @@ namespace SAE._5300S1
 
             UserInputController.Instance.OnUpdateCameraMovement();
             
-            uiTest.UpdateUi();
+            //uiTest.UpdateUi();
         }
 
         private static unsafe void OnRender(double deltaTime)
@@ -100,7 +102,10 @@ namespace SAE._5300S1
             _perfectMirror.Render();
             _icosaStar.Render();
             _diamond.Render();
-            uiTest.RenderUi();
+            _spiral.Render();
+            
+            
+            //uiTest.RenderUi();
         }
 
         private static unsafe void OnMouseMove(IMouse mouse, Vector2 position)
