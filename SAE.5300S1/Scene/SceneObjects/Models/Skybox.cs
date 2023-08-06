@@ -45,8 +45,7 @@ public class Skybox {
         Mesh.Bind();
         Material.Use();
         var degreeX = 180f;
-        var degreeY = 90f;
-        
+
         _matrix = Matrix4x4.Identity; 
         _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degreeX));
         _matrix *= Matrix4x4.CreateScale(4000f);

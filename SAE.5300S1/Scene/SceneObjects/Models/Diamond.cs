@@ -42,12 +42,12 @@ public class Diamond {
     private bool _useDirectional = false;
 
     public unsafe void Render() {
-        float angle = Time.TimeSinceStart * 0.5f;
+        float angle = Time.TimeSinceStart * 30.0f;
         Mesh.Bind();
         Material.Use();
         _texture.Bind();
         _matrix = Matrix4x4.Identity;
-        _matrix *= Matrix4x4.CreateRotationY(angle);
+        _matrix *= Matrix4x4.CreateRotationY(angle.DegreesToRadiansOnVariable());
         _matrix *= Matrix4x4.CreateScale(12f);
         _matrix *= Matrix4x4.CreateTranslation(-9.0f, 0, 0.0f);
 
