@@ -39,7 +39,7 @@ public class Spiral {
     }
 
     private bool _myBool = false;
-    private bool _useDirectional = true;
+    private bool _useDirectional = false;
 
     public unsafe void Render() {
         float angle = Time.TimeSinceStart * 20.0f;

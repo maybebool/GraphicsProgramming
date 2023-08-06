@@ -48,14 +48,16 @@ public class Icosahedron {
     public unsafe void Render() {
 
        
-        float angle = Time.TimeSinceStart * 13.5f;
+        float selfRotation = Time.TimeSinceStart * 13.5f;
+        float sourceRotation = Time.TimeSinceStart * 25.0f;
         Mesh.Bind();
         Material.Use();
         _texture.Bind();
         _matrix = Matrix4x4.Identity;
-        _matrix *= Matrix4x4.CreateRotationY(angle.DegreesToRadiansOnVariable());
-        _matrix *= Matrix4x4.CreateRotationX(angle.DegreesToRadiansOnVariable());
+        _matrix *= Matrix4x4.CreateRotationY(selfRotation.DegreesToRadiansOnVariable());
+        _matrix *= Matrix4x4.CreateRotationX(selfRotation.DegreesToRadiansOnVariable());
         _matrix *= Matrix4x4.CreateScale(1f);
+        _matrix *= Matrix4x4.CreateRotationY(sourceRotation.DegreesToRadiansOnVariable(), Light.LightPosition1);
         
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
