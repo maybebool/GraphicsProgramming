@@ -24,6 +24,8 @@ public class Icosahedron {
     private string _textureName;
     private Matrix4x4 _matrix;
     private IModel _model;
+    
+    private bool _useDirectional = true;
 
     public Icosahedron(GL gl,
         string textureName,
@@ -67,6 +69,7 @@ public class Icosahedron {
         Material.SetUniform("light.diffuse", new Vector3(1.0f));
         Material.SetUniform("light.specular", new Vector3(1.0f));
         Material.SetUniform("useBlinnAlgorithm", _myBool ? 1 : 0);
+        Material.SetUniform("useDirectionalLight", _useDirectional ? 1 : 0);
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
         

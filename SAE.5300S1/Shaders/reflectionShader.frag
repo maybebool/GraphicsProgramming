@@ -21,6 +21,7 @@ struct Light {
 uniform Material material;
 uniform Light light;
 uniform bool useBlinnAlgorithm;
+uniform bool useDirectionalLight;
 
 out vec4 FragColor;
 
@@ -32,7 +33,14 @@ vec3 blinnSpecularCalculation(vec3 lightDirection, vec3 viewDirection, vec3 fNor
 void main()
 {
     vec3 norm = normalize(fNormal);
-    vec3 lightDirection = normalize(light.position - fPos);
+    vec3 lightDirection;
+    if(!useDirectionalLight){
+    lightDirection =  normalize(light.position - fPos);
+        
+    }else{
+        
+    lightDirection =  normalize(light.position);
+    }
     float diff = max(dot(norm, lightDirection), 0.0);
     vec3 viewDirection = normalize(light.viewPosition - fPos);
     vec3 reflectDirection = reflect(-lightDirection, norm);

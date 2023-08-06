@@ -9,7 +9,7 @@ public class SpiralParser : IModel {
     public uint[] Indices { get; }
 
     private SpiralParser() {
-        var objWizard = new Parser("sphere.obj");
+        var objWizard = new Parser("spiral.obj");
         Vertices = objWizard.Vertices;
         Indices = objWizard.Indices;
     }

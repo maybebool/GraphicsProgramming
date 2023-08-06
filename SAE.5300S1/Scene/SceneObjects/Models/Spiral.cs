@@ -39,6 +39,7 @@ public class Spiral {
     }
 
     private bool _myBool = false;
+    private bool _useDirectional = true;
 
     public unsafe void Render() {
         float angle = Time.TimeSinceStart * 0.5f;
@@ -47,21 +48,22 @@ public class Spiral {
         _texture.Bind();
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateRotationY(angle);
+        _matrix *= Matrix4x4.CreateScale(0.5f);
         _matrix *= Matrix4x4.CreateTranslation(-18.0f, 0, 0.0f);
-        _matrix *= Matrix4x4.CreateScale(1f);
 
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
-        Material.SetUniform("material.diffuse", 0.2f);
-        Material.SetUniform("material.specular", 1.0f);
-        Material.SetUniform("material.shininess", 500.0f);
+        Material.SetUniform("material.diffuse", 0.9f);
+        Material.SetUniform("material.specular", 0.1f);
+        Material.SetUniform("material.shininess", 20.0f);
         Material.SetUniform("light.viewPosition", Camera.Instance.Position);
         Material.SetUniform("light.position", Light.LightPosition3);
         Material.SetUniform("light.ambient", new Vector3(0.6f) * 1.0f);
-        Material.SetUniform("light.diffuse", new Vector3(0.6f));
-        Material.SetUniform("light.specular", new Vector3(1.0f));
+        Material.SetUniform("light.diffuse", new Vector3(1.0f, 1.0f, 1.0f));
+        Material.SetUniform("light.specular", new Vector3(0.1f, 0.1f,0.1f));
         Material.SetUniform("useBlinnAlgorithm", _myBool ? 1 : 0);
+        Material.SetUniform("useDirectionalLight", _useDirectional ? 1 : 0);
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
     }

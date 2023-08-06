@@ -49,7 +49,6 @@ public class Skybox {
         
         _matrix = Matrix4x4.Identity; 
         _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degreeX));
-        //_matrix *= Matrix4x4.CreateRotationY(Calculate.DegreesToRadians(degreeY));
         _matrix *= Matrix4x4.CreateScale(4000f);
 
         Material.SetUniform("uModel", _matrix);
@@ -61,6 +60,6 @@ public class Skybox {
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
 
         
-        _gl.DepthMask(true); // set depth function back to default
+        _gl.DepthMask(true);
     }
 }

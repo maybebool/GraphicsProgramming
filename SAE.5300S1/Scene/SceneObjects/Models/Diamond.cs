@@ -39,6 +39,7 @@ public class Diamond {
     }
 
     private bool _myBool = false;
+    private bool _useDirectional = false;
 
     public unsafe void Render() {
         float angle = Time.TimeSinceStart * 0.5f;
@@ -62,6 +63,7 @@ public class Diamond {
         Material.SetUniform("light.diffuse", new Vector3(0.6f));
         Material.SetUniform("light.specular", new Vector3(1.0f));
         Material.SetUniform("useBlinnAlgorithm", _myBool ? 1 : 0);
+        Material.SetUniform("useDirectionalLight", _useDirectional ? 1 : 0);
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
     }
