@@ -44,7 +44,7 @@ public class UiIcosahedron : IUi {
     }
     
     public void UpdateUi() {
-        ImGui.Begin("Icosahedron");
+        ImGui.Begin("Settings");
         ImGui.Text("Material");
         if (ImGui.SliderFloat("Material Shininess", ref _shininessMaterial, 20, 500)) {
             ShininessMaterialChangerEvent.Invoke(_shininessMaterial);

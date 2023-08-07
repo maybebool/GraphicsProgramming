@@ -7,6 +7,7 @@ using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.SceneHelpers;
 using SAE._5300S1.Utils.UI;
 using SAE._5300S1.Utils.UI.InputController;
+using SAE._5300S1.Utils.UI.InputControllers;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
@@ -19,10 +20,11 @@ namespace SAE._5300S1
     {
         public static IWindow window;
         public static GL Gl;
-        private static UiIcosahedron _uiIcosahedron;
-        private static UiDiamond _uiDiamond;
-        private static UiSpiral _uiSpiral;
-        private static UiIcosaStar _uiIcosaStar;
+        // private static UiIcosahedron _uiIcosahedron;
+        // private static UiDiamond _uiDiamond;
+        // private static UiSpiral _uiSpiral;
+        // private static UiIcosaStar _uiIcosaStar;
+        private static UiMainController _uiMainController;
         
 
         private const int Width = 1920;
@@ -81,11 +83,14 @@ namespace SAE._5300S1
             _diamond = new Diamond(Gl, "redSand", ReflectionMaterial.Instance.Material, DiamondParser.Instance);
             _spiral = new Spiral(Gl, "redSand", ReflectionMaterial.Instance.Material, SpiralParser.Instance);
 
-            _uiIcosahedron = new UiIcosahedron();
-            _uiDiamond = new UiDiamond();
-            _uiSpiral = new UiSpiral();
-            _uiIcosaStar = new UiIcosaStar();
+            // _uiIcosahedron = new UiIcosahedron();
+            // _uiDiamond = new UiDiamond();
+            // _uiSpiral = new UiSpiral();
+            // _uiIcosaStar = new UiIcosaStar();
+            _uiMainController = new UiMainController();
+            _uiMainController.OnLoadAllUis();
         }
+            
 
         private static unsafe void OnUpdate(double deltaTime)
         {
@@ -93,10 +98,7 @@ namespace SAE._5300S1
 
             UserInputController.Instance.OnUpdateCameraMovement();
             UiController.Instance.ImGuiController.Update((float)deltaTime);
-            _uiIcosahedron.UpdateUi();
-            _uiDiamond.UpdateUi();
-            _uiSpiral.UpdateUi();
-            _uiIcosaStar.UpdateUi();
+            _uiMainController.UpdateUi();
         }
 
         private static unsafe void OnRender(double deltaTime)
@@ -112,82 +114,12 @@ namespace SAE._5300S1
             _diamond.Render();
             _spiral.Render();
             
-            
-            
-            _uiIcosahedron.RenderUi();
-            _uiDiamond.RenderUi();
-            _uiSpiral.RenderUi();
-            _uiIcosaStar.RenderUi();
-        }
-
-        private static unsafe void OnMouseMove(IMouse mouse, Vector2 position)
-        {
-            var lookSensitivity = 0.1f;
-            if (LastMousePosition == default) { LastMousePosition = position; }
-            else
-            {
-                var xOffset = (position.X - LastMousePosition.X) * lookSensitivity;
-                var yOffset = (position.Y - LastMousePosition.Y) * lookSensitivity;
-                LastMousePosition = position;
-                Camera.Instance.ModifyDirection(xOffset, yOffset);
-            }
-        }
-
-        private static unsafe void OnMouseWheel(IMouse mouse, ScrollWheel scrollWheel)
-        {
-            Camera.Instance.ModifyZoom(scrollWheel.Y);
+            _uiMainController.RenderUi();
         }
 
         private static void OnClose()
         {
             Gl.Dispose();
         }
-
-        private static void KeyDown(IKeyboard keyboard, Key key, int arg3)
-        {
-            if (key == Key.Escape)
-            {
-                window.Close();
-            }
-        }
-        
-        #region Transformation Matrix
-        private static Matrix4x4 GetViewMatrix()
-        {
-            var viewTranslation = Matrix4x4.Identity;
-            var viewRotation = Matrix4x4.Identity;
-            var viewScale = Matrix4x4.Identity;
-
-            viewTranslation = Matrix4x4.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f));
-            //viewRotation = Matrix4x4.ro(new Vector3(0.0f, 0.0f, 1.0f), 0.0f);
-            viewScale = Matrix4x4.CreateScale(new Vector3(1.0f, 1.0f, 1.0f));
-
-            //Matrix4 view = viewTranslation * viewRotation * viewScale;// TRS matrix -> scale, rotate then translate -> All applied in WORLD Coordinates
-            var view = viewRotation * viewTranslation * viewScale;// RTS matrix -> scale, rotate then translate -> All applied in LOCAL Coordinates
-
-            return view;
-        }
-        
-        
-        private static Matrix4x4 GetProjectionMatrix()
-        {
-            float fov = 45;
-
-            float aspectRatio = (float)Width / (float)Height;
-            //Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(Mathf.ToRad(fov), (float)width / height, 0.1f, 1000f);
-            var projection = Matrix4x4.CreateOrthographic(1, 1, 0.1f, 1000f);
-            
-            //projection = Matrix4.CreateOrthographic0.0f, (float)screenWidth, 0.0f, (float)screenHeight, 0.1f, 100.0f);
-
-            return projection;
-        }
-
-
-        private static void SetLight() {
-            
-        }
-        
-        #endregion
-        
     }
 }

@@ -40,7 +40,7 @@ public class UiSpiral {
     }
     
     public void UpdateUi() {
-        ImGui.Begin("Spiral");
+        ImGui.Begin("Settings");
         ImGui.Text("Material");
         if (ImGui.SliderFloat("Material Shininess", ref _shininessMaterial, 20, 500)) {
             ShininessMaterialChangerEvent.Invoke(_shininessMaterial);
