@@ -2,22 +2,21 @@
 using ImGuiNET;
 using Silk.NET.OpenGL.Extensions.ImGui;
 
-namespace SAE._5300S1.Utils.UI;
+namespace SAE._5300S1.Utils.UI; 
 
-public class UiIcosahedron : IUi {
-
+public class UiIcosaStar {
     private ImGuiController _controller;
 
 
     // Parameters
-    private float _shininessMaterial = 180f;
-    private Vector3 _ambientLightColor = new(0.6f);
-    private Vector3 _diffuseLightColor = new(0.6f);
-    private Vector3 _specularLightColor = new(0.6f);
+    private float _shininessMaterial = 400f;
+    private Vector3 _ambientLightColor = new(0.4f);
+    private Vector3 _diffuseLightColor = new(0.1f);
+    private Vector3 _specularLightColor = new(1f);
     private float _specularLightMultiplier = 1.0f;
     private bool _useBlinnCalculation;
     private bool _useDirectionalLight;
-    private bool _useOrbit;
+    
 
     
     // Events
@@ -28,9 +27,8 @@ public class UiIcosahedron : IUi {
     public static Action<float> SpecularLightMultiplierChangerEvent;
     public static Action<bool> UseBlinnCalculationEvent;
     public static Action<bool> UseDirectionalLightEvent;
-    public static Action<bool> UseOrbit;
 
-    public UiIcosahedron() {
+    public UiIcosaStar() {
         _controller = UiController.Instance.ImGuiController;
         
         ShininessMaterialChangerEvent.Invoke(_shininessMaterial);
@@ -40,11 +38,10 @@ public class UiIcosahedron : IUi {
         SpecularLightMultiplierChangerEvent.Invoke(_specularLightMultiplier);
         UseBlinnCalculationEvent.Invoke(_useBlinnCalculation);
         UseDirectionalLightEvent.Invoke(_useDirectionalLight);
-        UseOrbit.Invoke(_useOrbit);
     }
     
     public void UpdateUi() {
-        ImGui.Begin("Icosahedron");
+        ImGui.Begin("IcosaStar");
         ImGui.Text("Material");
         if (ImGui.SliderFloat("Material Shininess", ref _shininessMaterial, 20, 500)) {
             ShininessMaterialChangerEvent.Invoke(_shininessMaterial);
@@ -71,9 +68,6 @@ public class UiIcosahedron : IUi {
         }
         if (ImGui.Checkbox("Use Directional Light", ref _useDirectionalLight)) {
             UseDirectionalLightEvent.Invoke(_useDirectionalLight);
-        }
-        if (ImGui.Checkbox("Use Orbit", ref _useOrbit)) {
-            UseOrbit.Invoke(_useOrbit);
         }
         ImGui.End();
     }

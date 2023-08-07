@@ -42,7 +42,7 @@ public class LightSourceOne {
         
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateScale(0.1f);
-        _matrix *= Matrix4x4.CreateTranslation(Light.LightPosition1);
+        _matrix *= Matrix4x4.CreateTranslation(Light.LightPosition4);
 
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());

@@ -6,6 +6,7 @@ using SAE._5300S1.Utils.ModelHelpers;
 using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.SceneHelpers;
 using SAE._5300S1.Utils.UI;
+using SAE._5300S1.Utils.UI.InputController;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
@@ -19,6 +20,9 @@ namespace SAE._5300S1
         public static IWindow window;
         public static GL Gl;
         private static UiIcosahedron _uiIcosahedron;
+        private static UiDiamond _uiDiamond;
+        private static UiSpiral _uiSpiral;
+        private static UiIcosaStar _uiIcosaStar;
         
 
         private const int Width = 1920;
@@ -64,7 +68,6 @@ namespace SAE._5300S1
         }
 
         private static void OnLoad() {
-            Calculate.DeltaTime = 0f;
             Time.Initialize();
             UserInputController.Instance.OnLoadKeyBindings();
 
@@ -79,16 +82,21 @@ namespace SAE._5300S1
             _spiral = new Spiral(Gl, "redSand", ReflectionMaterial.Instance.Material, SpiralParser.Instance);
 
             _uiIcosahedron = new UiIcosahedron();
+            _uiDiamond = new UiDiamond();
+            _uiSpiral = new UiSpiral();
+            _uiIcosaStar = new UiIcosaStar();
         }
 
         private static unsafe void OnUpdate(double deltaTime)
         {
-            Calculate.UpdateDeltaTime(deltaTime);
             Time.Update();
 
             UserInputController.Instance.OnUpdateCameraMovement();
             UiController.Instance.ImGuiController.Update((float)deltaTime);
             _uiIcosahedron.UpdateUi();
+            _uiDiamond.UpdateUi();
+            _uiSpiral.UpdateUi();
+            _uiIcosaStar.UpdateUi();
         }
 
         private static unsafe void OnRender(double deltaTime)
@@ -107,6 +115,9 @@ namespace SAE._5300S1
             
             
             _uiIcosahedron.RenderUi();
+            _uiDiamond.RenderUi();
+            _uiSpiral.RenderUi();
+            _uiIcosaStar.RenderUi();
         }
 
         private static unsafe void OnMouseMove(IMouse mouse, Vector2 position)

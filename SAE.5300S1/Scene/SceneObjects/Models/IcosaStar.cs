@@ -4,6 +4,7 @@ using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers;
 using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.SceneHelpers;
+using SAE._5300S1.Utils.UI;
 using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
@@ -15,9 +16,6 @@ namespace SAE._5300S1.Scene.SceneObjects.Models;
 public class IcosaStar {
      public Mesh Mesh { get; set; }
     public Material Material { get; set; }
-    private float _solarSystemMultiplier = 2;
-    private float _rotationDegrees;
-    
 
     private Texture _texture;
     private GL _gl;
@@ -25,7 +23,16 @@ public class IcosaStar {
     private Matrix4x4 _matrix;
     private IModel _model;
     
-    private bool _useDirectional = false;
+    
+    
+    
+    private float _shininessMaterial;
+    private Vector3 _ambientLightColor;
+    private Vector3 _diffuseLightColor;
+    private Vector3 _specularLightColor;
+    private float _specularLightMultiplier;
+    private bool _useBlinnCalculation;
+    private bool _useDirectionalLight;
 
     public IcosaStar(GL gl,
         string textureName,
@@ -41,6 +48,14 @@ public class IcosaStar {
     private void Init() {
         Mesh = new Mesh(_gl, _model.Vertices , _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
+        
+        UiIcosaStar.ShininessMaterialChangerEvent += value => { _shininessMaterial = value; };
+        UiIcosaStar.AmbientLightColorChangerEvent += value => { _ambientLightColor = value; };
+        UiIcosaStar.DiffuseLightColorChangerEvent += value => { _diffuseLightColor = value; };
+        UiIcosaStar.SpecularLightColorChangerEvent += value => { _specularLightColor = value; };
+        UiIcosaStar.SpecularLightMultiplierChangerEvent += value => { _specularLightMultiplier = value; };
+        UiIcosaStar.UseBlinnCalculationEvent += value => { _useBlinnCalculation = value; };
+        UiIcosaStar.UseDirectionalLightEvent += value => { _useDirectionalLight = value; };
 
     }
 
@@ -54,22 +69,21 @@ public class IcosaStar {
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateRotationY(angle.DegreesToRadiansOnVariable());
         _matrix *= Matrix4x4.CreateRotationX(angle.DegreesToRadiansOnVariable());
-        _matrix *= Matrix4x4.CreateTranslation(-27, 0, 0);
         _matrix *= Matrix4x4.CreateScale(1f);
+        _matrix *= Matrix4x4.CreateTranslation(-27, 0, 0);
         
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
-        Material.SetUniform("material.diffuse", 0.2f);
-        Material.SetUniform("material.specular", 0.5f);
-        Material.SetUniform("material.shininess", 150.0f);
+        
+        Material.SetUniform("material.shininess", _shininessMaterial);
         Material.SetUniform("light.viewPosition", Camera.Instance.Position);
         Material.SetUniform("light.position", Light.LightPosition4);
-        Material.SetUniform("light.ambient", new Vector3(0.4f) * 1.0f);
-        Material.SetUniform("light.diffuse", new Vector3(0.8f));
-        Material.SetUniform("light.specular", new Vector3(1.0f));
-        Material.SetUniform("useBlinnAlgorithm", _myBool ? 1 : 0);
-        Material.SetUniform("useDirectionalLight", _useDirectional ? 1 : 0);
+        Material.SetUniform("light.ambient", _ambientLightColor);
+        Material.SetUniform("light.diffuse", _diffuseLightColor);
+        Material.SetUniform("light.specular", _specularLightColor * _specularLightMultiplier);
+        Material.SetUniform("useBlinnAlgorithm", _useBlinnCalculation ? 1 : 0);
+        Material.SetUniform("useDirectionalLight", _useDirectionalLight ? 1 : 0);
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
         

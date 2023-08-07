@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using SAE._5300S1.Utils.UI.InputController;
 using Silk.NET.OpenGL.Extensions.ImGui;
 
 namespace SAE._5300S1.Utils.UI; 
