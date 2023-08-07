@@ -25,9 +25,17 @@ public class Icosahedron {
     private Matrix4x4 _matrix;
     private IModel _model;
 
-    private Vector3 _ambientLightColor;
     
-    private bool _useDirectional = false;
+    // Event Parameters
+    private float _diffuseMaterial = 0.2f;
+    private float _specularMaterial = 1f;
+    private float _shininessMaterial = 180f;
+    
+    private Vector3 _ambientLightColor;
+    private Vector3 _diffuseLightColor= new(0.6f);
+    private Vector3 _specularLightColor = new(0.6f);
+    private bool _useBlinnCalculation;
+    private bool _useDirectionalLight;
 
     public Icosahedron(GL gl,
         string textureName,
@@ -43,14 +51,20 @@ public class Icosahedron {
     private void Init() {
         Mesh = new Mesh(_gl, _model.Vertices , _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
-        UiIcosahedron.AmbientLightColorChangerEvent += value => {
-            _ambientLightColor = value;
-            Console.WriteLine(value);
-        };
+        
+        UiIcosahedron.DiffuseMaterialChangerEvent += value => { _diffuseMaterial = value; };
+        UiIcosahedron.SpecularMaterialChangerEvent += value => { _specularMaterial = value; };
+        UiIcosahedron.ShininessMaterialChangerEvent += value => { _shininessMaterial = value; };
+
+        UiIcosahedron.AmbientLightColorChangerEvent += value => { _ambientLightColor = value; };
+        UiIcosahedron.DiffuseLightColorChangerEvent += value => { _diffuseLightColor = value; };
+        UiIcosahedron.SpecularLightColorChangerEvent += value => { _specularLightColor = value; };
+        UiIcosahedron.UseBlinnCalculationEvent += value => { _useBlinnCalculation = value; };
+        UiIcosahedron.UseDirectionalLightEvent += value => { _useDirectionalLight = value; };
 
     }
 
-    private bool _myBool = false;
+    
     public unsafe void Render() {
 
        
@@ -68,16 +82,16 @@ public class Icosahedron {
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
-        Material.SetUniform("material.diffuse", 0.2f);
-        Material.SetUniform("material.specular", 1f);
-        Material.SetUniform("material.shininess", 180.0f);
+        Material.SetUniform("material.diffuse", _diffuseMaterial);
+        Material.SetUniform("material.specular", _specularMaterial);
+        Material.SetUniform("material.shininess", _shininessMaterial);
         Material.SetUniform("light.viewPosition", Camera.Instance.Position);
         Material.SetUniform("light.position", Light.LightPosition1);
         Material.SetUniform("light.ambient", _ambientLightColor * 1.0f);
-        Material.SetUniform("light.diffuse", new Vector3(1.0f));
-        Material.SetUniform("light.specular", new Vector3(1.0f));
-        Material.SetUniform("useBlinnAlgorithm", _myBool ? 1 : 0);
-        Material.SetUniform("useDirectionalLight", _useDirectional ? 1 : 0);
+        Material.SetUniform("light.diffuse", _diffuseLightColor);
+        Material.SetUniform("light.specular", _specularLightColor);
+        Material.SetUniform("useBlinnAlgorithm", _useBlinnCalculation ? 1 : 0);
+        Material.SetUniform("useDirectionalLight", _useDirectionalLight ? 1 : 0);
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
         
