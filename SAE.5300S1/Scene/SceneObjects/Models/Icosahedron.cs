@@ -1,9 +1,9 @@
-﻿using System.Diagnostics.Contracts;
-using System.Numerics;
+﻿using System.Numerics;
 using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers;
 using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.SceneHelpers;
+using SAE._5300S1.Utils.UI;
 using Silk.NET.OpenGL;
 using PrimitiveType = Silk.NET.OpenGL.PrimitiveType;
 using Texture = SAE._5300S1.Utils.ModelHelpers.Texture;
@@ -17,15 +17,17 @@ public class Icosahedron {
     private float _solarSystemMultiplier = 2;
     private float _rotationDegrees;
     private const float Speed = 10;
-    //public Transform Transform { get; set; }
+    
 
     private Texture _texture;
     private GL _gl;
     private string _textureName;
     private Matrix4x4 _matrix;
     private IModel _model;
+
+    private Vector3 _ambientLightColor;
     
-    private bool _useDirectional = true;
+    private bool _useDirectional = false;
 
     public Icosahedron(GL gl,
         string textureName,
@@ -41,6 +43,10 @@ public class Icosahedron {
     private void Init() {
         Mesh = new Mesh(_gl, _model.Vertices , _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
+        UiIcosahedron.AmbientLightColorChangerEvent += value => {
+            _ambientLightColor = value;
+            Console.WriteLine(value);
+        };
 
     }
 
@@ -67,7 +73,7 @@ public class Icosahedron {
         Material.SetUniform("material.shininess", 180.0f);
         Material.SetUniform("light.viewPosition", Camera.Instance.Position);
         Material.SetUniform("light.position", Light.LightPosition1);
-        Material.SetUniform("light.ambient", new Vector3(0.6f) * 1.0f);
+        Material.SetUniform("light.ambient", _ambientLightColor * 1.0f);
         Material.SetUniform("light.diffuse", new Vector3(1.0f));
         Material.SetUniform("light.specular", new Vector3(1.0f));
         Material.SetUniform("useBlinnAlgorithm", _myBool ? 1 : 0);

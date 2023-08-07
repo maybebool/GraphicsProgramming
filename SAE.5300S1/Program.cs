@@ -18,7 +18,7 @@ namespace SAE._5300S1
     {
         public static IWindow window;
         public static GL Gl;
-        private static UITest uiTest;
+        private static UiIcosahedron _uiIcosahedron;
         
 
         private const int Width = 1920;
@@ -69,7 +69,6 @@ namespace SAE._5300S1
             UserInputController.Instance.OnLoadKeyBindings();
 
             Gl = GL.GetApi(window);
-            //uiTest = new UITest();
 
             _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
             _icosahedron = new Icosahedron(Gl, "redSand", ReflectionMaterial.Instance.Material, IcosahedronParser.Instance);
@@ -79,6 +78,7 @@ namespace SAE._5300S1
             _diamond = new Diamond(Gl, "redSand", ReflectionMaterial.Instance.Material, DiamondParser.Instance);
             _spiral = new Spiral(Gl, "redSand", ReflectionMaterial.Instance.Material, SpiralParser.Instance);
 
+            _uiIcosahedron = new UiIcosahedron();
         }
 
         private static unsafe void OnUpdate(double deltaTime)
@@ -87,8 +87,8 @@ namespace SAE._5300S1
             Time.Update();
 
             UserInputController.Instance.OnUpdateCameraMovement();
-            
-            //uiTest.UpdateUi();
+            UiController.Instance.ImGuiController.Update((float)deltaTime);
+            _uiIcosahedron.UpdateUi();
         }
 
         private static unsafe void OnRender(double deltaTime)
@@ -105,7 +105,8 @@ namespace SAE._5300S1
             _spiral.Render();
             
             
-            //uiTest.RenderUi();
+            
+            _uiIcosahedron.RenderUi();
         }
 
         private static unsafe void OnMouseMove(IMouse mouse, Vector2 position)

@@ -16,7 +16,6 @@ public class LightSourceOne {
     private string _textureName;
     private Matrix4x4 _matrix;
     private IModel _model;
-    
 
     public LightSourceOne(GL gl,
         string textureName,
@@ -32,13 +31,11 @@ public class LightSourceOne {
     private void Init() {
         Mesh = new Mesh(_gl, _model.Vertices , _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
-        
     }
     
 
     public unsafe void Render() {
-        
-        
+
         Mesh.Bind();
         Material.Use();
         var degree = 180f;
