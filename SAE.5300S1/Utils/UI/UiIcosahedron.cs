@@ -10,10 +10,10 @@ public class UiIcosahedron : IUi {
 
 
     // Parameters
-    private float _shininessMaterial = 180f;
+    private float _shininessMaterial = 40f;
     private Vector3 _ambientLightColor = new(0.6f);
-    private Vector3 _diffuseLightColor = new(0.6f);
-    private Vector3 _specularLightColor = new(0.6f);
+    private Vector3 _diffuseLightColor = new(0.7f);
+    private Vector3 _specularLightColor = new(0.12f);
     private float _specularLightMultiplier = 1.0f;
     private bool _useBlinnCalculation;
     private bool _useDirectionalLight;
@@ -44,6 +44,7 @@ public class UiIcosahedron : IUi {
     }
     
     public void UpdateUi() {
+        
         ImGui.Begin("Settings");
         ImGui.Text("Material");
         if (ImGui.SliderFloat("Material Shininess", ref _shininessMaterial, 20, 500)) {

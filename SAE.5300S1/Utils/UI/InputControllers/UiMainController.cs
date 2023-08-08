@@ -1,27 +1,22 @@
 ﻿using ImGuiNET;
 using Silk.NET.OpenGL.Extensions.ImGui;
 
-namespace SAE._5300S1.Utils.UI.InputControllers; 
+namespace SAE._5300S1.Utils.UI.InputControllers;
 
 public class UiMainController : IUi {
-    
     private ImGuiController _controller;
-    
+
     private static UiIcosahedron _uiIcosahedron;
     private static UiDiamond _uiDiamond;
     private static UiSpiral _uiSpiral;
     private static UiIcosaStar _uiIcosaStar;
 
-    private static bool onIcosahedronTap;
-    private static bool onDiamondTap;
-    private static bool onSpiralTap;
-    private static bool onIcosaStarTap;
-
+    private IUi? renderUi;
 
     public UiMainController() {
         _controller = UiController.Instance.ImGuiController;
     }
-    
+
     public void OnLoadAllUis() {
         _uiIcosahedron = new UiIcosahedron();
         _uiDiamond = new UiDiamond();
@@ -29,47 +24,33 @@ public class UiMainController : IUi {
         _uiIcosaStar = new UiIcosaStar();
     }
     
-    
-
     public void UpdateUi() {
+        
         ImGui.Begin("Settings");
+        ImGui.Columns(4);
         
-        if (ImGui.Button("Icosahedron")) {
-            onIcosahedronTap = true;
-            _uiIcosahedron.UpdateUi();
-        }
+        if (ImGui.Button("Icosahedron"))
+            renderUi = _uiIcosahedron;
         
         ImGui.SameLine();
-        if (ImGui.Button("Diamond")) {
-            onDiamondTap = true;
-            _uiDiamond.UpdateUi();
-        } 
+        if (ImGui.Button("Diamond"))
+            renderUi = _uiDiamond;
+        
         ImGui.SameLine();
-        if (ImGui.Button("Spiral")) {
-            onSpiralTap = true;
-            _uiSpiral.UpdateUi();
-        } 
+        if (ImGui.Button("Spiral"))
+            renderUi = _uiSpiral;
+        
         ImGui.SameLine();
-        if (ImGui.Button("IcosaStar")) {
-            onIcosaStarTap = true;
-            _uiIcosaStar.UpdateUi();
-        }
+        if (ImGui.Button("IcosaStar"))
+            renderUi = _uiIcosaStar;
 
-        ImGui.End(); 
+        ImGui.End();
     }
 
     public void RenderUi() {
-        if (onIcosahedronTap) {
-            _uiIcosahedron.RenderUi();
-        }
-        if (onDiamondTap) {
-            _uiDiamond.RenderUi();
-        }
-        if (onSpiralTap) {
-            _uiSpiral.RenderUi();
-        }
-        if (onIcosaStarTap) {
-            _uiIcosaStar.RenderUi();
+        if (renderUi != null) {
+            renderUi.UpdateUi();
+            renderUi.RenderUi();
         }
         _controller.Render();
     }

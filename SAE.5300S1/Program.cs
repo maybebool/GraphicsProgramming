@@ -13,6 +13,7 @@ using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
+using MarbleSculpture = SAE._5300S1.Scene.SceneObjects.ModelSetters.MarbleSculpture;
 
 namespace SAE._5300S1
 {
@@ -48,7 +49,7 @@ namespace SAE._5300S1
         private static Icosahedron _icosahedron;
         private static LightSourceOne _lightSourceOne;
         private static PerfectMirror _perfectMirror;
-        private static IcosaStar _icosaStar;
+        private static Scene.SceneObjects.Models.MarbleSculpture _marbleSculpture;
         private static Diamond _diamond;
         private static Spiral _spiral;
         
@@ -78,12 +79,12 @@ namespace SAE._5300S1
             Gl = GL.GetApi(window);
 
             _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
-            _icosahedron = new Icosahedron(Gl, "redSand", ReflectionMaterial.Instance.Material, IcosahedronParser.Instance);
+            _icosahedron = new Icosahedron(Gl, "concrete", ReflectionMaterial.Instance.Material, IcosahedronParser.Instance);
             _lightSourceOne = new LightSourceOne(Gl, "goldenTexture", StandardMaterial.Instance.Material, LightObject1Parser.Instance);
             _perfectMirror = new PerfectMirror(Gl, MirrorMaterial.Instance.Material, PerfectMirrorParser.Instance);
-            _icosaStar = new IcosaStar(Gl, "redSand", ReflectionMaterial.Instance.Material, IcosaStarParser.Instance);
-            _diamond = new Diamond(Gl, "redSand", ReflectionMaterial.Instance.Material, DiamondParser.Instance);
-            _spiral = new Spiral(Gl, "redSand", ReflectionMaterial.Instance.Material, SpiralParser.Instance);
+            _marbleSculpture = new Scene.SceneObjects.Models.MarbleSculpture(Gl, "marmor", ReflectionMaterial.Instance.Material, MarbleSculpture.Instance);
+            _diamond = new Diamond(Gl, "pink", ReflectionMaterial.Instance.Material, DiamondParser.Instance);
+            _spiral = new Spiral(Gl, "wood", ReflectionMaterial.Instance.Material, SpiralParser.Instance);
 
             // _uiIcosahedron = new UiIcosahedron();
             // _uiDiamond = new UiDiamond();
@@ -112,7 +113,7 @@ namespace SAE._5300S1
             _icosahedron.Render();
             _lightSourceOne.Render();
             _perfectMirror.Render();
-            _icosaStar.Render();
+            _marbleSculpture.Render();
             _diamond.Render();
             _spiral.Render();
             

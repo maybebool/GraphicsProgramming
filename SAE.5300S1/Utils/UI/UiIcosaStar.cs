@@ -4,7 +4,7 @@ using Silk.NET.OpenGL.Extensions.ImGui;
 
 namespace SAE._5300S1.Utils.UI; 
 
-public class UiIcosaStar {
+public class UiIcosaStar : IUi {
     private ImGuiController _controller;
 
 

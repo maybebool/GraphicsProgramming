@@ -4,15 +4,15 @@ using Silk.NET.OpenGL.Extensions.ImGui;
 
 namespace SAE._5300S1.Utils.UI; 
 
-public class UiSpiral {
+public class UiSpiral : IUi {
      private ImGuiController _controller;
 
 
     // Parameters
     private float _shininessMaterial = 20f;
-    private Vector3 _ambientLightColor = new(0.6f);
-    private Vector3 _diffuseLightColor = new(1.0f);
-    private Vector3 _specularLightColor = new(0.1f);
+    private Vector3 _ambientLightColor = new(0.7f);
+    private Vector3 _diffuseLightColor = new(0.6f);
+    private Vector3 _specularLightColor = new(0f);
     private float _specularLightMultiplier = 1.0f;
     private bool _useBlinnCalculation;
     private bool _useDirectionalLight;

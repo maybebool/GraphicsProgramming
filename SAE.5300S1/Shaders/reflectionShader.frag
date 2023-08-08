@@ -35,11 +35,15 @@ void main()
     vec3 normal = normalize(fNormal);
     vec3 lightDirection;
     
+    float intensity = 0.0f;
+    vec4 spec = vec4(0.0);
+    
     if(!useDirectionalLight){
     lightDirection =  normalize(light.position - fPos);
     }else{
     lightDirection =  normalize(light.position);
     }
+    
     float diff = max(dot(normal, lightDirection), 0.0);
     vec3 viewDirection = normalize(light.viewPosition - fPos);
     vec3 reflectDirection = reflect(-lightDirection, normal);
@@ -56,8 +60,6 @@ void main()
         vec3 result = ambient + diffuse + specular;
         FragColor = vec4(result, 1.0);
     }
-
-    //The resulting colour should be the amount of ambient colour + the amount of additional colour provided by the diffuse of the lamp + the specular amount
 }
 
 vec3 ambientCalculation(vec3 ambient, sampler2D diffuse, vec2 fTexCoords){
