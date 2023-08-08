@@ -1,10 +1,9 @@
-﻿using ImGuiNET;
-using Silk.NET.OpenGL.Extensions.ImGui;
+﻿using System.Numerics;
+using ImGuiNET;
 
 namespace SAE._5300S1.Utils.UI.InputControllers;
 
-public class UiMainController : IUi {
-    private ImGuiController _controller;
+public class UiMainScene {
 
     private static UiIcosahedron _uiIcosahedron;
     private static UiDiamond _uiDiamond;
@@ -13,45 +12,34 @@ public class UiMainController : IUi {
 
     private IUi? renderUi;
 
-    public UiMainController() {
-        _controller = UiController.Instance.ImGuiController;
-    }
-
-    public void OnLoadAllUis() {
+    public UiMainScene() {
         _uiIcosahedron = new UiIcosahedron();
         _uiDiamond = new UiDiamond();
         _uiSpiral = new UiSpiral();
         _uiIcosaStar = new UiIcosaStar();
     }
-    
-    public void UpdateUi() {
-        
+
+    public void UpdateMainUi() {
         ImGui.Begin("Settings");
         ImGui.Columns(4);
-        
-        if (ImGui.Button("Icosahedron"))
+        if (ImGui.Button("Icosahedron",new Vector2(ImGui.GetColumnWidth(),22)))
             renderUi = _uiIcosahedron;
-        
-        ImGui.SameLine();
-        if (ImGui.Button("Diamond"))
+
+        ImGui.NextColumn();
+        if (ImGui.Button("Diamond", new Vector2(ImGui.GetColumnWidth(),22)))
             renderUi = _uiDiamond;
-        
-        ImGui.SameLine();
-        if (ImGui.Button("Spiral"))
+
+        ImGui.NextColumn();
+        if (ImGui.Button("Spiral", new Vector2(ImGui.GetColumnWidth(),22)))
             renderUi = _uiSpiral;
         
-        ImGui.SameLine();
-        if (ImGui.Button("IcosaStar"))
+        ImGui.NextColumn();
+        if (ImGui.Button("Marble aaw Sculpture", new Vector2(ImGui.GetColumnWidth(),22)))
             renderUi = _uiIcosaStar;
 
         ImGui.End();
-    }
-
-    public void RenderUi() {
         if (renderUi != null) {
             renderUi.UpdateUi();
-            renderUi.RenderUi();
         }
-        _controller.Render();
     }
 }

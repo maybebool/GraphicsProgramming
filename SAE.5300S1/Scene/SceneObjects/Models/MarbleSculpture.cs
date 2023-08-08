@@ -61,14 +61,11 @@ public class MarbleSculpture {
 
     private bool _myBool = false;
     public unsafe void Render() {
-
-        float angle = Time.TimeSinceStart * 13.5f;
+        
         Mesh.Bind();
         Material.Use();
         _texture.Bind();
         _matrix = Matrix4x4.Identity;
-        // _matrix *= Matrix4x4.CreateRotationY(angle.DegreesToRadiansOnVariable());
-        // _matrix *= Matrix4x4.CreateRotationX(angle.DegreesToRadiansOnVariable());
         _matrix *= Matrix4x4.CreateScale(3f);
         _matrix *= Matrix4x4.CreateRotationY(-90f.DegreesToRadiansOnVariable());
         _matrix *= Matrix4x4.CreateTranslation(-27f, 1f, 0f);

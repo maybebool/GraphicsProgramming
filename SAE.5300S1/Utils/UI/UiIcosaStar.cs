@@ -9,11 +9,11 @@ public class UiIcosaStar : IUi {
 
 
     // Parameters
-    private float _shininessMaterial = 400f;
-    private Vector3 _ambientLightColor = new(0.4f);
-    private Vector3 _diffuseLightColor = new(0.1f);
+    private float _shininessMaterial = 500f;
+    private Vector3 _ambientLightColor = new(0.75f);
+    private Vector3 _diffuseLightColor = new(0.2f);
     private Vector3 _specularLightColor = new(1f);
-    private float _specularLightMultiplier = 1.0f;
+    private float _specularLightMultiplier = 5.0f;
     private bool _useBlinnCalculation;
     private bool _useDirectionalLight;
     
