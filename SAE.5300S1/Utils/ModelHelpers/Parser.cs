@@ -123,7 +123,6 @@ public class Parser {
             _tempNormalIndices.Clear();
             _tempUvIndices.Clear();
             _tempVerticesIndices.Clear();
-
             
         }
         catch (Exception ex) {

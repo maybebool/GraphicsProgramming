@@ -20,10 +20,12 @@ namespace SAE._5300S1
     {
         public static IWindow window;
         public static GL Gl;
+        
         // private static UiIcosahedron _uiIcosahedron;
         // private static UiDiamond _uiDiamond;
         // private static UiSpiral _uiSpiral;
         // private static UiIcosaStar _uiIcosaStar;
+        
         private static UiMainController _uiMainController;
         
 
