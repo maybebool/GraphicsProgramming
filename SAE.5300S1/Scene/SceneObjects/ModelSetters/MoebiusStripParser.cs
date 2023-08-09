@@ -9,7 +9,7 @@ public class MoebiusStripParser : IModel {
     public uint[] Indices { get; }
 
     private MoebiusStripParser() {
-        var objWizard = new Parser("moebiusBand.obj");
+        var objWizard = new Parser("moebiusStrip.obj");
         Vertices = objWizard.Vertices;
         Indices = objWizard.Indices;
     }

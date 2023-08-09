@@ -22,7 +22,9 @@ public class UiMainScene {
     }
 
     public void UpdateMainUi() {
-        ImGui.Begin("Settings");
+        ImGui.SetNextWindowPos(new Vector2(0,Program.Height - 320));
+        ImGui.SetNextWindowSize(new Vector2(Program.Width, 320));
+        ImGui.Begin("Settings", ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse);
         ImGui.Columns(5);
         if (ImGui.Button("Icosahedron",new Vector2(ImGui.GetColumnWidth(),22)))
             _updateUi = _uiIcosahedron;

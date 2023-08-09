@@ -1,4 +1,5 @@
-﻿using SAE._5300S1.Scene.SceneObjects.Models;
+﻿using System.Numerics;
+using SAE._5300S1.Scene.SceneObjects.Models;
 using SAE._5300S1.Scene.SceneObjects.ModelSetters;
 using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers.Materials;
@@ -14,10 +15,12 @@ namespace SAE._5300S1 {
         //Program
         public static IWindow window;
         public static GL Gl;
+        public static int Width => _width;
+        public static int Height => _height;
 
         //Scene
-        private const int Width = 1920;
-        private const int Height = 1080;
+        private static int _width = 1920;
+        private static int _height = 1080;
         private static UiMainScene _uiMainScene;
 
 
@@ -32,7 +35,7 @@ namespace SAE._5300S1 {
 
         private static void Main(string[] args) {
             var options = WindowOptions.Default;
-            options.Size = new Vector2D<int>(Width, Height);
+            options.Size = new Vector2D<int>(_width, _height);
             options.Title = "SAE.5300.S1";
             window = Window.Create(options);
 
@@ -40,9 +43,16 @@ namespace SAE._5300S1 {
             window.Update += OnUpdate;
             window.Render += OnRender;
             window.Closing += OnClose;
+            window.Resize += OnResize;
 
             window.Run();
             window.Dispose();
+        }
+
+        private static void OnResize(Vector2D<int> size) {
+            Gl.Viewport(size);
+            _width = size.X;
+            _height = size.Y;
         }
 
         private static void OnLoad() {
