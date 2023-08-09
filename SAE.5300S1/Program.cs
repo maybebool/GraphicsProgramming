@@ -55,8 +55,7 @@ namespace SAE._5300S1 {
             Gl.Viewport(size);
             _width = size.X;
             _height = size.Y;
-            // ReSharper disable once PossibleLossOfFraction
-            Camera.Instance.AspectRatio = _width / _height;
+            Camera.Instance.AspectRatio = (float) _width / _height;
         }
 
         private static void OnLoad() {
