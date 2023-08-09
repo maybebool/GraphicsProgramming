@@ -5,9 +5,11 @@ using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.UI;
 using SAE._5300S1.Utils.UI.InputControllers;
+using Silk.NET.Assimp;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
+using Camera = SAE._5300S1.Utils.SceneHelpers.Camera;
 
 namespace SAE._5300S1 {
     static class Program {
@@ -53,6 +55,8 @@ namespace SAE._5300S1 {
             Gl.Viewport(size);
             _width = size.X;
             _height = size.Y;
+            // ReSharper disable once PossibleLossOfFraction
+            Camera.Instance.AspectRatio = _width / _height;
         }
 
         private static void OnLoad() {
