@@ -4,8 +4,7 @@ using ImGuiNET;
 namespace SAE._5300S1.Utils.UI; 
 
 public class UiSpiral : IUi {
-
-
+    
     // Parameters
     private float _shininessMaterial = 20f;
     private Vector3 _ambientLightColor = new(0.7f);
