@@ -22,19 +22,15 @@ public class Parser {
     private List<int> _tempUvIndices = new();
 
     public Parser(string fileName) {
-#if DEBUG
-        var startTime = DateTime.Now;
-#endif
-
         ReadFile(FileLoaderPath + fileName);
-
-#if DEBUG
-        var endTime = DateTime.Now;
-        var time = endTime - startTime;
-        Console.WriteLine($"Execution Read OBJ file: {time}");
-#endif
     }
 
+    
+    /// <summary>
+    /// Parser for .obj files. StreamReader goes trough file and adds parameters to array position. Fills to arrays for
+    /// vertices and indices. All temp positions will be clear at the end.
+    /// </summary>
+    /// <param name="filePath">StreamReader.Readline</param>
     private void ReadFile(string filePath) {
         var sr = new StreamReader(filePath);
         try {
@@ -90,20 +86,20 @@ public class Parser {
                 if (i == 50) {
                     Console.WriteLine("");
                 }
-                int indexVerts = _tempVerticesIndices[i];
-                Vector3 vertex = _originVertices[indexVerts - 1];
+                var indexVerts = _tempVerticesIndices[i];
+                var vertex = _originVertices[indexVerts - 1];
                 _tempVertices.Add(vertex.X);
                 _tempVertices.Add(vertex.Y);
                 _tempVertices.Add(vertex.Z);
 
-                int indexNormal = _tempNormalIndices[i];
-                Vector3 normal = _originNormals[indexNormal - 1];
+                var indexNormal = _tempNormalIndices[i];
+                var normal = _originNormals[indexNormal - 1];
                 _tempVertices.Add(normal.X);
                 _tempVertices.Add(normal.Y);
                 _tempVertices.Add(normal.Z);
 
-                int indexUv = _tempUvIndices[i];
-                Vector2 uv = _originUvs[indexUv - 1];
+                var indexUv = _tempUvIndices[i];
+                var uv = _originUvs[indexUv - 1];
                 _tempVertices.Add(uv.X);
                 _tempVertices.Add(uv.Y);
 
@@ -123,7 +119,6 @@ public class Parser {
             _tempNormalIndices.Clear();
             _tempUvIndices.Clear();
             _tempVerticesIndices.Clear();
-            
         }
         catch (Exception ex) {
             sr.Close();

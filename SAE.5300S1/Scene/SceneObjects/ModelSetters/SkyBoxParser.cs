@@ -1,6 +1,6 @@
 ﻿using SAE._5300S1.Utils.ModelHelpers;
 
-namespace SAE._5300S1.Scene.SceneObjects.ModelSetters; 
+namespace SAE._5300S1.Scene.SceneObjects.ModelSetters;
 
 public class SkyBoxParser : IModel {
     public static SkyBoxParser Instance => Lazy.Value;

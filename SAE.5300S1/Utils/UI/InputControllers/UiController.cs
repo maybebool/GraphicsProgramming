@@ -1,8 +1,7 @@
 ﻿using ImGuiNET;
-using SAE._5300S1.Utils.UI.InputControllers;
 using Silk.NET.OpenGL.Extensions.ImGui;
 
-namespace SAE._5300S1.Utils.UI; 
+namespace SAE._5300S1.Utils.UI.InputControllers; 
 
 public class UiController {
     public static UiController Instance => Lazy.Value;

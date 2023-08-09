@@ -8,10 +8,10 @@ using Silk.NET.OpenGL;
 using PrimitiveType = Silk.NET.OpenGL.PrimitiveType;
 using Texture = SAE._5300S1.Utils.ModelHelpers.Texture;
 
-namespace SAE._5300S1.Scene.SceneObjects.Models; 
+namespace SAE._5300S1.Scene.SceneObjects.Models;
 
 public class Skull {
-     public Mesh Mesh { get; set; }
+    public Mesh Mesh { get; set; }
     public Material Material { get; set; }
 
     private Texture _texture;
@@ -19,10 +19,9 @@ public class Skull {
     private string _textureName;
     private Matrix4x4 _matrix;
     private IModel _model;
-    
-    
-    
-    
+
+
+    // UI/Shader values
     private float _shininessMaterial;
     private Vector3 _ambientLightColor;
     private Vector3 _diffuseLightColor;
@@ -44,9 +43,9 @@ public class Skull {
     }
 
     private void Init() {
-        Mesh = new Mesh(_gl, _model.Vertices , _model.Indices);
+        Mesh = new Mesh(_gl, _model.Vertices, _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
-        
+
         UiSkull.ShininessMaterialEvent += value => { _shininessMaterial = value; };
         UiSkull.AmbientLightColorEvent += value => { _ambientLightColor = value; };
         UiSkull.DiffuseLightColorEvent += value => { _diffuseLightColor = value; };
@@ -55,12 +54,11 @@ public class Skull {
         UiSkull.UseBlinnCalculationEvent += value => { _useBlinnCalculation = value; };
         UiSkull.UseDirectionalLightEvent += value => { _useDirectionalLight = value; };
         UiSkull.RotationSpeedEvent += value => { _speed = value; };
-
     }
 
     private bool _myBool = false;
+
     public unsafe void Render() {
-        
         var selfRotation = Time.TimeSinceStart * _speed;
         Mesh.Bind();
         Material.Use();
@@ -70,11 +68,11 @@ public class Skull {
         _matrix *= Matrix4x4.CreateRotationY(selfRotation.DegreesToRadiansOnVariable());
         _matrix *= Matrix4x4.CreateScale(3f);
         _matrix *= Matrix4x4.CreateTranslation(-27f, 1f, 0f);
-        
+
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());
-        
+
         Material.SetUniform("material.shininess", _shininessMaterial);
         Material.SetUniform("light.viewPosition", Camera.Instance.Position);
         Material.SetUniform("light.position", Light.LightPosition4);
@@ -85,6 +83,5 @@ public class Skull {
         Material.SetUniform("useDirectionalLight", _useDirectionalLight ? 1 : 0);
 
         _gl.DrawArrays(PrimitiveType.Triangles, 0, Mesh.IndicesLength);
-        
     }
 }

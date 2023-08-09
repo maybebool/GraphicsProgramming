@@ -24,11 +24,6 @@
         <ShadersSourceFiles Include="Shaders/**/*.*" />
         <TextureSourceFiles Include="Textures/**/*.*" />
     </ItemGroup>
-    
-
-    <ItemGroup>
-      <Folder Include="Extensions\" />
-    </ItemGroup>
 
     <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
         <Copy SourceFiles="@(ShadersSourceFiles)" DestinationFolder="$(OutDir)\shaders" SkipUnchangedFiles="true" />

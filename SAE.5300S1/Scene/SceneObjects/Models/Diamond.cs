@@ -8,7 +8,7 @@ using Silk.NET.OpenGL;
 using PrimitiveType = Silk.NET.OpenGL.PrimitiveType;
 using Texture = SAE._5300S1.Utils.ModelHelpers.Texture;
 
-namespace SAE._5300S1.Scene.SceneObjects.Models; 
+namespace SAE._5300S1.Scene.SceneObjects.Models;
 
 public class Diamond {
     public Mesh Mesh { get; set; }
@@ -19,8 +19,9 @@ public class Diamond {
     private string _textureName;
     private Matrix4x4 _matrix;
     private IModel _model;
-    
-    
+
+
+    // Ui/Shader values
     private float _shininessMaterial;
     private Vector3 _ambientLightColor;
     private Vector3 _diffuseLightColor;
@@ -30,9 +31,7 @@ public class Diamond {
     private bool _useDirectionalLight;
     private float _speed;
 
-    
 
-    // Event Parameters
     public Diamond(GL gl,
         string textureName,
         Material material,
@@ -44,10 +43,11 @@ public class Diamond {
         Init();
     }
 
+
     private void Init() {
         Mesh = new Mesh(_gl, _model.Vertices, _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
-        
+
         UiDiamond.ShininessMaterialEvent += value => { _shininessMaterial = value; };
         UiDiamond.AmbientLightColorEvent += value => { _ambientLightColor = value; };
         UiDiamond.DiffuseLightColorEvent += value => { _diffuseLightColor = value; };
@@ -59,13 +59,11 @@ public class Diamond {
     }
 
     public unsafe void Render() {
-        
-        
-        float selfRotation = Time.TimeSinceStart * _speed;
+        var selfRotation = Time.TimeSinceStart * _speed;
         Mesh.Bind();
         Material.Use();
         _texture.Bind();
-        
+
         _matrix = Matrix4x4.Identity;
         _matrix *= Matrix4x4.CreateRotationY(selfRotation.DegreesToRadiansOnVariable());
         _matrix *= Matrix4x4.CreateScale(12f);

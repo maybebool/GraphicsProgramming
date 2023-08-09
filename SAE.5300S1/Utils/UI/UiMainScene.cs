@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using ImGuiNET;
 
-namespace SAE._5300S1.Utils.UI.InputControllers;
+namespace SAE._5300S1.Utils.UI;
 
 public class UiMainScene {
 

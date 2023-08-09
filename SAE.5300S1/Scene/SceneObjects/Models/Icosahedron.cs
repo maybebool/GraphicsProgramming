@@ -14,17 +14,14 @@ namespace SAE._5300S1.Scene.SceneObjects.Models;
 public class Icosahedron {
     public Mesh Mesh { get; set; }
     public Material Material { get; set; }
-    private float _orbit;
-
-
+    
     private Texture _texture;
     private GL _gl;
     private string _textureName;
     private Matrix4x4 _matrix;
     private IModel _model;
-
-
-    // Event Parameters
+    
+    // Ui/Shader values
     private float _shininessMaterial;
     private Vector3 _ambientLightColor;
     private Vector3 _diffuseLightColor;
@@ -34,6 +31,7 @@ public class Icosahedron {
     private bool _useDirectionalLight;
     private bool _useOrbit;
     private float _speed;
+    private float _orbit;
 
     public Icosahedron(GL gl,
         string textureName,

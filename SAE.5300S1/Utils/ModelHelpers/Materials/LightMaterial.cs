@@ -1,6 +1,6 @@
 ﻿using Silk.NET.OpenGL;
 
-namespace SAE._5300S1.Utils.ModelHelpers.Materials; 
+namespace SAE._5300S1.Utils.ModelHelpers.Materials;
 
 public class LightMaterial {
     public static LightMaterial Instance => Lazy.Value;

@@ -4,7 +4,7 @@ public class Time {
     #region Static Fields and Properties
         private static System.Diagnostics.Stopwatch Timer;
         private static int deltaTimeIntegrator;
-        private static float physicsAccumulator = 0f;
+        private static float physicsAccumulator;
 
         /// <summary>
         /// Gets the amount of (accumulated) time in seconds since start up.

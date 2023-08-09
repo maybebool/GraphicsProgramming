@@ -39,14 +39,14 @@ void main()
     vec4 spec = vec4(0.0);
     
     if(!useDirectionalLight){
-    lightDirection =  normalize(light.position - fPos);
+    lightDirection =  normalize(light.position - fPos); // L = pl - ps;
     }else{
-    lightDirection =  normalize(light.position);
+    lightDirection =  normalize(light.position);  // L = Dl
     }
     
     float diff = max(dot(normal, lightDirection), 0.0);
-    vec3 viewDirection = normalize(light.viewPosition - fPos);
-    vec3 reflectDirection = reflect(-lightDirection, normal);
+    vec3 viewDirection = normalize(light.viewPosition - fPos); 
+    vec3 reflectDirection = reflect(-lightDirection, normal); // L - 2.0 * dot(N, L) * N.
     
     vec3 ambient = ambientCalculation(light.ambient, material.diffuse, fTexCoords);
     vec3 diffuse = diffuseCalculation(light.diffuse, material.diffuse, diff, fTexCoords).rgb;
@@ -71,14 +71,14 @@ vec3 diffuseCalculation(vec3 lightDiffuse, sampler2D materialDiffuse,float diff,
 }
 
 vec3 blinnSpecularCalculation(vec3 lightDirection, vec3 viewDirection, vec3 fNormal, float shininess, sampler2D materialSpecular, vec3 lightSpecular, vec2 fTexCoords){
-    vec3 h = normalize(lightDirection + viewDirection);
-    float specAngle = max(dot(fNormal, h), 0.0);
-    float spec = pow(specAngle, shininess);
+    vec3 h = normalize(lightDirection + viewDirection); 
+    float specAngle = max(dot(fNormal, h), 0.0); // Sa = dot(N,H)
+    float spec = pow(specAngle, shininess); // Sp = (sa)^2
     return lightSpecular * (spec * texture(materialSpecular, fTexCoords).rgb);
 }
 
 vec3 specularCalculation(sampler2D materialSpecular, vec3 lightSpecular, float shininess, vec3 viewDirection, vec3 reflectDirection, vec2 fTexCoords)
 {
-    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), shininess);
+    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), shininess); // Sp = dot(N,V)^n
     return lightSpecular * (spec * texture(materialSpecular, fTexCoords).rgb);
 }

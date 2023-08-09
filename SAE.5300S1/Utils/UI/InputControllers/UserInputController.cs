@@ -10,10 +10,8 @@ public class UserInputController {
     private static readonly Lazy<UserInputController> Lazy = new(() => new UserInputController());
     
     public IInputContext InputContext => _inputContext;
-    public IKeyboard PrimaryKeyboard => _primaryKeyboard;
-    public Vector2 LastMousePosition => _lastMousePosition;
 
-    
+
     private bool _insertMode = true;
     private Vector2 _lastMousePosition;
     private IInputContext _inputContext;

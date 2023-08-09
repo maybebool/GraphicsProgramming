@@ -20,6 +20,7 @@ public class Spiral {
     private Matrix4x4 _matrix;
     private IModel _model;
     
+    // UI/Shader values
     private float _shininessMaterial;
     private Vector3 _ambientLightColor;
     private Vector3 _diffuseLightColor;

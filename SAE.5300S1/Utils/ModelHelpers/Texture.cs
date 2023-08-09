@@ -28,7 +28,7 @@ namespace SAE._5300S1.Utils.ModelHelpers {
 
             SetParameters();
         }
-        
+
         public unsafe Texture(GL gl,
             List<string> textureNames) {
             _gl = gl;
@@ -60,19 +60,6 @@ namespace SAE._5300S1.Utils.ModelHelpers {
             _gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int)GLEnum.ClampToEdge);
             _gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int)GLEnum.ClampToEdge);
             _gl.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int)GLEnum.ClampToEdge);
-        }
-
-        public unsafe Texture(GL gl, Span<byte> data, uint width, uint height) {
-            _gl = gl;
-
-            _handle = _gl.GenTexture();
-            Bind();
-
-            fixed (void* d = &data[0]) {
-                _gl.TexImage2D(TextureTarget.Texture2D, 0, (int)InternalFormat.Rgba, width, height, 0, PixelFormat.Rgba,
-                    PixelType.UnsignedByte, d);
-                SetParameters();
-            }
         }
 
         private void SetParameters() {

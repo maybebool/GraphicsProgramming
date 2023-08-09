@@ -27,7 +27,6 @@ namespace SAE._5300S1
         // Scene Models
         private static Skybox _skybox;
         private static Icosahedron _icosahedron;
-        private static LightSourceOne _lightSourceOne;
         private static MoebiusStrip _moebiusStrip;
         private static Skull _skull;
         private static Diamond _diamond;
@@ -55,11 +54,8 @@ namespace SAE._5300S1
             Time.Initialize();
             
             UserInputController.Instance.OnLoadKeyBindings();
-
             Gl = GL.GetApi(window);
-
             OnLoadAllSceneModels();
-            
             _uiMainScene = new UiMainScene();
             
         }
@@ -90,7 +86,6 @@ namespace SAE._5300S1
         private static void OnLoadAllSceneModels() {
             _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
             _icosahedron = new Icosahedron(Gl, "concrete", LightMaterial.Instance.Material, IcosahedronParser.Instance);
-            _lightSourceOne = new LightSourceOne(Gl, "goldenTexture", StandardMaterial.Instance.Material, LightObject1Parser.Instance);
             _moebiusStrip = new MoebiusStrip(Gl, MirrorMaterial.Instance.Material, MoebiusStripParser.Instance);
             _skull = new Skull(Gl, "marble", LightMaterial.Instance.Material, SkullParser.Instance);
             _diamond = new Diamond(Gl, "pink", LightMaterial.Instance.Material, DiamondParser.Instance);
@@ -100,7 +95,6 @@ namespace SAE._5300S1
         private static void OnRenderAllSceneModels() {
             _skybox.Render();
             _icosahedron.Render();
-            _lightSourceOne.Render();
             _moebiusStrip.Render();
             _skull.Render();
             _diamond.Render();

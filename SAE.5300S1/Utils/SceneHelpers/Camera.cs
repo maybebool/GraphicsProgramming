@@ -17,7 +17,7 @@ public class Camera {
     private Vector3 _cameraFront = new(0.0f, 0.0f, -1.0f);
     private Vector3 _cameraUp = Vector3.UnitY;
     private float _cameraYaw = -90f;
-    private float _cameraPitch = 0f;
+    private float _cameraPitch;
     private float _cameraZoom = 45f;
 
     private Camera() {
@@ -34,7 +34,6 @@ public class Camera {
     }
 
     public void ModifyZoom(float zoomAmount) {
-      //We don't want to be able to zoom in too close or too far away so clamp to these values
       _cameraZoom = Math.Clamp(Zoom - zoomAmount, 1.0f, 45f);
     }
 
@@ -42,14 +41,12 @@ public class Camera {
       _cameraYaw += xOffset;
       _cameraPitch -= yOffset;
 
-      //We don't want to be able to look behind us by going over our head or under our feet so make sure it stays within these bounds
+      // clamping for natural camera behaviour, avoiding over head movement
       _cameraPitch = Math.Clamp(Pitch, -89f, 89f);
-
       var cameraDirection = Vector3.Zero;
       cameraDirection.X = MathF.Cos(Yaw.DegreesToRadiansOnVariable()) * MathF.Cos(Pitch.DegreesToRadiansOnVariable());
       cameraDirection.Y = MathF.Sin(Pitch.DegreesToRadiansOnVariable());
       cameraDirection.Z = MathF.Sin(Yaw.DegreesToRadiansOnVariable()) * MathF.Cos(Pitch.DegreesToRadiansOnVariable());
-
       _cameraFront = Vector3.Normalize(cameraDirection);
     }
 
