@@ -8,21 +8,18 @@ using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 
-namespace SAE._5300S1
-{
-   static class Program
-    {
+namespace SAE._5300S1 {
+    static class Program {
         
-
         //Program
         public static IWindow window;
         public static GL Gl;
-        
+
         //Scene
         private const int Width = 1920;
         private const int Height = 1080;
         private static UiMainScene _uiMainScene;
-        
+
 
         // Scene Models
         private static Skybox _skybox;
@@ -31,10 +28,9 @@ namespace SAE._5300S1
         private static Skull _skull;
         private static Diamond _diamond;
         private static Spiral _spiral;
-        
-        
-        private static void Main(string[] args)
-        {
+
+
+        private static void Main(string[] args) {
             var options = WindowOptions.Default;
             options.Size = new Vector2D<int>(Width, Height);
             options.Title = "SAE.5300.S1";
@@ -46,45 +42,39 @@ namespace SAE._5300S1
             window.Closing += OnClose;
 
             window.Run();
-
             window.Dispose();
         }
 
         private static void OnLoad() {
             Time.Initialize();
-            
+
             UserInputController.Instance.OnLoadKeyBindings();
             Gl = GL.GetApi(window);
             OnLoadAllSceneModels();
             _uiMainScene = new UiMainScene();
-            
         }
-        
-        private static unsafe void OnUpdate(double deltaTime)
-        {
-            Time.Update();
 
+        private static unsafe void OnUpdate(double deltaTime) {
+            Time.Update();
             UserInputController.Instance.OnUpdateCameraMovement();
             UiController.Instance.ImGuiController.Update((float)deltaTime);
             _uiMainScene.UpdateMainUi();
         }
 
-        private static unsafe void OnRender(double deltaTime)
-        {
+        private static unsafe void OnRender(double deltaTime) {
             Gl.Enable(EnableCap.DepthTest);
-            Gl.Clear((uint) (ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
-            
+            Gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
             OnRenderAllSceneModels();
-
             UiController.Instance.ImGuiController.Render();
         }
-        private static void OnClose()
-        {
+
+        private static void OnClose() {
             Gl.Dispose();
         }
 
+        // Bind objects with given Texture, Material and model (.obj)
         private static void OnLoadAllSceneModels() {
-            _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
+            _skybox = new Skybox(Gl, "cloudySky", StandardMaterial.Instance.Material, SkyBoxParser.Instance);
             _icosahedron = new Icosahedron(Gl, "concrete", LightMaterial.Instance.Material, IcosahedronParser.Instance);
             _moebiusStrip = new MoebiusStrip(Gl, MirrorMaterial.Instance.Material, MoebiusStripParser.Instance);
             _skull = new Skull(Gl, "marble", LightMaterial.Instance.Material, SkullParser.Instance);

@@ -44,7 +44,7 @@ void main()
     lightDirection =  normalize(light.position);  // L = Dl
     }
     
-    float diff = max(dot(normal, lightDirection), 0.0);
+    float diff = max(dot(normal, lightDirection), 0.0); // Di = dot(N,L)
     vec3 viewDirection = normalize(light.viewPosition - fPos); 
     vec3 reflectDirection = reflect(-lightDirection, normal); // L - 2.0 * dot(N, L) * N.
     

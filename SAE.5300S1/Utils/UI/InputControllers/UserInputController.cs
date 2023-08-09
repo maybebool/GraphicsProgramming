@@ -10,13 +10,11 @@ public class UserInputController {
     private static readonly Lazy<UserInputController> Lazy = new(() => new UserInputController());
     
     public IInputContext InputContext => _inputContext;
-
-
+    
     private bool _insertMode = true;
     private Vector2 _lastMousePosition;
     private IInputContext _inputContext;
     private IKeyboard _primaryKeyboard;
-    
     
     private UserInputController() {
         _inputContext = Program.window.CreateInput();
@@ -54,16 +52,19 @@ public class UserInputController {
       }
 
       if (_primaryKeyboard.IsKeyPressed(Key.A)) {
+                                    // normalize position Vector 
         Camera.Instance.Position -= Vector3.Normalize(Vector3.Cross(Camera.Instance.Front, Camera.Instance.Up)) *
                                     moveSpeed * multiplier;
       }
 
       if (_primaryKeyboard.IsKeyPressed(Key.D)) {
+                                    // normalize position Vector 
         Camera.Instance.Position += Vector3.Normalize(Vector3.Cross(Camera.Instance.Front, Camera.Instance.Up)) *
                                     moveSpeed * multiplier;
       }
     }
 
+    // Key listening. Switch between UI and Camera Movement
     private void KeyDown(IKeyboard arg1, Key arg2, int arg3) {
       if (arg2 == Key.Escape) {
         Program.window.Close();

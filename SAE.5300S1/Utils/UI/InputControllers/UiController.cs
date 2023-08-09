@@ -9,6 +9,7 @@ public class UiController {
 
     public ImGuiController ImGuiController { get; private set; }
 
+    // Constructor for Update and Render + Docking option for UI
     private UiController() {
         ImGuiController = new ImGuiController(
             Program.Gl, 

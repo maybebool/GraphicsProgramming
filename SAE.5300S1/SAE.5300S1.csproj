@@ -22,6 +22,18 @@
     <ItemGroup>
         <ModelsSourceFiles Include="Resources/Models/**/*.*" />
         <ShadersSourceFiles Include="Shaders/**/*.*" />
+        <TextureSourceFiles Include="Resources\Textures\cloudySky.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\concrete.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\marble.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\pink.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\SkyCubeBox\back.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\SkyCubeBox\bottom.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\SkyCubeBox\front.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\SkyCubeBox\left.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\SkyCubeBox\right.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\SkyCubeBox\top.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\sunset.jpg" />
+        <TextureSourceFiles Include="Resources\Textures\wood.jpg" />
         <TextureSourceFiles Include="Textures/**/*.*" />
     </ItemGroup>
 

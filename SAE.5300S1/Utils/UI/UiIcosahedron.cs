@@ -52,6 +52,7 @@ public class UiIcosahedron : IUi {
         if (ImGui.SliderFloat("Material Shininess", ref _shininessMaterial, 20, 500)) {
             ShininessMaterialEvent.Invoke(_shininessMaterial);
         }
+        
         ImGui.Spacing();
         ImGui.Spacing();
         
@@ -74,6 +75,7 @@ public class UiIcosahedron : IUi {
         if (ImGui.Checkbox("Use Directional Light", ref _useDirectionalLight)) {
             UseDirectionalLightEvent.Invoke(_useDirectionalLight);
         }
+        
         ImGui.Spacing();
         ImGui.Spacing();
         

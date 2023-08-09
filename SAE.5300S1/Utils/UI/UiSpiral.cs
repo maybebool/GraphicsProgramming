@@ -49,6 +49,7 @@ public class UiSpiral : IUi {
         if (ImGui.SliderFloat("Material Shininess", ref _shininessMaterial, 20, 500)) {
             ShininessMaterialEvent.Invoke(_shininessMaterial);
         }
+        
         ImGui.Spacing();
         ImGui.Spacing();
         
