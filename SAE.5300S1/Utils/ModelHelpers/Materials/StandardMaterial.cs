@@ -9,6 +9,6 @@ public class StandardMaterial {
         private static readonly Lazy<StandardMaterial> Lazy = new(() => new());
     
         private StandardMaterial() {
-            Material = new Material(Program.Gl, "Shader.vert", "Shader.frag");
+            Material = new Material(Program.Gl, "shader.vert", "shader.frag");
         }
 }

@@ -8,38 +8,44 @@ public class UiMainScene {
     private static UiIcosahedron _uiIcosahedron;
     private static UiDiamond _uiDiamond;
     private static UiSpiral _uiSpiral;
-    private static UiIcosaStar _uiIcosaStar;
+    private static UiSkull _uiSkull;
+    private static UiMoebiusStrip _uiMoebiusStrip;
 
-    private IUi? renderUi;
+    private IUi? _updateUi;
 
     public UiMainScene() {
         _uiIcosahedron = new UiIcosahedron();
         _uiDiamond = new UiDiamond();
         _uiSpiral = new UiSpiral();
-        _uiIcosaStar = new UiIcosaStar();
+        _uiSkull = new UiSkull();
+        _uiMoebiusStrip = new UiMoebiusStrip();
     }
 
     public void UpdateMainUi() {
         ImGui.Begin("Settings");
-        ImGui.Columns(4);
+        ImGui.Columns(5);
         if (ImGui.Button("Icosahedron",new Vector2(ImGui.GetColumnWidth(),22)))
-            renderUi = _uiIcosahedron;
+            _updateUi = _uiIcosahedron;
 
         ImGui.NextColumn();
         if (ImGui.Button("Diamond", new Vector2(ImGui.GetColumnWidth(),22)))
-            renderUi = _uiDiamond;
+            _updateUi = _uiDiamond;
 
         ImGui.NextColumn();
         if (ImGui.Button("Spiral", new Vector2(ImGui.GetColumnWidth(),22)))
-            renderUi = _uiSpiral;
+            _updateUi = _uiSpiral;
         
         ImGui.NextColumn();
-        if (ImGui.Button("Marble aaw Sculpture", new Vector2(ImGui.GetColumnWidth(),22)))
-            renderUi = _uiIcosaStar;
+        if (ImGui.Button("Skull", new Vector2(ImGui.GetColumnWidth(),22)))
+            _updateUi = _uiSkull;
+        ImGui.NextColumn();
+        
+        if (ImGui.Button("Moebius Strip", new Vector2(ImGui.GetColumnWidth(),22)))
+            _updateUi = _uiMoebiusStrip;
 
         ImGui.End();
-        if (renderUi != null) {
-            renderUi.UpdateUi();
+        if (_updateUi != null) {
+            _updateUi.UpdateUi();
         }
     }
 }

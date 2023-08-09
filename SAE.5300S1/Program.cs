@@ -1,11 +1,8 @@
-﻿using System.Numerics;
-using SAE._5300S1.Scene.SceneObjects.Models;
+﻿using SAE._5300S1.Scene.SceneObjects.Models;
 using SAE._5300S1.Scene.SceneObjects.ModelSetters;
 using SAE._5300S1.Utils.MathHelpers;
-using SAE._5300S1.Utils.ModelHelpers;
 using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.UI;
-using SAE._5300S1.Utils.UI.InputController;
 using SAE._5300S1.Utils.UI.InputControllers;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
@@ -31,8 +28,8 @@ namespace SAE._5300S1
         private static Skybox _skybox;
         private static Icosahedron _icosahedron;
         private static LightSourceOne _lightSourceOne;
-        private static PerfectMirror _perfectMirror;
-        private static MarbleSculpture _marbleSculpture;
+        private static MoebiusStrip _moebiusStrip;
+        private static Skull _skull;
         private static Diamond _diamond;
         private static Spiral _spiral;
         
@@ -92,20 +89,20 @@ namespace SAE._5300S1
 
         private static void OnLoadAllSceneModels() {
             _skybox = new Skybox(Gl, "cloudySky",StandardMaterial.Instance.Material, SkyBoxParser.Instance);
-            _icosahedron = new Icosahedron(Gl, "concrete", ReflectionMaterial.Instance.Material, IcosahedronParser.Instance);
+            _icosahedron = new Icosahedron(Gl, "concrete", LightMaterial.Instance.Material, IcosahedronParser.Instance);
             _lightSourceOne = new LightSourceOne(Gl, "goldenTexture", StandardMaterial.Instance.Material, LightObject1Parser.Instance);
-            _perfectMirror = new PerfectMirror(Gl, MirrorMaterial.Instance.Material, PerfectMirrorParser.Instance);
-            _marbleSculpture = new MarbleSculpture(Gl, "marmor", ReflectionMaterial.Instance.Material, MarbleSculptureParser.Instance);
-            _diamond = new Diamond(Gl, "pink", ReflectionMaterial.Instance.Material, DiamondParser.Instance);
-            _spiral = new Spiral(Gl, "wood", ReflectionMaterial.Instance.Material, SpiralParser.Instance);
+            _moebiusStrip = new MoebiusStrip(Gl, MirrorMaterial.Instance.Material, MoebiusStripParser.Instance);
+            _skull = new Skull(Gl, "marmor", LightMaterial.Instance.Material, SkullParser.Instance);
+            _diamond = new Diamond(Gl, "pink", LightMaterial.Instance.Material, DiamondParser.Instance);
+            _spiral = new Spiral(Gl, "wood", LightMaterial.Instance.Material, SpiralParser.Instance);
         }
 
         private static void OnRenderAllSceneModels() {
             _skybox.Render();
             _icosahedron.Render();
             _lightSourceOne.Render();
-            _perfectMirror.Render();
-            _marbleSculpture.Render();
+            _moebiusStrip.Render();
+            _skull.Render();
             _diamond.Render();
             _spiral.Render();
         }

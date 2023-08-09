@@ -1,12 +1,9 @@
 ﻿using System.Numerics;
 using ImGuiNET;
-using Silk.NET.OpenGL.Extensions.ImGui;
 
 namespace SAE._5300S1.Utils.UI; 
 
-public class UiIcosaStar : IUi {
-    private ImGuiController _controller;
-
+public class UiSkull : IUi {
 
     // Parameters
     private float _shininessMaterial = 500f;
@@ -17,7 +14,6 @@ public class UiIcosaStar : IUi {
     private bool _useBlinnCalculation;
     private bool _useDirectionalLight;
     
-
     
     // Events
     public static Action<float> ShininessMaterialChangerEvent;
@@ -28,9 +24,8 @@ public class UiIcosaStar : IUi {
     public static Action<bool> UseBlinnCalculationEvent;
     public static Action<bool> UseDirectionalLightEvent;
 
-    public UiIcosaStar() {
-        _controller = UiController.Instance.ImGuiController;
-        
+    public UiSkull() {
+
         ShininessMaterialChangerEvent.Invoke(_shininessMaterial);
         AmbientLightColorChangerEvent.Invoke(_ambientLightColor);
         DiffuseLightColorChangerEvent.Invoke(_diffuseLightColor);
@@ -70,9 +65,5 @@ public class UiIcosaStar : IUi {
             UseDirectionalLightEvent.Invoke(_useDirectionalLight);
         }
         ImGui.End();
-    }
-
-    public void RenderUi() {
-        _controller.Render();
     }
 }

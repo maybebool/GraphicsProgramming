@@ -1,4 +1,4 @@
-#version 330 core
+#version 400 core
 uniform vec3 fColor;
 uniform sampler2D baseColorMap;
 

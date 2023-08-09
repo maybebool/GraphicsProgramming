@@ -2,13 +2,13 @@
 
 namespace SAE._5300S1.Scene.SceneObjects.ModelSetters; 
 
-public class PerfectMirrorParser : IModel {
-    public static PerfectMirrorParser Instance => Lazy.Value;
-    private static readonly Lazy<PerfectMirrorParser> Lazy = new(() => new PerfectMirrorParser());
+public class MoebiusStripParser : IModel {
+    public static MoebiusStripParser Instance => Lazy.Value;
+    private static readonly Lazy<MoebiusStripParser> Lazy = new(() => new MoebiusStripParser());
     public float[] Vertices { get; }
     public uint[] Indices { get; }
 
-    private PerfectMirrorParser() {
+    private MoebiusStripParser() {
         var objWizard = new Parser("moebiusBand.obj");
         Vertices = objWizard.Vertices;
         Indices = objWizard.Indices;

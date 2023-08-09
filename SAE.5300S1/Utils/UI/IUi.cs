@@ -2,5 +2,4 @@
 
 public interface IUi {
     public void UpdateUi();
-    //public void RenderUi();
 }

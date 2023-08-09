@@ -3,7 +3,7 @@ using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.SceneHelpers;
 using Silk.NET.Input;
 
-namespace SAE._5300S1.Utils.UI.InputController; 
+namespace SAE._5300S1.Utils.UI.InputControllers; 
 
 public class UserInputController {
     public static UserInputController Instance => Lazy.Value;

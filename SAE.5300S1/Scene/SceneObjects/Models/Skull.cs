@@ -1,19 +1,16 @@
-﻿using System.Diagnostics.Contracts;
-using System.Numerics;
+﻿using System.Numerics;
 using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers;
 using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.SceneHelpers;
 using SAE._5300S1.Utils.UI;
 using Silk.NET.OpenGL;
-using Silk.NET.OpenGL.Extensions.ImGui;
-using Silk.NET.Windowing;
 using PrimitiveType = Silk.NET.OpenGL.PrimitiveType;
 using Texture = SAE._5300S1.Utils.ModelHelpers.Texture;
 
 namespace SAE._5300S1.Scene.SceneObjects.Models; 
 
-public class MarbleSculpture {
+public class Skull {
      public Mesh Mesh { get; set; }
     public Material Material { get; set; }
 
@@ -34,7 +31,7 @@ public class MarbleSculpture {
     private bool _useBlinnCalculation;
     private bool _useDirectionalLight;
 
-    public MarbleSculpture(GL gl,
+    public Skull(GL gl,
         string textureName,
         Material material,
         IModel model) {
@@ -49,13 +46,13 @@ public class MarbleSculpture {
         Mesh = new Mesh(_gl, _model.Vertices , _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
         
-        UiIcosaStar.ShininessMaterialChangerEvent += value => { _shininessMaterial = value; };
-        UiIcosaStar.AmbientLightColorChangerEvent += value => { _ambientLightColor = value; };
-        UiIcosaStar.DiffuseLightColorChangerEvent += value => { _diffuseLightColor = value; };
-        UiIcosaStar.SpecularLightColorChangerEvent += value => { _specularLightColor = value; };
-        UiIcosaStar.SpecularLightMultiplierChangerEvent += value => { _specularLightMultiplier = value; };
-        UiIcosaStar.UseBlinnCalculationEvent += value => { _useBlinnCalculation = value; };
-        UiIcosaStar.UseDirectionalLightEvent += value => { _useDirectionalLight = value; };
+        UiSkull.ShininessMaterialChangerEvent += value => { _shininessMaterial = value; };
+        UiSkull.AmbientLightColorChangerEvent += value => { _ambientLightColor = value; };
+        UiSkull.DiffuseLightColorChangerEvent += value => { _diffuseLightColor = value; };
+        UiSkull.SpecularLightColorChangerEvent += value => { _specularLightColor = value; };
+        UiSkull.SpecularLightMultiplierChangerEvent += value => { _specularLightMultiplier = value; };
+        UiSkull.UseBlinnCalculationEvent += value => { _useBlinnCalculation = value; };
+        UiSkull.UseDirectionalLightEvent += value => { _useDirectionalLight = value; };
 
     }
 

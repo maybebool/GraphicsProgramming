@@ -5,7 +5,6 @@ using Silk.NET.OpenGL.Extensions.ImGui;
 namespace SAE._5300S1.Utils.UI; 
 
 public class UiDiamond : IUi {
-    private ImGuiController _controller;
 
 
     // Parameters
@@ -29,8 +28,7 @@ public class UiDiamond : IUi {
     public static Action<bool> UseDirectionalLightEvent;
 
     public UiDiamond() {
-        _controller = UiController.Instance.ImGuiController;
-        
+
         ShininessMaterialChangerEvent.Invoke(_shininessMaterial);
         AmbientLightColorChangerEvent.Invoke(_ambientLightColor);
         DiffuseLightColorChangerEvent.Invoke(_diffuseLightColor);
@@ -70,9 +68,5 @@ public class UiDiamond : IUi {
             UseDirectionalLightEvent.Invoke(_useDirectionalLight);
         }
         ImGui.End();
-    }
-
-    public void RenderUi() {
-        _controller.Render();
     }
 }

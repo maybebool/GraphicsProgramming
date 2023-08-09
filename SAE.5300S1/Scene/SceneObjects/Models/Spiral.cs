@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using System.Numerics;
+﻿using System.Numerics;
 using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers;
 using SAE._5300S1.Utils.ModelHelpers.Materials;

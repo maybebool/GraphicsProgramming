@@ -2,13 +2,13 @@
 
 namespace SAE._5300S1.Scene.SceneObjects.ModelSetters; 
 
-public class MarbleSculptureParser : IModel {
-    public static MarbleSculptureParser Instance => Lazy.Value;
-    private static readonly Lazy<MarbleSculptureParser> Lazy = new(() => new MarbleSculptureParser());
+public class SkullParser : IModel {
+    public static SkullParser Instance => Lazy.Value;
+    private static readonly Lazy<SkullParser> Lazy = new(() => new SkullParser());
     public float[] Vertices { get; }
     public uint[] Indices { get; }
 
-    private MarbleSculptureParser() {
+    private SkullParser() {
         var objWizard = new Parser("skull.obj");
         Vertices = objWizard.Vertices;
         Indices = objWizard.Indices;

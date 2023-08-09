@@ -1,14 +1,10 @@
 ﻿using System.Numerics;
 using ImGuiNET;
-using Silk.NET.OpenGL.Extensions.ImGui;
 
 namespace SAE._5300S1.Utils.UI;
 
 public class UiIcosahedron : IUi {
-
-    private ImGuiController _controller;
-
-
+    
     // Parameters
     private float _shininessMaterial = 40f;
     private Vector3 _ambientLightColor = new(0.6f);
@@ -31,8 +27,7 @@ public class UiIcosahedron : IUi {
     public static Action<bool> UseOrbit;
 
     public UiIcosahedron() {
-        _controller = UiController.Instance.ImGuiController;
-        
+
         ShininessMaterialChangerEvent.Invoke(_shininessMaterial);
         AmbientLightColorChangerEvent.Invoke(_ambientLightColor);
         DiffuseLightColorChangerEvent.Invoke(_diffuseLightColor);
@@ -77,9 +72,5 @@ public class UiIcosahedron : IUi {
             UseOrbit.Invoke(_useOrbit);
         }
         ImGui.End();
-    }
-
-    public void RenderUi() {
-        _controller.Render();
     }
 }

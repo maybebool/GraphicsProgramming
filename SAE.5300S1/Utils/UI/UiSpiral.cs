@@ -1,11 +1,9 @@
 ﻿using System.Numerics;
 using ImGuiNET;
-using Silk.NET.OpenGL.Extensions.ImGui;
 
 namespace SAE._5300S1.Utils.UI; 
 
 public class UiSpiral : IUi {
-     private ImGuiController _controller;
 
 
     // Parameters
@@ -28,7 +26,6 @@ public class UiSpiral : IUi {
     public static Action<bool> UseDirectionalLightEvent;
 
     public UiSpiral() {
-        _controller = UiController.Instance.ImGuiController;
         
         ShininessMaterialChangerEvent.Invoke(_shininessMaterial);
         AmbientLightColorChangerEvent.Invoke(_ambientLightColor);
@@ -69,9 +66,5 @@ public class UiSpiral : IUi {
             UseDirectionalLightEvent.Invoke(_useDirectionalLight);
         }
         ImGui.End();
-    }
-
-    public void RenderUi() {
-        _controller.Render();
     }
 }
