@@ -30,6 +30,7 @@ public class Skull {
     private float _specularLightMultiplier;
     private bool _useBlinnCalculation;
     private bool _useDirectionalLight;
+    private float _speed;
 
     public Skull(GL gl,
         string textureName,
@@ -46,25 +47,28 @@ public class Skull {
         Mesh = new Mesh(_gl, _model.Vertices , _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
         
-        UiSkull.ShininessMaterialChangerEvent += value => { _shininessMaterial = value; };
-        UiSkull.AmbientLightColorChangerEvent += value => { _ambientLightColor = value; };
-        UiSkull.DiffuseLightColorChangerEvent += value => { _diffuseLightColor = value; };
-        UiSkull.SpecularLightColorChangerEvent += value => { _specularLightColor = value; };
-        UiSkull.SpecularLightMultiplierChangerEvent += value => { _specularLightMultiplier = value; };
+        UiSkull.ShininessMaterialEvent += value => { _shininessMaterial = value; };
+        UiSkull.AmbientLightColorEvent += value => { _ambientLightColor = value; };
+        UiSkull.DiffuseLightColorEvent += value => { _diffuseLightColor = value; };
+        UiSkull.SpecularLightColorEvent += value => { _specularLightColor = value; };
+        UiSkull.SpecularLightMultiplierEvent += value => { _specularLightMultiplier = value; };
         UiSkull.UseBlinnCalculationEvent += value => { _useBlinnCalculation = value; };
         UiSkull.UseDirectionalLightEvent += value => { _useDirectionalLight = value; };
+        UiSkull.RotationSpeedEvent += value => { _speed = value; };
 
     }
 
     private bool _myBool = false;
     public unsafe void Render() {
         
+        var selfRotation = Time.TimeSinceStart * _speed;
         Mesh.Bind();
         Material.Use();
         _texture.Bind();
         _matrix = Matrix4x4.Identity;
-        _matrix *= Matrix4x4.CreateScale(3f);
         _matrix *= Matrix4x4.CreateRotationY(-90f.DegreesToRadiansOnVariable());
+        _matrix *= Matrix4x4.CreateRotationY(selfRotation.DegreesToRadiansOnVariable());
+        _matrix *= Matrix4x4.CreateScale(3f);
         _matrix *= Matrix4x4.CreateTranslation(-27f, 1f, 0f);
         
         Material.SetUniform("uModel", _matrix);

@@ -92,7 +92,7 @@ namespace SAE._5300S1
             _icosahedron = new Icosahedron(Gl, "concrete", LightMaterial.Instance.Material, IcosahedronParser.Instance);
             _lightSourceOne = new LightSourceOne(Gl, "goldenTexture", StandardMaterial.Instance.Material, LightObject1Parser.Instance);
             _moebiusStrip = new MoebiusStrip(Gl, MirrorMaterial.Instance.Material, MoebiusStripParser.Instance);
-            _skull = new Skull(Gl, "marmor", LightMaterial.Instance.Material, SkullParser.Instance);
+            _skull = new Skull(Gl, "marble", LightMaterial.Instance.Material, SkullParser.Instance);
             _diamond = new Diamond(Gl, "pink", LightMaterial.Instance.Material, DiamondParser.Instance);
             _spiral = new Spiral(Gl, "wood", LightMaterial.Instance.Material, SpiralParser.Instance);
         }

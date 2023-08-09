@@ -65,7 +65,6 @@ public class MoebiusStrip {
         _matrix *= Matrix4x4.CreateScale(_scale);
         _matrix *= Matrix4x4.CreateTranslation(15, 0, 0);
         _matrix *= Matrix4x4.CreateRotationX(Calculate.DegreesToRadians(degree));
-        
 
         Material.SetUniform("model", _matrix);
         Material.SetUniform("view", Camera.Instance.GetViewMatrix());

@@ -28,7 +28,9 @@ public class Diamond {
     private float _specularLightMultiplier;
     private bool _useBlinnCalculation;
     private bool _useDirectionalLight;
+    private float _speed;
 
+    
 
     // Event Parameters
     public Diamond(GL gl,
@@ -46,19 +48,20 @@ public class Diamond {
         Mesh = new Mesh(_gl, _model.Vertices, _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
         
-        UiDiamond.ShininessMaterialChangerEvent += value => { _shininessMaterial = value; };
-        UiDiamond.AmbientLightColorChangerEvent += value => { _ambientLightColor = value; };
-        UiDiamond.DiffuseLightColorChangerEvent += value => { _diffuseLightColor = value; };
-        UiDiamond.SpecularLightColorChangerEvent += value => { _specularLightColor = value; };
-        UiDiamond.SpecularLightMultiplierChangerEvent += value => { _specularLightMultiplier = value; };
+        UiDiamond.ShininessMaterialEvent += value => { _shininessMaterial = value; };
+        UiDiamond.AmbientLightColorEvent += value => { _ambientLightColor = value; };
+        UiDiamond.DiffuseLightColorEvent += value => { _diffuseLightColor = value; };
+        UiDiamond.SpecularLightColorEvent += value => { _specularLightColor = value; };
+        UiDiamond.SpecularLightMultiplierEvent += value => { _specularLightMultiplier = value; };
         UiDiamond.UseBlinnCalculationEvent += value => { _useBlinnCalculation = value; };
         UiDiamond.UseDirectionalLightEvent += value => { _useDirectionalLight = value; };
+        UiDiamond.RotationSpeedEvent += value => { _speed = value; };
     }
 
     public unsafe void Render() {
         
         
-        float selfRotation = Time.TimeSinceStart * 30.0f;
+        float selfRotation = Time.TimeSinceStart * _speed;
         Mesh.Bind();
         Material.Use();
         _texture.Bind();

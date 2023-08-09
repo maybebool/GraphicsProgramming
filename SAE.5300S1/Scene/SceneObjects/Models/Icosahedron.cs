@@ -15,7 +15,6 @@ public class Icosahedron {
     public Mesh Mesh { get; set; }
     public Material Material { get; set; }
     private float _orbit;
-    private float _speed = 12;
 
 
     private Texture _texture;
@@ -34,6 +33,7 @@ public class Icosahedron {
     private bool _useBlinnCalculation;
     private bool _useDirectionalLight;
     private bool _useOrbit;
+    private float _speed;
 
     public Icosahedron(GL gl,
         string textureName,
@@ -50,14 +50,15 @@ public class Icosahedron {
         Mesh = new Mesh(_gl, _model.Vertices, _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
 
-        UiIcosahedron.ShininessMaterialChangerEvent += value => { _shininessMaterial = value; };
-        UiIcosahedron.AmbientLightColorChangerEvent += value => { _ambientLightColor = value; };
-        UiIcosahedron.DiffuseLightColorChangerEvent += value => { _diffuseLightColor = value; };
-        UiIcosahedron.SpecularLightColorChangerEvent += value => { _specularLightColor = value; };
-        UiIcosahedron.SpecularLightMultiplierChangerEvent += value => { _specularLightMultiplier = value; };
+        UiIcosahedron.ShininessMaterialEvent += value => { _shininessMaterial = value; };
+        UiIcosahedron.AmbientLightColorEvent += value => { _ambientLightColor = value; };
+        UiIcosahedron.DiffuseLightColorEvent += value => { _diffuseLightColor = value; };
+        UiIcosahedron.SpecularLightColorEvent += value => { _specularLightColor = value; };
+        UiIcosahedron.SpecularLightMultiplierEvent += value => { _specularLightMultiplier = value; };
         UiIcosahedron.UseBlinnCalculationEvent += value => { _useBlinnCalculation = value; };
         UiIcosahedron.UseDirectionalLightEvent += value => { _useDirectionalLight = value; };
-        UiIcosahedron.UseOrbit += value => { _useOrbit = value; };
+        UiIcosahedron.UseOrbitEvent += value => { _useOrbit = value; };
+        UiIcosahedron.RotationSpeedEvent += value => { _speed = value; };
     }
 
 
@@ -78,8 +79,7 @@ public class Icosahedron {
         _matrix *= Matrix4x4.CreateRotationX(selfRotation.DegreesToRadiansOnVariable());
         _matrix *= Matrix4x4.CreateRotationY(_orbit.DegreesToRadiansOnVariable(), Light.LightPosition1);
         _matrix *= Matrix4x4.CreateScale(1f);
-
-
+        
         Material.SetUniform("uModel", _matrix);
         Material.SetUniform("uView", Camera.Instance.GetViewMatrix());
         Material.SetUniform("uProjection", Camera.Instance.GetProjectionMatrix());

@@ -27,6 +27,7 @@ public class Spiral {
     private float _specularLightMultiplier;
     private bool _useBlinnCalculation;
     private bool _useDirectionalLight;
+    private float _speed;
 
     public Spiral(GL gl,
         string textureName,
@@ -43,13 +44,14 @@ public class Spiral {
         Mesh = new Mesh(_gl, _model.Vertices, _model.Indices);
         _texture = new Texture(_gl, $"{_textureName}.jpg");
         
-        UiSpiral.ShininessMaterialChangerEvent += value => { _shininessMaterial = value; };
-        UiSpiral.AmbientLightColorChangerEvent += value => { _ambientLightColor = value; };
-        UiSpiral.DiffuseLightColorChangerEvent += value => { _diffuseLightColor = value; };
-        UiSpiral.SpecularLightColorChangerEvent += value => { _specularLightColor = value; };
-        UiSpiral.SpecularLightMultiplierChangerEvent += value => { _specularLightMultiplier = value; };
+        UiSpiral.ShininessMaterialEvent += value => { _shininessMaterial = value; };
+        UiSpiral.AmbientLightColorEvent += value => { _ambientLightColor = value; };
+        UiSpiral.DiffuseLightColorEvent += value => { _diffuseLightColor = value; };
+        UiSpiral.SpecularLightColorEvent += value => { _specularLightColor = value; };
+        UiSpiral.SpecularLightMultiplierEvent += value => { _specularLightMultiplier = value; };
         UiSpiral.UseBlinnCalculationEvent += value => { _useBlinnCalculation = value; };
         UiSpiral.UseDirectionalLightEvent += value => { _useDirectionalLight = value; };
+        UiSpiral.RotationSpeedEvent += value => { _speed = value; };
     }
 
     private bool _myBool = false;
@@ -57,7 +59,7 @@ public class Spiral {
 
     public unsafe void Render() {
         
-        var selfRotation = Time.TimeSinceStart * 30.0f;
+        var selfRotation = Time.TimeSinceStart * _speed;
 
         Mesh.Bind();
         Material.Use();
