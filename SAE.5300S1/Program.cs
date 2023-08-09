@@ -1,11 +1,9 @@
-﻿using System.Numerics;
-using SAE._5300S1.Scene.SceneObjects.Models;
+﻿using SAE._5300S1.Scene.SceneObjects.Models;
 using SAE._5300S1.Scene.SceneObjects.ModelSetters;
 using SAE._5300S1.Utils.MathHelpers;
 using SAE._5300S1.Utils.ModelHelpers.Materials;
 using SAE._5300S1.Utils.UI;
 using SAE._5300S1.Utils.UI.InputControllers;
-using Silk.NET.Assimp;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
