@@ -7,6 +7,10 @@ Each model represents a different type of material.
 
 The main goal of this project is to create meshes with a low level approach. Meaning to create and control our own EBO, VBO and VAO. 
 
+## Settings
+press Space to get into observation mode, then navigate with w,a,s,d while left mouse button is pressed 
+press Space again to exit observation mode and get back to settings mode
+
 ---------------------------------------------------------------
 
 ### Skull model (Marmor)
