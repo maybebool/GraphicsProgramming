@@ -2,14 +2,16 @@
 
 ![Silk.NET](https://github.com/maybebool/GraphicsProgramming/blob/main/SAE.5300S1/Images/6.jpg)
 
-In this project I created some Textures, Shaders and Meshes via Silk.net for different models. 
-Each model represents a different type of material.
+In this project, I used Silk.NET to create various textures, shaders, and meshes for different models, each representing a different type of material.
 
-The main goal of this project is to create meshes with a low level approach. Meaning to create and control our own EBO, VBO and VAO. 
+The main goal is to use a low-level approach when creating meshes, which means manually setting up and controlling our own EBO, VBO, and VAO.
 
-## Settings
-press Space to get into observation mode, then navigate with w,a,s,d while left mouse button is pressed 
-press Space again to exit observation mode and get back to settings mode
+### Settings
+Press the Space bar to enter observation mode.
+
+In observation mode, navigate using the W, A, S, and D keys while holding the left mouse button.
+
+Press the Space bar again to exit observation mode and return to settings mode.
 
 ---------------------------------------------------------------
 
