@@ -1,4 +1,6 @@
 ﻿using Silk.NET.OpenGL;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace SAE._5300S1.Utils.ModelHelpers {
     public class Texture : IDisposable {
